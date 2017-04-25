@@ -6,8 +6,6 @@ const {
 } = require('../services/session');
 
 router.get("/", loggedInOnly, function(req, res) {
-    console.log('req.user is', req.user);
-    res.locals.currentUser[req.user.name] = req.user;
     res.render("home");
 });
 
