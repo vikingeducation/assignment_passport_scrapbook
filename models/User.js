@@ -6,18 +6,24 @@ var FB = require("fb");
 mongoose.Promise = bluebird;
 
 const UserSchema = mongoose.Schema({
-  username: { type: String, required: true },
-  facebookId: { type: String, require: true, unique: true },
-  accessToken: { type: String }
+  username: { type: String },
+  facebookId: { type: String, unique: true },
+  facebookToken: { type: String },
+  twitterId: { type: String, unique: true },
+  twitterToken: { type: String },
+  twitterTokenSecret: { type: String }
 });
 
 UserSchema.plugin(uniqueValidator);
 
 UserSchema.methods.getPhotos = function() {
   if (this.facebookId) {
-    return FB.api("me/photos", { fields: "picture", access_token: this.accessToken });
+    return FB.api("me/photos", {
+      fields: "picture",
+      access_token: this.facebookToken
+    });
   }
-  return [];
+  return Promise.resolve([]);
 };
 
 const User = mongoose.model("User", UserSchema);

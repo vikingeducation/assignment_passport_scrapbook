@@ -1,6 +1,6 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
-
 // ----------------------------------------
 // Handlebars
 // ----------------------------------------
@@ -27,7 +27,7 @@ const RedisStore = require("connect-redis")(session);
 app.use(
   session({
     store: new RedisStore(),
-    secret: 'shhhhiamsosecret',
+    secret: "shhhhiamsosecret",
     saveUninitialized: false,
     resave: false
   })
@@ -86,6 +86,8 @@ passport.deserializeUser(function(id, done) {
 
 const facebookStrategy = require("./strategies/facebook");
 passport.use(facebookStrategy);
+const twitterStrategy = require("./strategies/twitter");
+passport.use(twitterStrategy);
 
 // ----------------------------------------
 // currentUser

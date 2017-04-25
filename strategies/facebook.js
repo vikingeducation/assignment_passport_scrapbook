@@ -12,10 +12,10 @@ module.exports = new FacebookStrategy(
     passReqToCallback: true
   },
   function(req, accessToken, refreshToken, profile, done) {
-    console.log(profile);
     const facebookId = profile.id;
     if (req.user) {
       req.user.facebookId = facebookId;
+      req.user.facebookToken = accessToken;
       req.user.save((err, user) => {
         if (err) {
           done(err);
@@ -33,7 +33,7 @@ module.exports = new FacebookStrategy(
           user = new User({
             facebookId,
             username: profile.displayName,
-            accessToken
+            facebookToken: accessToken
           });
           user.save((err, user) => {
             if (err) {
