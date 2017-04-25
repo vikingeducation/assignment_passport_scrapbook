@@ -18,11 +18,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // sessions
 const session = require("express-session");
+const RedisStore = require("connect-redis")(session);
 app.use(
   session({
-    secret: process.env.secret || "imasecretshhhhhhh",
-    resave: false,
-    saveUninitialized: false
+    store: new RedisStore(),
+    secret: 'shhhhiamsosecret'
   })
 );
 

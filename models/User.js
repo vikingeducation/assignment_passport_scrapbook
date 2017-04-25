@@ -14,13 +14,10 @@ const UserSchema = mongoose.Schema({
 UserSchema.plugin(uniqueValidator);
 
 UserSchema.methods.getPhotos = function() {
-  FB.api(
-    "me/photos",
-    { fields: "photos", access_token: this.accessToken },
-    function(res) {
-      console.log(res);
-    }
-  );
+  if (this.facebookId) {
+    return FB.api("me/photos", { fields: "picture", access_token: this.accessToken });
+  }
+  return [];
 };
 
 const User = mongoose.model("User", UserSchema);

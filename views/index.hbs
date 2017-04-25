@@ -1,2 +1,5 @@
 <a href="/auth/facebook" class="btn btn-success">Connect Facebook</a>
 
+{{#each photos.data as |photo|}}
+  <img src="{{ photo.picture}}">
+{{/each}}
