@@ -4,6 +4,7 @@
   "description": "Make an amalagam of user information gathered from a gallimaufry of OAuth providers.",
   "main": "app.js",
   "scripts": {
+    "start":"nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

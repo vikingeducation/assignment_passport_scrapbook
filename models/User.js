@@ -9,6 +9,20 @@ const UserSchema = mongoose.Schema({
 
 UserSchema.plugin(uniqueValidator);
 
+UserSchema.statics.findOrCreate = function(profile) {
+  return User.findOne({ facebookId: profile.id }).then(user => {
+    if (user) {
+      return user;
+    } else {
+      return new User({
+        displayName: profile.displayName,
+        facebookId: profile.id,
+        email: profile.emails[0]
+      }).save();
+    }
+  });
+};
+
 const User = mongoose.model("User", UserSchema);
 
 module.exports = User;
