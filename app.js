@@ -1,8 +1,9 @@
 const express = require("express");
 const app = express();
 
-const User = require("./models/User");
-
+// ----------------------------------------
+// Handlebars
+// ----------------------------------------
 const expressHbs = require("express-handlebars");
 const hbs = expressHbs.create({
   extname: ".hbs",
@@ -12,20 +13,29 @@ const hbs = expressHbs.create({
 app.set("view engine", "hbs");
 app.engine("hbs", hbs.engine);
 
-// body parser
+// ----------------------------------------
+// Body Parser
+// ----------------------------------------
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// sessions
+// ----------------------------------------
+// Redis Sessions
+// ----------------------------------------
 const session = require("express-session");
 const RedisStore = require("connect-redis")(session);
 app.use(
   session({
     store: new RedisStore(),
-    secret: 'shhhhiamsosecret'
+    secret: 'shhhhiamsosecret',
+    saveUninitialized: false,
+    resave: false
   })
 );
 
+// ----------------------------------------
+// Serve Public Folder
+// ----------------------------------------
 app.use(express.static(__dirname + "/public"));
 
 // ----------------------------------------
@@ -56,7 +66,9 @@ app.use((req, res, next) => {
   }
 });
 
-// passport
+// ----------------------------------------
+// Passport
+// ----------------------------------------
 const passport = require("passport");
 app.use(passport.initialize());
 app.use(passport.session());
@@ -65,23 +77,27 @@ passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
 
+const User = require("./models/User");
 passport.deserializeUser(function(id, done) {
   User.findById(id, function(err, user) {
     done(err, user);
   });
 });
 
+const facebookStrategy = require("./strategies/facebook");
+passport.use(facebookStrategy);
 
-// set currentUser
+// ----------------------------------------
+// currentUser
+// ----------------------------------------
 app.use((req, res, next) => {
   if (req.user) res.locals.currentUser = req.user;
   next();
 });
 
-const facebookStrategy = require("./strategies/facebook");
-passport.use(facebookStrategy);
-
-// routes
+// ----------------------------------------
+// Routes
+// ----------------------------------------
 const indexRouter = require("./routers/indexRouter");
 app.use("/", indexRouter);
 
