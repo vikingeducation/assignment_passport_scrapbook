@@ -13,9 +13,9 @@ app.use((req, res, next) => {
     }
     else {
         mongoose.connect("mongodb://localhost/test").then(() => {
-            cleanDb().then(() => {
-                next();
-            })
+            //cleanDb().then(() => {
+            next();
+            //})
         });
     }
 });
