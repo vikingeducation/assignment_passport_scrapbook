@@ -6,9 +6,12 @@ module.exports = new TwitterStrategy(
   {
     consumerKey: process.env.TWITTER_CONSUMER_KEY,
     consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-    callbackURL: "http://www.example.com/auth/twitter/callback"
+    callbackURL: "http://localhost:3000/auth/twitter/callback",
+    profileFields: ["id", "displayName", "emails"],
+    passReqToCallback: true
   },
-  function(token, tokenSecret, profile, done) {
+  function(req, token, tokenSecret, profile, done) {
+    console.log(req.user);
     User.findOrCreateTwitter(profile)
       .then(user => {
         done(null, user);
