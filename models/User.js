@@ -3,6 +3,7 @@ const bluebird = require("bluebird");
 const uniqueValidator = require("mongoose-unique-validator");
 const FB = require("fb");
 const Twitter = require("twitter");
+const Github = require("github");
 
 mongoose.Promise = bluebird;
 
@@ -46,6 +47,21 @@ UserSchema.methods.getTweets = function() {
   }
   return Promise.resolve([]);
 };
+
+UserSchema.methods.getPrivateRepos = function() {
+  if (this.githubId) {
+    const github = new Github();
+    github.authenticate({
+      type: "oauth",
+      token: this.githubToken
+    });
+    return github.repos.getAll({
+      type: 'private',
+      sort: 'created'
+    });
+  }
+  return Promise.resolve([]);
+}
 
 const User = mongoose.model("User", UserSchema);
 

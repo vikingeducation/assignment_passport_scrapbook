@@ -106,6 +106,14 @@ app.use((req, res, next) => {
 });
 
 // ----------------------------------------
+// Connections Cookie
+// ----------------------------------------
+app.use((req, res, next) => {
+  req.connections = req.cookies.connections ? req.cookies.connections : {};
+  next();
+});
+
+// ----------------------------------------
 // Routes
 // ----------------------------------------
 const indexRouter = require("./routers/indexRouter");

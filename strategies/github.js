@@ -3,7 +3,7 @@ const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 const User = require("../models/User");
 
-module.exports = new GitHubStrategy(
+module.exports = new GithubStrategy(
   {
     clientID: GITHUB_CLIENT_ID,
     clientSecret: GITHUB_CLIENT_SECRET,
@@ -11,8 +11,7 @@ module.exports = new GitHubStrategy(
     passReqToCallback: true
   },
   function(req, accessToken, refreshToken, profile, done) {
-    const githubId = github.id;
-    console.log("profile ", profile);
+    const githubId = profile.id;
     if (req.user) {
       req.user.githubId = githubId;
       req.user.githubToken = accessToken;
