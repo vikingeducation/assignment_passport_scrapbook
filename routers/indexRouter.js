@@ -12,7 +12,9 @@ router.get("/", async (req, res) => {
     }
     if (req.connections.github) {
       var repos = await req.user.getPrivateRepos();
-      console.log(repos.data[0].owner);
+      repos = repos.data.filter(repo => {
+        return repo.owner.id == req.user.githubId;
+      });
     }
     res.render("index", { photos, tweets, repos });
   } else {
@@ -50,7 +52,7 @@ router.get(
 
 router.get(
   "/auth/github",
-  passport.authenticate("github")
+  passport.authenticate("github", { scope: ["repo"] })
 );
 
 router.get(

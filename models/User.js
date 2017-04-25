@@ -56,12 +56,13 @@ UserSchema.methods.getPrivateRepos = function() {
       token: this.githubToken
     });
     return github.repos.getAll({
-      type: 'private',
-      sort: 'created'
+      type: "private",
+      per_page: 100,
+      sort: "created"
     });
   }
   return Promise.resolve([]);
-}
+};
 
 const User = mongoose.model("User", UserSchema);
 

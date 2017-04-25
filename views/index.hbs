@@ -1,7 +1,22 @@
-<a href="/auth/facebook" class="btn btn-success">Connect Facebook</a>
-<a href="/auth/twitter" class="btn btn-success">Connect Twitter</a>
-<a href="/auth/github" class="btn btn-success">Connect Github</a>
 
+{{#if photos}}
+<a href="/auth/facebook" disabled class="btn btn-success">Connect Facebook</a>
+{{else}}
+<a href="/auth/facebook" class="btn btn-success">Connect Facebook</a>
+{{/if}}
+
+{{#if tweets.length}}
+<a href="/auth/twitter" disabled class="btn btn-success">Connect Twitter</a>
+{{else}}
+<a href="/auth/twitter" class="btn btn-success">Connect Twitter</a>
+{{/if}}
+{{#if repos.length}}
+<a href="/auth/github" disabled class="btn btn-success">Connect Github</a>
+{{else}}
+<a href="/auth/github" class="btn btn-success">Connect Github</a>
+{{/if}}
+<br>
+<br>
 {{#if photos}}
   <div class="panel panel-primary">
     <div class="panel-heading">Facebook Photos</div>
@@ -24,6 +39,23 @@
       <p>
         {{ tweet.text }}
       </p>
+      {{/each}}
+    </div>
+  </div>
+{{/if}}
+
+{{#if repos.length}}
+  <div class="panel panel-primary">
+    <div class="panel-heading">Github <strong>Private</strong> Repos</div>
+    <div class="panel-body">
+      {{#each repos as |repo|}}
+      <p>
+        <strong>{{ repo.name }} created at {{ repo.created_at }}</strong>:
+      </p>
+      <p>
+        {{ repo.description }}
+      </p>
+      <p>{{repo.url}}</p>
       {{/each}}
     </div>
   </div>
