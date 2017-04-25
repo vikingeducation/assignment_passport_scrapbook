@@ -4,7 +4,7 @@
   "description": "Make an amalagam of user information gathered from a gallimaufry of OAuth providers.",
   "main": "app.js",
   "scripts": {
-    "start":"nodemon app.js",
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,6 +26,7 @@
     "mongoose": "^4.9.6",
     "mongoose-unique-validator": "^1.0.5",
     "passport": "^0.3.2",
-    "passport-facebook": "^2.1.1"
+    "passport-facebook": "^2.1.1",
+    "passport-twitter": "^1.0.4"
   }
 }

@@ -1,22 +1,21 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const {
-    loggedInOnly,
-    loggedOutOnly
-} = require('../services/session');
+  loggedInOnly,
+  loggedOutOnly
+} = require("../services/session");
 
 router.get("/", loggedInOnly, function(req, res) {
-    res.render("home");
+  //search for by facebookId
+  res.render("home");
 });
 
 router.get("/login", loggedOutOnly, function(req, res) {
-    res.render("login");
+  res.render("login");
 });
 
-
-router.use('/logout', loggedInOnly, function(req, res) {
-
-    res.redirect('/login');
+router.use("/logout", loggedInOnly, function(req, res) {
+  res.redirect("/login");
 });
 
 module.exports = router;
