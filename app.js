@@ -16,20 +16,46 @@ app.engine("hbs", hbs.engine);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({
-  secret: process.env.secret || 'imasecretshhhhhhh',
-  resave: false,
-  saveUninitialized: false
-}));
+app.use(
+  session({
+    secret: process.env.secret || "imasecretshhhhhhh",
+    resave: false,
+    saveUninitialized: false
+  })
+);
 
 app.use(express.static(__dirname + "/public"));
 
-// mongoose
-const mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/assignment_passport_scrapbook");
+// ----------------------------------------
+// Logging
+// ----------------------------------------
+var morgan = require("morgan");
+app.use(morgan("tiny"));
+app.use((req, res, next) => {
+  ["query", "params", "body"].forEach(key => {
+    if (req[key]) {
+      var capKey = key[0].toUpperCase() + key.substr(1);
+      var value = JSON.stringify(req[key], null, 2);
+      console.log(`${capKey}: ${value}`);
+    }
+  });
+  next();
+});
+
+// ----------------------------------------
+// Mongoose
+// ----------------------------------------
+var mongoose = require("mongoose");
+app.use((req, res, next) => {
+  if (mongoose.connection.readyState) {
+    next();
+  } else {
+    require("./mongo")(req).then(() => next());
+  }
+});
 
 // passport
-const passport = require('passport');
+const passport = require("passport");
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -38,6 +64,9 @@ app.use((req, res, next) => {
   if (req.user) res.locals.currentUser = req.user;
   next();
 });
+
+const facebookStrategy = require("./strategies/facebook");
+passport.use(facebookStrategy);
 
 // routes
 const indexRouter = require("./routers/indexRouter");
