@@ -27,6 +27,7 @@
     "mongoose-unique-validator": "^1.0.5",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
-    "passport-twitter": "^1.0.4"
+    "passport-twitter": "^1.0.4",
+    "twit": "^2.2.5"
   }
 }
