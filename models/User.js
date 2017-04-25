@@ -12,7 +12,9 @@ const UserSchema = mongoose.Schema({
   facebookToken: { type: String },
   twitterId: { type: String, unique: true },
   twitterToken: { type: String },
-  twitterTokenSecret: { type: String }
+  twitterTokenSecret: { type: String },
+  githubId: { type: String, unique: true },
+  githubToken: { type: String }
 });
 
 UserSchema.plugin(uniqueValidator);
@@ -36,14 +38,14 @@ UserSchema.methods.getTweets = function() {
       access_token_secret: this.twitterTokenSecret
     });
     return new Promise(resolve => {
-      client.get('favorites/list', (err, tweets, response) => {
+      client.get("favorites/list", (err, tweets, response) => {
         if (err) throw err;
         resolve(tweets);
       });
     });
   }
   return Promise.resolve([]);
-}
+};
 
 const User = mongoose.model("User", UserSchema);
 

@@ -94,6 +94,8 @@ const facebookStrategy = require("./strategies/facebook");
 passport.use(facebookStrategy);
 const twitterStrategy = require("./strategies/twitter");
 passport.use(twitterStrategy);
+const githubStrategy = require("./strategies/github");
+passport.use(githubStrategy);
 
 // ----------------------------------------
 // currentUser
