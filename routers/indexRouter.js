@@ -6,10 +6,13 @@ router.get("/", (req, res) => {
   res.render("index");
 });
 
-router.get("/auth/facebook",
-  passport.authenticate("facebook", { scope: ['user_photos'] }));
+router.get(
+  "/auth/facebook",
+  passport.authenticate("facebook", { scope: ["user_likes"] })
+);
 
-router.get("/auth/facebook/callback",
+router.get(
+  "/auth/facebook/callback",
   passport.authenticate("facebook", {
     successRedirect: "/",
     failureRedirect: "/"
