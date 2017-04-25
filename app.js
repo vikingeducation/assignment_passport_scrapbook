@@ -5,33 +5,34 @@ const expressHandlebars = require("express-handlebars");
 
 const mongoose = require("mongoose");
 app.use((req, res, next) => {
-  if (mongoose.connection.readyState) {
-    next();
-  } else {
-    mongoose.connect("mongodb://localhost/test").then(() => {
-      // cleanDb().then(() => {
-      next();
-      // })
-    });
-  }
+    if (mongoose.connection.readyState) {
+        next();
+    }
+    else {
+        mongoose.connect("mongodb://localhost/test").then(() => {
+            // cleanDb().then(() => {
+            next();
+            // })
+        });
+    }
 });
 
 app.use(
-  bodyParser.urlencoded({
-    extended: false
-  })
+    bodyParser.urlencoded({
+        extended: false
+    })
 );
 app.use(
-  expressSession({
-    secret: process.env.secret || "puppies",
-    saveUninitialized: false,
-    resave: false
-  })
+    expressSession({
+        secret: process.env.secret || "puppies",
+        saveUninitialized: false,
+        resave: false
+    })
 );
 
 var hbs = expressHandlebars.create({
-  partialsDir: "views/",
-  defaultLayout: "main"
+    partialsDir: "views/",
+    defaultLayout: "main"
 });
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
@@ -44,5 +45,5 @@ app.use("/auth/", authenticateRouter);
 app.use("/", indexRouter);
 
 app.listen(process.env.PORT || 3000, () => {
-  console.log("taking calls");
+    console.log("taking calls");
 });

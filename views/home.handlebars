@@ -1,2 +1,21 @@
-<h1>Welcome to the Jungle</h1>
-<div>{{currentUser.displayName}}</div>
+<div class="row">
+    <h1>Welcome to the Jungle</h1>
+    <div class="col-sm-6">
+        <div>{{currentUser.displayName}}</div>
+    </div>
+    <div class="col-sm-6">
+        <h2>Connected Accounts</h2>
+        <ul>
+            {{#each accounts as |account|}}
+            <li>
+                <div>{{account.name}}</div>
+                {{#if account.authorized}}
+                <a href="/auth/{{account.name}}/delete" class="btn btn-danger">
+                {{else}}
+                    <a href="/auth/{{account.name}}" class="btn btn-primary">
+                {{/if}}
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+</div>
