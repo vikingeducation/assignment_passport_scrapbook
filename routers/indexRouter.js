@@ -2,13 +2,17 @@ const express = require("express");
 let router = express.Router();
 const passport = require("passport");
 
-router.get("/", (req, res) => {
-  if (req.user) {
-    req.user.getPhotos().then(photos => {
-      res.render("index", { photos });
-    });
-  } else {
-    res.render("index");
+router.get("/", async (req, res) => {
+  try {
+    if (req.user) {
+      let photos = (await req.user.getPhotos()).data;
+      let tweets = await req.user.getTweets();
+      res.render("index", { photos, tweets });
+    } else {
+      res.render("index");
+    }
+  } catch (err) {
+    console.log(err);
   }
 });
 
@@ -34,6 +38,7 @@ router.get(
 );
 
 router.get("/logout", (req, res) => {
+  res.clearCookie("connections");
   req.logout();
   res.redirect("/");
 });

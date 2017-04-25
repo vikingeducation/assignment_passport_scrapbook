@@ -34,6 +34,12 @@ app.use(
 );
 
 // ----------------------------------------
+// Cookie Parser
+// ----------------------------------------
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
+// ----------------------------------------
 // Serve Public Folder
 // ----------------------------------------
 app.use(express.static(__dirname + "/public"));

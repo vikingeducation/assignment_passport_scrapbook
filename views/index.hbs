@@ -1,7 +1,29 @@
 <a href="/auth/facebook" class="btn btn-success">Connect Facebook</a>
 <a href="/auth/twitter" class="btn btn-success">Connect Twitter</a>
-<div class="panel">
-{{#each photos.data as |photo|}}
-  <img src="{{ photo.picture}}">
-{{/each}}
-</div>
+
+{{#if photos}}
+  <div class="panel panel-primary">
+    <div class="panel-heading">Facebook Photos</div>
+    <div class="panel-body">
+      {{#each photos as |photo|}}
+      <img src="{{ photo.picture}}">
+      {{/each}}
+    </div>
+  </div>
+{{/if}}
+
+{{#if tweets.length}}
+  <div class="panel panel-primary">
+    <div class="panel-heading">Tweets</div>
+    <div class="panel-body">
+      {{#each tweets as |tweet|}}
+      <p>
+        {{ tweet.user.name }} tweeted on {{ tweet.created_at }}:
+      </p>
+      <p>
+        {{ tweet.text }}
+      </p>
+      {{/each}}
+    </div>
+  </div>
+{{/if}}
