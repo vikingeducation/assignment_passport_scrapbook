@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
+const bluebird = require("bluebird");
 const uniqueValidator = require("mongoose-unique-validator");
 
+mongoose.Promise = bluebird;
+
 const UserSchema = mongoose.Schema({
-  displayName: { type: String, required: true },
+  username: { type: String, required: true },
   facebookId: { type: String, require: true, unique: true }
 });
 

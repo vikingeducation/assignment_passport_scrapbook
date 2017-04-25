@@ -1,11 +1,9 @@
 const express = require("express");
-const expressHbs = require("express-handlebars");
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
-const session = require("express-session");
-
 const app = express();
 
+const User = require("./models/User");
+
+const expressHbs = require("express-handlebars");
 const hbs = expressHbs.create({
   extname: ".hbs",
   partialsDir: "views/",
@@ -14,8 +12,12 @@ const hbs = expressHbs.create({
 app.set("view engine", "hbs");
 app.engine("hbs", hbs.engine);
 
+// body parser
+const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+
+// sessions
+const session = require("express-session");
 app.use(
   session({
     secret: process.env.secret || "imasecretshhhhhhh",
@@ -58,6 +60,17 @@ app.use((req, res, next) => {
 const passport = require("passport");
 app.use(passport.initialize());
 app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
 
 // set currentUser
 app.use((req, res, next) => {

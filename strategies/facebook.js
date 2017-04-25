@@ -8,9 +8,11 @@ module.exports = new FacebookStrategy(
     clientID: FACEBOOK_APP_ID || "hi",
     clientSecret: FACEBOOK_APP_SECRET || "no",
     callbackURL: "http://localhost:3000/auth/facebook/callback",
+    profileFields: ['id', 'displayName', 'email', 'photos'],
     passReqToCallback: true
   },
   function(req, accessToken, refreshToken, profile, done) {
+    console.log(profile);
     const facebookId = profile.id;
     if (req.user) {
       req.user.facebookId = facebookId;
@@ -27,10 +29,8 @@ module.exports = new FacebookStrategy(
           console.log(err);
           return done(err);
         }
-        console.log("H", user);
         if (!user) {
           user = new User({ facebookId, username: profile.displayName });
-          console.log(user);
           user.save((err, user) => {
             if (err) {
               console.log(err);
