@@ -1,0 +1,34 @@
+{
+  "name": "assignment_passport_scrapbook",
+  "version": "1.0.0",
+  "description": "Make an amalagam of user information gathered from a gallimaufry of OAuth providers.",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/William-Charles/assignment_passport_scrapbook.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/William-Charles/assignment_passport_scrapbook/issues"
+  },
+  "homepage": "https://github.com/William-Charles/assignment_passport_scrapbook#readme",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.2",
+    "mongoose": "^4.9.6",
+    "mongoose-unique-validator": "^1.0.5",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "passport-twitter": "^1.0.4",
+    "twit": "^2.2.5",
+    "twit-promise": "^2.1.0"
+  }
+}
