@@ -16,13 +16,31 @@
             </thead>
             <tbody>
               <tr>
+                <td>Facebook</td>
+                <td>
+                  {{#if user.facebook.id }}
+                    <button class="btn btn-success">Connected!</button>
+                  {{else }}
+                    <a href="/auth/facebook">
+                      <button class="btn btn-primary btn-facebook">
+                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                        Connect to Facebook
+                      </button>
+                    </a>
+                  {{/if }}
+                </td>
+              </tr>
+              <tr>
                 <td>Instagram</td>
                 <td>
                   {{#if user.instagram.id }}
                     <button class="btn btn-success">Connected!</button>
                   {{else }}
                     <a href="/auth/instagram">
-                      <button class="btn btn-primary">Connect to Instagram</button>
+                      <button class="btn btn-primary btn-instagram">
+                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                        Connect to Instagram
+                      </button>
                     </a>
                   {{/if }}
                 </td>
@@ -34,7 +52,10 @@
                     <button class="btn btn-success">Connected!</button>
                   {{else }}
                     <a href="/auth/github">
-                      <button class="btn btn-primary">Connect to GitHub</button>
+                      <button class="btn btn-primary btn-github">
+                        <i class="fa fa-github" aria-hidden="true"></i>
+                        Connect to GitHub
+                      </button>
                     </a>
                   {{/if }}
                 </td>
@@ -46,7 +67,10 @@
                     <button class="btn btn-success">Connected!</button>
                   {{else }}
                     <a href="/auth/twitter">
-                      <button class="btn btn-primary">Connect to Twitter</button>
+                      <button class="btn btn-primary btn-twitter">
+                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                        Connect to Twitter
+                      </button>
                     </a>
                   {{/if }}
                 </td>
@@ -58,7 +82,10 @@
                     <button class="btn btn-success">Connected!</button>
                   {{else }}
                     <a href="/auth/spotify">
-                      <button class="btn btn-primary">Connect to Spotify</button>
+                      <button class="btn btn-primary btn-spotify">
+                        <i class="fa fa-spotify" aria-hidden="true"></i>
+                        Connect to Spotify
+                      </button>
                     </a>
                   {{/if }}
                 </td>
@@ -134,6 +161,22 @@
             <ul>
               {{#each data.spotify.items as |playlist| }}
               <li>{{ playlist.name }}</li>
+              {{/each }}
+            </ul>
+          {{/if }}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h4>Facebook - Likes</h4>
+        </div>
+        <div class="panel-body">
+          {{#if data.facebook.data.length }}
+            <ul>
+              {{#each data.facebook.data as |like| }}
+              <li>{{ like.name }}</li>
               {{/each }}
             </ul>
           {{/if }}

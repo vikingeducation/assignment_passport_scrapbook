@@ -5,6 +5,13 @@ const UserSchema = mongoose.Schema({
   email: {
     type: String
   },
+  facebook: {
+    id: {
+      type: String,
+      unique: true
+    },
+    accessToken: String
+  },
   instagram: {
     id: {
       type: String,

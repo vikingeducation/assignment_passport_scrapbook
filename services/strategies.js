@@ -1,10 +1,72 @@
 const models = require('./../models');
 const User = models.User;
 const passport = require('passport');
+const FacebookStrategy = require("passport-facebook").Strategy;
 const InstagramStrategy = require("passport-instagram").Strategy;
 const GithubStrategy = require("passport-github").Strategy;
 const TwitterStrategy = require("passport-twitter").Strategy;
 const SpotifyStrategy = require("passport-spotify").Strategy;
+
+// ----------------------------------------
+// Facebook Strategy
+// ----------------------------------------
+let fbStrategy = new FacebookStrategy({
+  clientID: process.env.FACEBOOK_APP_ID,
+  clientSecret: process.env.FACEBOOK_APP_SECRET,
+  callbackURL: "http://localhost:4000/auth/facebook/callback",
+  passReqToCallback: true
+},
+function(req, accessToken, refreshToken, profile, done) {
+  const facebookId = profile.id;
+
+  User.findOne({ 'facebook.id': facebookId }, function(err, user) {
+    if (err) return done(err);
+    
+    if (!user && !req.user) {
+      user = new User({ 
+        'facebook': {
+          id: facebookId,
+          accessToken
+        }
+      });
+      user.save((err, user) => {
+        if (err) return done(err);
+        done(null, user);
+      });
+    } else if (!user && req.user && !req.user.email) {
+      req.flash('warning', 'Looks like you previously started to sign up, please finish first before connecting another account');
+      done(null, req.user);
+    } else if (!user && req.user && req.user.email) {
+      User.findByIdAndUpdate(req.user.id, {
+        'facebook': {
+          id: facebookId,
+          accessToken
+        }
+      }, { new: true})
+        .then(user => {
+          req.flash('success', 'Facebook account successfully connected');
+          done(null, user);
+        })
+        .catch(e => { done(e); });
+    } else if (user && req.user && req.user.email) {
+      User.findByIdAndRemove(user.id)
+        .then(() => {
+          return User.findByIdAndUpdate(req.user.id, {
+            'facebook': {
+              id: facebookId,
+              accessToken
+            }
+          }, {new: true});
+        })
+        .then(user => {
+          req.flash('success', 'Facebook account successfully connected');
+          done(null, user);
+        });
+    } else if (user) {
+      done(null, user);
+    }
+  });
+});
 
 // ----------------------------------------
 // Instagram Strategy
@@ -257,6 +319,7 @@ function(req, accessToken, refreshToken, profile, done) {
 });
 
 module.exports = {
+  fbStrategy,
   igStrategy,
   ghStrategy,
   twitterStrategy,

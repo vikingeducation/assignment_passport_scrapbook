@@ -13,3 +13,68 @@ h1 {
   border: solid 1px black;
   margin-bottom: 1em;
 }
+
+.btn-instagram {
+  background-color: #BD3380;
+}
+
+.btn-instagram:hover {
+  background-color: #85074E;
+}
+
+.btn-instagram:active,
+.btn-instagram:visited {
+  background-color: #85074E !important;
+}
+
+.btn-facebook {
+  background-color: #3B5998;
+}
+
+.btn-facebook:hover {
+  background-color: #14306B;
+}
+
+.btn-facebook:active,
+.btn-facebook:visited {
+  background-color: #14306B !important;
+}
+
+.btn-twitter {
+  background-color: #4BACD2;
+}
+
+.btn-twitter:hover {
+  background-color: #087FAD;
+}
+
+.btn-twitter:active,
+.btn-twitter:visited {
+  background-color: #087FAD !important;
+}
+
+.btn-spotify {
+  background-color: #1DB954;
+}
+
+.btn-spotify:hover {
+  background-color: #007D2A;
+}
+
+.btn-spotify:active,
+.btn-spotify:visited {
+  background-color: #007D2A !important;
+}
+
+.btn-github {
+  background-color: #24292E;
+}
+
+.btn-github:hover {
+  background-color: #0E1822;
+}
+
+.btn-github:active,
+.btn-github:visited {
+  background-color: #0E1822 !important;
+}

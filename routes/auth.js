@@ -48,6 +48,18 @@ router.get("/spotify/callback", passport.authenticate("spotify", {
 }));
 
 // ----------------------------------------
+// Facebook
+// ----------------------------------------
+router.get("/facebook", passport.authenticate("facebook", {
+  scope: ['user_likes', 'user_friends']
+}));
+
+router.get("/facebook/callback", passport.authenticate("facebook", {
+  successRedirect: h.authEmailPath(),
+  failureRedirect: h.authLoginPath(),
+}));
+
+// ----------------------------------------
 // Login / Logout / Register Email
 // ----------------------------------------
 router.get("/login", (req, res) => {

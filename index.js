@@ -115,7 +115,8 @@ app.set('view engine', 'handlebars');
 // Passport
 // ----------------------------------------
 const passport = require("passport");
-const { 
+const {
+  fbStrategy,
   igStrategy,
   ghStrategy,
   twitterStrategy,
@@ -133,11 +134,11 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
+passport.use(fbStrategy);
 passport.use(igStrategy);
 passport.use(ghStrategy);
 passport.use(twitterStrategy);
 passport.use(spotStrategy);
-
 
 // ----------------------------------------
 // Routes
@@ -147,11 +148,9 @@ const { getUserScrapbook } = require('./services/apis');
 app.use('/auth', auth);
 app.get("/", (req, res) => {
   if (req.user && req.user.email) {
-    console.log('^^^^^^^^')
-    console.log(req.user);
-    console.log('^^^^^^^^')
     getUserScrapbook(req.user)
       .then(data => {
+        console.log(data.facebook);
         res.render("home", { user: req.user, data });
       });
   } else {

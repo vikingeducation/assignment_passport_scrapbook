@@ -1,6 +1,22 @@
 const rp = require('request-promise');
 const Twitter = require('twitter');
 
+const _getFacebookLikes = user => {
+  if (user.facebook.id) {
+    let options = {
+      uri: `https://graph.facebook.com/v2.9/${ user.facebook.id }/likes`,
+      qs: {
+          access_token: user.facebook.accessToken
+      },
+      headers: {
+          'User-Agent': 'Request-Promise'
+      },
+      json: true 
+    }
+    return rp(options);
+  }
+};
+
 const _getInstagramPhotos = user => {
   if (user.instagram.id) {
     let options =  {
@@ -64,6 +80,7 @@ const _getSpotifyPlaylists = user => {
 
 const getUserScrapbook = async (user) => {
   let data = {};
+  data.facebook = await _getFacebookLikes(user);
   data.instagram = await _getInstagramPhotos(user);
   data.github = await _getGitHubRepos(user);
   data.twitter = await _getTweets(user);
