@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row">
+    <h1>Email Registration</h1>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Almost done...
+      </div>
+      <div class="panel-body">
+        <p>You're almost there! It looks like you're registering a new account. Please add an e-mail address below to complete your account.</p>
+        <p>If you already have an account and you're not sure why you're getting this message, please try logging in with a different social media account.</p>
+        <form action="{{ authEmailPath }}" method="post">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" value="" placeholder="Your email address here" class="form-control" required>
+          </div>
+          <button class="btn btn-success">Save Email</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

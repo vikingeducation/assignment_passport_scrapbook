@@ -1,0 +1,15 @@
+h1 {
+  margin-bottom: 1.2em;
+  padding-bottom: .5em;
+  border-bottom: solid 2px #2C3E50;
+}
+
+.navbar{
+  margin-bottom: 0px;
+  border-radius: 0px;
+}
+
+.instagram img {
+  border: solid 1px black;
+  margin-bottom: 1em;
+}

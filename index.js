@@ -2,6 +2,13 @@ const express = require('express');
 const app = express();
 
 // ----------------------------------------
+// Dot Env
+// ----------------------------------------
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
+// ----------------------------------------
 // Body Parser
 // ----------------------------------------
 const bodyParser = require('body-parser');
@@ -44,7 +51,7 @@ app.use(cookieParser());
 
 app.use(cookieSession({
   name: 'session',
-  keys: ['asdf1234567890qwer']
+  keys: [process.env.SESSION_SECRET || 'asdf1234567890qwer']
 }));
 
 app.use((req, res, next) => {
@@ -77,6 +84,8 @@ app.use((req, res, next) => {
 // Mongoose
 // ----------------------------------------
 const mongoose = require('mongoose');
+const models = require('./models');
+const User = models.User;
 
 app.use((req, res, next) => {
   if (mongoose.connection.readyState) {
@@ -106,13 +115,49 @@ app.set('view engine', 'handlebars');
 // Passport
 // ----------------------------------------
 const passport = require("passport");
+const { 
+  igStrategy,
+  ghStrategy,
+  twitterStrategy,
+  spotStrategy } = require('./services/strategies');
 app.use(passport.initialize());
 app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+passport.use(igStrategy);
+passport.use(ghStrategy);
+passport.use(twitterStrategy);
+passport.use(spotStrategy);
 
 
 // ----------------------------------------
 // Routes
 // ----------------------------------------
+const auth = require('./routes/auth');
+const { getUserScrapbook } = require('./services/apis');
+app.use('/auth', auth);
+app.get("/", (req, res) => {
+  if (req.user && req.user.email) {
+    console.log('^^^^^^^^')
+    console.log(req.user);
+    console.log('^^^^^^^^')
+    getUserScrapbook(req.user)
+      .then(data => {
+        res.render("home", { user: req.user, data });
+      });
+  } else {
+    res.redirect("/auth/login");
+  }
+});
 
 
 // ----------------------------------------
@@ -120,7 +165,7 @@ app.use(passport.session());
 // ----------------------------------------
 const port = process.env.PORT ||
              process.argv[2] ||
-             4003;
+             4000;
 const host = 'localhost';
 
 let args;

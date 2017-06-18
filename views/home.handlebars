@@ -1,0 +1,144 @@
+<div class="container">
+  <div class="row">
+    <h1>Welcome, {{user.email}}</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading"><h4>Connected Accounts</h4></div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Account</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Instagram</td>
+                <td>
+                  {{#if user.instagram.id }}
+                    <button class="btn btn-success">Connected!</button>
+                  {{else }}
+                    <a href="/auth/instagram">
+                      <button class="btn btn-primary">Connect to Instagram</button>
+                    </a>
+                  {{/if }}
+                </td>
+              </tr>
+              <tr>
+                <td>GitHub</td>
+                <td>
+                  {{#if user.github.id }}
+                    <button class="btn btn-success">Connected!</button>
+                  {{else }}
+                    <a href="/auth/github">
+                      <button class="btn btn-primary">Connect to GitHub</button>
+                    </a>
+                  {{/if }}
+                </td>
+              </tr>
+              <tr>
+                <td>Twitter</td>
+                <td>
+                  {{#if user.twitter.id }}
+                    <button class="btn btn-success">Connected!</button>
+                  {{else }}
+                    <a href="/auth/twitter">
+                      <button class="btn btn-primary">Connect to Twitter</button>
+                    </a>
+                  {{/if }}
+                </td>
+              </tr>
+              <tr>
+                <td>Spotify</td>
+                <td>
+                  {{#if user.spotify.id }}
+                    <button class="btn btn-success">Connected!</button>
+                  {{else }}
+                    <a href="/auth/spotify">
+                      <button class="btn btn-primary">Connect to Spotify</button>
+                    </a>
+                  {{/if }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h4>Instagram - Recent Photos</h4>
+        </div>
+        <div class="panel-body">
+          <div class="row instagram">
+          {{#if data.instagram.data.length }}
+            {{#each data.instagram.data as |photo| }}
+            <div class="col-md-4">
+              <a href="{{ photo.link }}">
+                <img src="{{ photo.images.thumbnail.url }}" class="img-responsive" alt="">
+              </a>
+            </div>
+            {{/each }}
+          {{/if }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h4>GitHub - Repos</h4>
+        </div>
+        <div class="panel-body">
+          {{#if data.github.length }}
+            <ul>
+              {{#each data.github as |repo| }}
+              <li>{{ repo.name }}</li>
+              {{/each }}
+            </ul>
+          {{/if }}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h4>Twitter - Tweets</h4>
+        </div>
+        <div class="panel-body">
+          {{#if data.twitter.length }}
+            <ul>
+              {{#each data.twitter as |tweet| }}
+              <li>{{ tweet.text }}</li>
+              {{/each }}
+            </ul>
+          {{/if }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h4>Spotify - Playlists</h4>
+        </div>
+        <div class="panel-body">
+          {{#if data.spotify.items.length }}
+            <ul>
+              {{#each data.spotify.items as |playlist| }}
+              <li>{{ playlist.name }}</li>
+              {{/each }}
+            </ul>
+          {{/if }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

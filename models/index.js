@@ -6,6 +6,6 @@ mongoose.Promise = bluebird;
 
 const models = {};
 
-// models.User = require('./user'); 
+models.User = require('./user'); 
 
 module.exports = models;
