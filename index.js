@@ -151,6 +151,7 @@ app.get("/", (req, res) => {
         res.render("home", { user: req.user, data });
       });
   } else {
+    res.redirect("/auth/login");
   }
 });
 

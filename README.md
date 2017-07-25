@@ -1,3 +1,4 @@
-# assignment_passport_scrapbook
+# Passport Scrapbook
 
-Make an amalagam of user information gathered from a gallimaufry of OAuth providers.
+## Introduction
+This project implements various OAuth strategies
