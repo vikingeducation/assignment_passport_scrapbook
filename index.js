@@ -65,7 +65,6 @@ app.use((req, res, next) => {
 app.use(express.static(`${__dirname}/public`));
 
 // ----------------------------------------
-// Logging
 // ----------------------------------------
 const morgan = require('morgan');
 app.use(morgan('tiny'));
@@ -74,7 +73,6 @@ app.use((req, res, next) => {
     if (req[key]) {
       let capKey = key[0].toUpperCase() + key.substr(1);
       let value = JSON.stringify(req[key], null, 2);
-      console.log(`${ capKey }: ${ value }`);
     }
   });
   next();
@@ -150,14 +148,11 @@ app.get("/", (req, res) => {
   if (req.user && req.user.email) {
     getUserScrapbook(req.user)
       .then(data => {
-        console.log(data.facebook);
         res.render("home", { user: req.user, data });
       });
   } else {
-    res.redirect("/auth/login");
   }
 });
-
 
 // ----------------------------------------
 // Server
@@ -173,7 +168,6 @@ process.env.NODE_ENV === 'production' ?
                           args = [port, host];
 
 args.push(() => {
-  console.log(`Listening: http://${ host }:${ port }`);
 });
 
 app.listen.apply(app, args);
