@@ -1,0 +1,48 @@
+{
+  "name": "12_assignment_passport_scrapbook",
+  "version": "1.0.0",
+  "description": "Make an amalagam of user information gathered from a gallimaufry of OAuth providers.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "node clean.js",
+    "start": "nodemon index.js",
+    "c": "node repl.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christianflorez/assignment_passport_scrapbook.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/christianflorez/assignment_passport_scrapbook/issues"
+  },
+  "homepage": "https://github.com/christianflorez/assignment_passport_scrapbook#readme",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-beta.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.3",
+    "express-flash-messages": "^0.1.1",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^4.10.6",
+    "mongoose-unique-validator": "^1.0.5",
+    "morgan": "^1.8.2",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "passport-github": "^1.1.0",
+    "passport-instagram": "^1.0.0",
+    "passport-spotify": "^0.3.1",
+    "passport-twitter": "^1.0.4",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1",
+    "twitter": "^1.7.1"
+  },
+  "engines": {
+    "node": ">= 7.6.0"
+  }
+}
