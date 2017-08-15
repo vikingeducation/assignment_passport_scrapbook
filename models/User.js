@@ -2,13 +2,15 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 let structureObj = {
-    profileId: String,
-    accessToken: String,
-    refreshToken: String
-  }
+	displayName: String,
+	profileId: String,
+	accessToken: String,
+	refreshToken: String
+};
 
 const UserSchema = mongoose.Schema({
-	displayName: { type: String, required: true },
+	name: { type: String, unique: true },
+	email: { type: String, unique: true },
 	reddit: structureObj,
 	// spotify: structureObj,
 	// stack: structureObj,

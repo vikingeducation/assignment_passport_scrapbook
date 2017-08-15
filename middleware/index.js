@@ -51,10 +51,8 @@ middleWare.login.authenticatedOnly = (req, res, next) => {
  * GITHUB Authentication
  */
 middleWare.api.github = {};
-//middleWare.api.github.getToken = 
-middleWare.api.github.authenticate = passport.authenticate('github', {
-	scope: ['user:email']
-});
+//middleWare.api.github.getToken =
+middleWare.api.github.authenticate = passport.authenticate('github', {});
 middleWare.api.github.callback = passport.authenticate('github', {
 	failureRedirect: '/login',
 	successRedirect: '/'
@@ -64,9 +62,8 @@ middleWare.api.github.callback = passport.authenticate('github', {
  * Reddit Authentication
  */
 middleWare.api.reddit = {};
-//middleWare.api.reddit.getToken = 
-middleWare.api.reddit.authenticate = 
-	passport.authenticate('reddit', {
+//middleWare.api.reddit.getToken =
+middleWare.api.reddit.authenticate = passport.authenticate('reddit', {
 	state: 'random',
 	duration: 'permanent'
 });
@@ -74,7 +71,5 @@ middleWare.api.reddit.callback = passport.authenticate('reddit', {
 	failureRedirect: '/login',
 	successRedirect: '/'
 });
-
-
 
 module.exports = middleWare;

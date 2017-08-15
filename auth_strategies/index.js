@@ -5,7 +5,7 @@ const RedditStrategy = require('passport-reddit').Strategy;
 //passport-github
 const URLS = {
 	github: 'http://localhost:3000/oauth/github/callback',
-	reddit: "http://localhost:3000/oauth/reddit/callback"
+	reddit: 'http://localhost:3000/oauth/reddit/callback'
 };
 const mongoose = require('mongoose');
 module.exports = {
@@ -17,25 +17,30 @@ module.exports = {
 		},
 		async function(accessToken, refreshToken, profile, done) {
 			try {
-				let user = await User.findOne({ github: {profileId: profile.id} });
+				console.log(profile);
+				let user = await User.findOne({
+					$or: [{ name: profile.name }, { email: profile.email }]
+				});
 				if (!user) {
 					// Create a new user.
 					user = await User.create({
-						displayName: profile.displayName,
+						name: profile.name || 'Andrew Senner',
+						email: profile.email || 'andrewsenner@gmail.col',
 						github: {
+							displayName: profile.displayName,
 							profileId: profile.id,
 							accessToken: accessToken,
 							refreshToken: refreshToken
 						}
 					});
 				} else {
-					if (user.github===undefined || !user.github.accessToken) {
+					if (user.github === undefined || !user.github.accessToken) {
 						user.github = {
 							profileId: profile.id,
 							accessToken: accessToken,
 							refreshToken: refreshToken
-						}
-						await user.save()
+						};
+						await User.save(user);
 					}
 				}
 
@@ -45,43 +50,48 @@ module.exports = {
 			}
 		}
 	),
-
 	reddit: new RedditStrategy(
 		{
 			clientID: process.env.REDDIT_APP_ID,
 			clientSecret: process.env.REDDIT_APP_SECRET,
-			callbackURL: URLS.reddit
+			callbackURL: URLS.reddit,
+			passReqToCallback: true
 		},
-		async function(accessToken, refreshToken, profile, done) {
+		async function(req, accessToken, refreshToken, profile, done) {
 			try {
-				let user = await User.findOne({ reddit: {profileId: profile.id} });
+				console.log(profile);
+				let user = await User.findOne({
+					$or: [{ name: profile.name }, { email: profile.email }]
+				});
 				if (!user) {
 					// Create a new user.
 					user = await User.create({
-						displayName: profile.displayName,
+						name: profile.name || 'Andrew Senner',
+						email: profile.email || 'andrewsenner@gmail.col',
 						reddit: {
+							displayName: profile.displayName,
 							profileId: profile.id,
 							accessToken: accessToken,
 							refreshToken: refreshToken
 						}
 					});
 				} else {
-					if (user.reddit===undefined || !user.reddit.accessToken) {
+					if (user.reddit === undefined || !user.reddit.accessToken) {
 						user.reddit = {
 							profileId: profile.id,
 							accessToken: accessToken,
 							refreshToken: refreshToken
-						}
-						await user.save()
+						};
+						await User.save(user);
 					}
 				}
+
 				done(null, user);
 			} catch (err) {
 				done(err);
 			}
 		}
 	),
-
 
 	serializeUser: function(user, done) {
 		done(null, user.id);
