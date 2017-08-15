@@ -10,7 +10,16 @@ passport.use(
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
       callbackURL: "http://localhost:3000/fb/auth/facebook/callback",
-      profileFields: ["id", "displayName", "photos", "email"]
+      profileFields: [
+        "id",
+        "displayName",
+        "picture.type(large)",
+        "email",
+        "friends",
+        "birthday",
+        "gender",
+        "link"
+      ]
     },
     function(req, accessToken, refreshToken, profile, done) {
       const oauthId = profile.id;
@@ -58,7 +67,13 @@ passport.deserializeUser(function(id, done) {
 });
 
 // pass in scopes
-router.get("/auth/facebook", passport.authenticate("facebook"));
+router.get(
+  "/auth/facebook",
+  passport.authenticate("facebook", {
+    authType: "rerequest",
+    scope: ["email", "public_profile", "user_friends"]
+  })
+);
 
 router.get(
   "/auth/facebook/callback",

@@ -1,1 +1,8 @@
-<h1>Welcome {{profile.displayName}}</h1>
+
+{{#if profile}}
+	<h2>Your Facebook Info:</h2>
+	<h3><a href="#">Welcome {{profile.displayName}}</a></h3>
+	<p>Email: {{profile._json.email}}</p>
+	<img src="{{profile._json.picture.data.url}}" alt="">
+	<p>{{profile.about}}</p>
+{{/if}} 

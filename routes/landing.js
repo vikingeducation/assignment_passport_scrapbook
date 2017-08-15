@@ -6,7 +6,7 @@ router.get("/", (req, res) => {
 	}
 
 	const profile = req.user.profile;
-	console.log(profile, "????");
+	console.log(req.user, "????");
 
 	return res.render("landing", {
 		profile
