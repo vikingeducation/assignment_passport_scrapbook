@@ -54,7 +54,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
+// routes
 app.use("/", require("./routes/index"));
+app.use("/fb", require("./routes/fb"));
 
 // listen to server
 app.listen(3000, () => {
