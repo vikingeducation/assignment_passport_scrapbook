@@ -3,9 +3,10 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
   displayName: String,
+  twitterDisplayName: String,
   facebookId: String,
   twitterId: String,
-  tweets: [],
+  twitterImages: [],
   images: []
 });
 

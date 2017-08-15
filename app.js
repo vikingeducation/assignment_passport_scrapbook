@@ -16,6 +16,7 @@ const hbs = expressHandlebars.create({
 });
 const mongoose = require("mongoose");
 const FacebookStrategyInit = require("./services/facebook");
+const TwitterStrategyInit = require("./services/twitter");
 const loginRouter = require("./routers/login");
 const passportRouter = require("./routers/passport");
 const passport = require("passport");
@@ -45,7 +46,11 @@ app.use((req, res, next) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-FacebookStrategyInit();
+app.use((req, res, next) => {
+  FacebookStrategyInit(req);
+  TwitterStrategyInit(req);
+  next();
+});
 
 app.get("/auth/facebook", passport.authenticate("facebook"));
 
@@ -59,13 +64,21 @@ app.get(
   })
 );
 
+app.get("/auth/twitter", passport.authenticate("twitter"));
+
+app.get(
+  "/auth/twitter/callback",
+  passport.authenticate("twitter", {
+    successRedirect: "/",
+    failureRedirect: "/login"
+  })
+);
+
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 
 app.use((req, res, next) => {
   res.locals.user = req.user;
-  console.log("---------------------");
-  console.log(res.locals.user);
   next();
 });
 

@@ -2,7 +2,7 @@ const FacebookStrategy = require("passport-facebook").Strategy;
 const passport = require("passport");
 const { User } = require("../models");
 
-module.exports = () => {
+module.exports = req => {
   passport.use(
     new FacebookStrategy(
       {
@@ -13,13 +13,21 @@ module.exports = () => {
           "http://localhost:3000/auth/facebook/callback",
         profileFields: ["id", "displayName", "photos", "email"]
       },
-      function(accessToken, refreshToken, profile, done) {
+      function(accessToken, refreshToken, profile, done, req) {
         const facebookId = profile.id;
         const displayName = profile.displayName;
         const images = profile.photos;
-        User.findOne({ facebookId }).then(user => {
+        const id = req.user.id;
+        User.findOne({ id }).then(user => {
           if (!user) {
             user = new User({ facebookId, displayName, images });
+            user.save().then(user => {
+              done(null, user);
+            });
+          } else if (user && user.twitterId) {
+            user.displayName = displayName;
+            user.facebookId = twitterId;
+            user.images = images;
             user.save().then(user => {
               done(null, user);
             });
