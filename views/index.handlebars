@@ -3,7 +3,11 @@
   <div class="panel panel-default">
     <div class="panel-heading">Passport Status</div>
     <ul class="list-group">
-      <li class="list-group-item">Facebook</li>
+    	{{#if user.facebook}}
+      	<li class="list-group-item">Facebook connected!</li>
+      {{else}}
+      	<li class="list-group-item"><a href="{{ facebookPath }}" class="btn btn-primary">Facebook</a></li>
+      {{/if}}
       <li class="list-group-item">Facebook</li>
       <li class="list-group-item">Facebook</li>
       <li class="list-group-item">Facebook</li>
@@ -18,7 +22,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">Facebook</div>
     <ul class="list-group">
-      <li class="list-group-item"><a href="{{ facebookPath }}" class="btn btn-primary">Facebook</a></li>
+      <li>???????</li>
     </ul>
   </div>
 
