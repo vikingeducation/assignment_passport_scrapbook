@@ -14,7 +14,7 @@ facebookStrategyInit = (req, res, next) => {
         const displayName = profile.displayName;
 
         console.log(profile);
-        User.findOne({ facebookId }, function(err, user) {
+        User.findOne({ id: req.user._id }, function(err, user) {
           if (err) return done(err);
 
           if (!user) {
@@ -23,7 +23,15 @@ facebookStrategyInit = (req, res, next) => {
               if (err) return done(err);
               done(null, user);
             });
-          } else {
+          } else if (user && user.facebookId === null) {
+            user.facebookId = facebookId;
+            user.save()
+            .then(done(null, user))
+            .catch(e) => {
+              res.status(500).send(e.stack)
+            }
+          }
+          else {
             done(null, user);
           }
         });
