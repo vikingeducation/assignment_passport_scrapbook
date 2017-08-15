@@ -1,5 +1,5 @@
 module.exports = {
-  secretsPath: () => "/secrets",
+  facebookPath: () => "/auth/facebook",
   allSecretsPath: () => "/secrets/all",
   secretPath: id => `/secrets/${id}`,
   newSecretPath: () => "/secrets", // post

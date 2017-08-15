@@ -62,7 +62,7 @@ const passport = require("passport");
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use("facebook", require("./strategies/facebook"))
+passport.use("facebook", require("./strategies/facebook"));
 // Routes
 
 app.use("/auth", require("./routes/auth")(passport));
@@ -72,8 +72,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  res.send("Please log in. Except there's no form. So you're stuck here forever.")
-})
+  res.render("auth/login");
+});
 
 // Set up port/host
 const port = process.env.PORT || process.argv[2] || 3000;

@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-mongoose.Promise = require("bluebird");
 const uniqueValidator = require("mongoose-unique-validator");
 
 const UserSchema = mongoose.Schema({
