@@ -17,11 +17,12 @@ module.exports = {
 		},
 		async function(accessToken, refreshToken, profile, done) {
 			try {
-				console.log(profile);
+				//console.log(profile);
 				let user = await User.findOne({
-					$or: [{ name: profile.name }, { email: profile.email }]
+					$or: [{ name: profile.name || 'Andrew Senner'}, { email: profile.email || 'andrewsenner@gmail.col'}]
 				});
 				if (!user) {
+					console.log("no user")
 					// Create a new user.
 					user = await User.create({
 						name: profile.name || 'Andrew Senner',
@@ -34,13 +35,15 @@ module.exports = {
 						}
 					});
 				} else {
+
 					if (user.github === undefined || !user.github.accessToken) {
 						user.github = {
 							profileId: profile.id,
 							accessToken: accessToken,
 							refreshToken: refreshToken
 						};
-						await User.save(user);
+						console.log(user)
+						await user.save(user);
 					}
 				}
 
@@ -54,14 +57,13 @@ module.exports = {
 		{
 			clientID: process.env.REDDIT_APP_ID,
 			clientSecret: process.env.REDDIT_APP_SECRET,
-			callbackURL: URLS.reddit,
-			passReqToCallback: true
+			callbackURL: URLS.reddit
 		},
-		async function(req, accessToken, refreshToken, profile, done) {
+		async function(accessToken, refreshToken, profile, done) {
 			try {
-				console.log(profile);
+			//	console.log(profile);
 				let user = await User.findOne({
-					$or: [{ name: profile.name }, { email: profile.email }]
+					$or: [{ name: profile.name || 'Andrew Senner'}, { email: profile.email || 'andrewsenner@gmail.col'}]
 				});
 				if (!user) {
 					// Create a new user.
@@ -69,7 +71,7 @@ module.exports = {
 						name: profile.name || 'Andrew Senner',
 						email: profile.email || 'andrewsenner@gmail.col',
 						reddit: {
-							displayName: profile.displayName,
+							displayName: profile.name,
 							profileId: profile.id,
 							accessToken: accessToken,
 							refreshToken: refreshToken
@@ -82,7 +84,7 @@ module.exports = {
 							accessToken: accessToken,
 							refreshToken: refreshToken
 						};
-						await User.save(user);
+						await user.save(user);
 					}
 				}
 

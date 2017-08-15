@@ -64,6 +64,7 @@ middleWare.api.github.callback = passport.authenticate('github', {
 middleWare.api.reddit = {};
 //middleWare.api.reddit.getToken =
 middleWare.api.reddit.authenticate = passport.authenticate('reddit', {
+	scope: ["identity"],
 	state: 'random',
 	duration: 'permanent'
 });
