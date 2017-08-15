@@ -8,7 +8,6 @@ const flash = require("express-flash");
 var userFacebook;
 var userAccessTokenFacebook;
 var userTumblr;
-var ourTumblr = require("./services/passport/tumblr");
 var newLikes;
 var userAccessTokenTumblr;
 
@@ -32,6 +31,7 @@ var hbs = handlebars.create({ defaultLayout: "main" });
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 var ourTumblr = require("./services/passport/tumblr");
+var ourReddit = require("./services/passport/reddit");
 ///suggested strat for tumblr
 
 // fb secret id
@@ -121,6 +121,7 @@ passport.use(
     }
   )
 );
+//tumblr route
 app.get("/auth/tumblr", passport.authenticate("tumblr"));
 app.get(
   "/auth/tumblr/callback",
@@ -129,6 +130,19 @@ app.get(
     failureRedirect: "/tumblrLikes"
   })
 );
+
+//reddit route
+app.get("/auth/reddit", passport.authenticate("reddit"));
+app.get(
+  "/auth/reddit/callback",
+  passport.authenticate("reddit", {
+    successRedirect: "/reddit",
+    failureRedirect: "/login" //add flash message later
+  })
+);
+app.get("/reddit", (req, res) => {
+  return res.render("reddit");
+});
 app.get("/auth/facebook", passport.authenticate("facebook"));
 
 app.get(
@@ -148,6 +162,7 @@ app.get(
 // );
 
 //
+
 app.get("/", (req, res) => {
   return res.render("index");
 });
@@ -158,6 +173,12 @@ app.get("/tumblrlikes", (req, res) => {
   return res.render("tumblrlikes", { tumblrlikes });
 });
 app.get("/login", (req, res) => {
+  return res.render("index");
+});
+
+//catch all for testing purposes
+app.all("/", (req, res) => {
+  console.log("things");
   return res.render("index");
 });
 
