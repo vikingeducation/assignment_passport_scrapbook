@@ -1,0 +1,13 @@
+{
+	"development": {
+		"database": "social_connections_dev",
+		"host": "localhost"
+	},
+	"test": {
+		"database": "social_connections_test",
+		"host": "localhost"
+	},
+	"production": {
+		"use_env_variable": "MONGODB_URI"
+	}
+}
