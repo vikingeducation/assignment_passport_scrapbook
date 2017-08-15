@@ -1,10 +1,9 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const mongoose = require("mongoose");
-const Promise = require("bluebird")
- mongoose.Promise = Promise
-
+const mongoose = require('mongoose');
+const Promise = require('bluebird');
+mongoose.Promise = Promise;
 
 // Requiring middleware
 const cookieParser = require('cookie-parser');
@@ -37,17 +36,16 @@ app.engine('handlebars', hbs.engine);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'handlebars');
 
+app.use(
+	'/bootstrap-social',
+	express.static(__dirname + 'node_modules/bootstrap-social')
+);
+
 // require Passport and the Local Strategy
 const passport = require('passport');
 
-
-
 app.use(passport.initialize());
 app.use(passport.session());
-
-
-
-
 
 app.use('/', index);
 
