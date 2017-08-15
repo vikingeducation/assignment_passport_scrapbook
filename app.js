@@ -27,8 +27,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const expressSession = require("express-session");
 app.use(
   expressSession({
-    name: "session",
-    keys: ["asdf;werxcklj;jxcvui3qksf;"]
+    resave: false,
+    saveUninitialized: true,
+    secret: "asdf;werxcklj;jxcvui3qksf;",
+    cookie: {
+      secure: true
+    }
   })
 );
 
@@ -54,16 +58,26 @@ app.use((req, res, next) => {
 });
 
 // Authentication Middleware
-app.use(require("./services/Session").guardian);
+const passport = require("passport");
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use("facebook", require("./strategies/facebook"))
 // Routes
-app.use("/auth", require("./routers/auth"));
-app.use("/secrets", require("./routers/secrets"));
-app.all("/", (req, res) => res.redirect("/secrets"));
+
+app.use("/auth", require("./routes/auth")(passport));
+
+app.get("/", (req, res) => {
+  res.send("Hello world! :D");
+});
+
+app.get("/login", (req, res) => {
+  res.send("Please log in. Except there's no form. So you're stuck here forever.")
+})
 
 // Set up port/host
 const port = process.env.PORT || process.argv[2] || 3000;
-const host = "0.0.0.0";
+const host = "localhost";
 let args = process.env.NODE_ENV === "production" ? [port] : [port, host];
 
 // helpful log when the server starts
