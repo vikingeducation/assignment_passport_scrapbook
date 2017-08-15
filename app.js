@@ -17,6 +17,7 @@ const hbs = expressHandlebars.create({
 const mongoose = require("mongoose");
 const FacebookStrategyInit = require("./services/facebook");
 const TwitterStrategyInit = require("./services/twitter");
+const GitHubStrategyInit = require("./services/github");
 const loginRouter = require("./routers/login");
 const passportRouter = require("./routers/passport");
 const passport = require("passport");
@@ -48,6 +49,7 @@ app.use(passport.session());
 
 FacebookStrategyInit(passport);
 TwitterStrategyInit(passport);
+GitHubStrategyInit(passport);
 
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
@@ -74,7 +76,17 @@ app.get("/auth/twitter", passport.authenticate("twitter"));
 app.get(
   "/auth/twitter/callback",
   passport.authenticate("twitter", {
-    authType: "reauthenticate",
+    scope: "email",
+    successRedirect: "/",
+    failureRedirect: "/login"
+  })
+);
+
+app.get("/auth/github", passport.authenticate("github"));
+
+app.get(
+  "/auth/github/callback",
+  passport.authenticate("github", {
     scope: "email",
     successRedirect: "/",
     failureRedirect: "/login"

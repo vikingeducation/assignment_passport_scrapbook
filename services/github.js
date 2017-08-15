@@ -1,44 +1,44 @@
-const TwitterStrategy = require("passport-twitter").Strategy;
+const GitHubStrategy = require("passport-github").Strategy;
 const { User } = require("../models");
 
 module.exports = passport => {
   passport.use(
-    new TwitterStrategy(
+    new GitHubStrategy(
       {
-        consumerKey: process.env.TWITTER_APP_ID,
-        consumerSecret: process.env.TWITTER_APP_SECRET,
+        clientID: process.env.GITHUB_APP_ID,
+        clientSecret: process.env.GITHUB_APP_SECRET,
         callbackURL:
-          process.env.TWITTER_URI ||
-          "http://localhost:3000/auth/twitter/callback",
+          process.env.GITHUB_URI ||
+          "http://localhost:3000/auth/github/callback",
         profileFields: ["id", "displayName", "photos", "emails"]
       },
-      function(token, tokenSecret, profile, done) {
+      function(token, tokenSecret, profile, cb) {
         console.log(profile);
-        const twitterId = profile.id;
+        const githubId = profile.id;
         const displayName = profile.displayName;
-        const twitterImages = profile.photos;
+        const githubImages = profile.photos;
         User.findOne({ displayName }).then(user => {
           if (!user) {
             user = new User({
-              twitterId,
+              githubId,
               displayName,
-              twitterImages
+              githubImages
             });
             user
               .save()
               .then(user => {
-                return done(null, user);
+                return cb(null, user);
               })
               .catch(e => {
                 if (e) throw e;
               });
           } else {
-            user.twitterId = twitterId;
-            user.twitterImages = twitterImages;
+            user.githubId = githubId;
+            user.githubImages = githubImages;
             user
               .save()
               .then(user => {
-                return done(null, user);
+                return cb(null, user);
               })
               .catch(e => {
                 if (e) throw e;
@@ -49,13 +49,13 @@ module.exports = passport => {
     )
   );
 
-  passport.serializeUser(function(user, done) {
-    done(null, user.id);
+  passport.serializeUser(function(user, cb) {
+    cb(null, user.id);
   });
 
-  passport.deserializeUser(function(id, done) {
+  passport.deserializeUser(function(id, cb) {
     User.findById(id, function(err, user) {
-      done(err, user);
+      cb(err, user);
     });
   });
 };
