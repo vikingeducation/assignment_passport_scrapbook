@@ -97,6 +97,11 @@ app.get("/", (req, res) => {
   res.redirect("/login");
 });
 
+app.get("/force", (req, res) => {
+  req.logout();
+  res.redirect("/login");
+});
+
 app.use("/login", loginRouter);
 app.use("/passport", passportRouter);
 

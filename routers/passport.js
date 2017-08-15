@@ -4,7 +4,7 @@ const { loggedIn } = require("../services/session");
 const fetch = require("node-fetch");
 
 router.get("/", loggedIn, (req, res) => {
-  if (req.user.githubReposUrl.length) {
+  if (req.user.githubReposUrl !== undefined) {
     fetch(req.user.githubReposUrl)
       .then(res => {
         return res.json();
