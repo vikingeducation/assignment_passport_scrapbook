@@ -1,13 +1,19 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
+let structureObj = {
+    profileId: String,
+    accessToken: String,
+    refreshToken: String
+  }
+
 const UserSchema = mongoose.Schema({
 	displayName: { type: String, required: true },
-	redditId: { type: String, unique: true },
-	spotifyId: { type: String, unique: true },
-	stackId: { type: String, unique: true },
-	slackId: { type: String, unique: true },
-	githubId: { type: String, unique: true }
+	reddit: structureObj,
+	// spotify: structureObj,
+	// stack: structureObj,
+	// slack: structureObj,
+	github: structureObj
 });
 
 UserSchema.plugin(uniqueValidator);

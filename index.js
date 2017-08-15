@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
-const mongoConnect = require('./mongo');
+
 const Promise = require('bluebird');
 mongoose.Promise = Promise;
 
@@ -42,6 +42,7 @@ app.set('view engine', 'handlebars');
 const passport = require('passport');
 const authStrategies = require('./auth_strategies');
 passport.use(authStrategies.github);
+passport.use(authStrategies.reddit);
 passport.serializeUser(authStrategies.serializeUser);
 passport.deserializeUser(authStrategies.deserializeUser);
 
@@ -49,7 +50,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 const middleWare = require('./middleware');
-app.use(middleWare.database.persistMongooseConnection);
+app.use(middleWare.database.persist);
 app.use('/', middleWare.login.authenticatedOnly, index);
 app.use('/oauth', auth);
 
