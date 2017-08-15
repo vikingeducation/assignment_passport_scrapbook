@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 
+const {User} = require("./models");
+
 // .env
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
@@ -62,6 +64,17 @@ const passport = require("passport");
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+passport.deserializeUser(function(userId, done) {
+  User.findById(userId, (err, user) => {
+    done(err, user);
+  })
+});
+
 passport.use("facebook", require("./strategies/facebook"));
 // Routes
 
