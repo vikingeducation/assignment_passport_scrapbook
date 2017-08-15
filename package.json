@@ -1,0 +1,35 @@
+{
+	"name": "assignment_passport_scrapbook",
+	"version": "1.0.0",
+	"description": "Make an amalagam of user information gathered from a gallimaufry of OAuth providers.",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/drewdiddy611/assignment_passport_scrapbook.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/drewdiddy611/assignment_passport_scrapbook/issues"
+	},
+	"homepage": "https://github.com/drewdiddy611/assignment_passport_scrapbook#readme",
+	"dependencies": {
+		"bcrypt": "^1.0.2",
+		"body-parser": "^1.17.2",
+		"cookie-parser": "^1.4.3",
+		"express-flash": "0.0.2",
+		"express-session": "^1.15.5",
+		"hbs": "^4.0.1",
+		"mongoose-unique-validator": "^1.0.5",
+		"passport": "^0.4.0",
+		"passport-github": "^1.1.0",
+		"passport-local": "^1.0.0",
+		"passport-reddit": "^0.2.4",
+		"passport-slack": "0.0.7",
+		"passport-spotify": "^0.3.1",
+		"passport-stackexchange": "^0.1.2"
+	}
+}
