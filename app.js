@@ -1,4 +1,5 @@
 const app = require("express")();
+const request = require("request");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const expressSession = require("express-session");
@@ -6,6 +7,10 @@ const flash = require("express-flash");
 const passport = require("passport");
 var userFacebook;
 var userAccessTokenFacebook;
+var userTumblr;
+var tumblrLikes;
+var newLikes;
+var userAccessTokenTumblr;
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
@@ -19,12 +24,12 @@ app.use(
   })
 );
 
-//FB Strategy
-
 let handlebars = require("express-handlebars");
 var hbs = handlebars.create({ defaultLayout: "main" });
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
+
+///suggested strat for tumblr
 
 // fb secret id
 if (process.env.NODE_ENV !== "production") {
@@ -32,9 +37,39 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 //fb strategy
-let { FB_ID, FB_SECRET } = process.env;
+let { FB_ID, FB_SECRET, TUMBLR_ID, TUMBLR_SECRET } = process.env;
 const FacebookStrategy = require("passport-facebook").Strategy;
+const TumblrStrategy = require("passport-Tumblr").Strategy;
+passport.use(
+  new TumblrStrategy(
+    {
+      consumerKey: TUMBLR_ID,
+      consumerSecret: TUMBLR_SECRET,
+      callbackURL: "http://localhost:3000/auth/tumblr/callback"
+    },
+    function(token, tokenSecret, profile, done) {
+      userAccessTokenTumblr = TUMBLR_ID;
+      userTumblr = profile;
+      console.log(profile);
+      console.log(userAccessTokenTumblr);
+      let newUrl =
+        "https://api.tumblr.com/v2/blog/" +
+        profile.username +
+        ".tumblr.com/likes?api_key=" +
+        userAccessTokenTumblr;
 
+      tumblrLikes = new Promise(function(resolve) {
+        request.get(newUrl, (req, res) => {
+          return resolve(JSON.parse(res.body).response.liked_posts);
+        });
+      }).then(returnedData => {
+        newLikes = returnedData.map(i => i.blog_name);
+        console.log(newLikes);
+        return done(null, profile);
+      });
+    }
+  )
+);
 passport.use(
   new FacebookStrategy(
     {
@@ -75,7 +110,14 @@ passport.use(
     }
   )
 );
-
+app.get("/auth/tumblr", passport.authenticate("tumblr"));
+app.get(
+  "/auth/tumblr/callback",
+  passport.authenticate("tumblr", {
+    successRedirect: "/tumblrLikes",
+    failureRedirect: "/login"
+  })
+);
 app.get("/auth/facebook", passport.authenticate("facebook"));
 
 app.get(
@@ -97,6 +139,10 @@ app.get(
 //
 app.get("/", (req, res) => {
   return res.render("index");
+});
+app.get("/tumblrlikes", (req, res) => {
+  console.log(newLikes);
+  return res.render("tumblrlikes", { newLikes });
 });
 app.get("/login", (req, res) => {
   return res.render("index");
