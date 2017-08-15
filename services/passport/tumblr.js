@@ -11,7 +11,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 //fb strategy
-let { FB_ID, FB_SECRET, TUMBLR_ID, TUMBLR_SECRET } = process.env;
+let { TUMBLR_ID, TUMBLR_SECRET } = process.env;
 const TumblrStrategy = require("passport-Tumblr").Strategy;
 
 passport.use(

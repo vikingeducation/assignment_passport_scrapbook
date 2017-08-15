@@ -1,0 +1,7 @@
+Reddit Page
+<h3>Your comments</h3>
+{{#each user as |user|}}
+
+  <h5>You said:</h5>  {{ user.body }}
+  <h5>To :</h5> {{ user.link_title }}
+{{/each}}
