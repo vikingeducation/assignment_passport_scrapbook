@@ -1,7 +1,8 @@
 const FacebookStrategy = require("passport-facebook").Strategy;
 const passport = require("passport");
+const { User } = require("../models");
 
-facebookStrategyInit = (req, res, next) => {
+module.exports = () => {
   passport.use(
     new FacebookStrategy(
       {
@@ -14,30 +15,27 @@ facebookStrategyInit = (req, res, next) => {
         const displayName = profile.displayName;
 
         console.log(profile);
-        User.findOne({ id: req.user._id }, function(err, user) {
-          if (err) return done(err);
-
+        User.findOne({ facebookId }).then(user => {
           if (!user) {
             user = new User({ facebookId, displayName });
-            user.save((err, user) => {
-              if (err) return done(err);
+            user.save().then(user => {
               done(null, user);
             });
-          } else if (user && user.facebookId === null) {
-            user.facebookId = facebookId;
-            user.save()
-            .then(done(null, user))
-            .catch(e) => {
-              res.status(500).send(e.stack)
-            }
-          }
-          else {
+          } else {
             done(null, user);
           }
         });
       }
     )
   );
-};
 
-module.exports = facebookStrategyInit;
+  passport.serializeUser(function(user, done) {
+    done(null, user.id);
+  });
+
+  passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+      done(err, user);
+    });
+  });
+};

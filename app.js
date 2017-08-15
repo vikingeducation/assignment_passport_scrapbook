@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -16,6 +17,7 @@ const hbs = expressHandlebars.create({
 const mongoose = require("mongoose");
 const FacebookStrategyInit = require("./services/facebook");
 const loginRouter = require("./routers/login");
+const passportRouter = require("./routers/passport");
 const passport = require("passport");
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -43,7 +45,7 @@ app.use((req, res, next) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(FacebookStrategyInit);
+FacebookStrategyInit();
 
 app.get("/auth/facebook", passport.authenticate("facebook"));
 
@@ -63,6 +65,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/login", loginRouter);
+app.use("/passport", passportRouter);
 
 const port = process.env.PORT || process.argv[2] || 3000;
 const host = "localhost";
