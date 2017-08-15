@@ -1,0 +1,13 @@
+{
+  "development": {
+    "database": "passport--assignment-development",
+    "host": "localhost"
+  },
+  "test": {
+    "database": "passport-assignment_test",
+    "host": "localhost"
+  },
+  "production": {
+    "use_env_variable": "MONGODB_URI"
+  }
+}
