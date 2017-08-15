@@ -1,11 +1,13 @@
 const router = require("express").Router();
 
 router.get("/", (req, res) => {
-	if (req.user) {
-		res.redirect("/landing");
-	}
+	req.session.destroy(err => {
+		if (err) return next(err);
 
-	res.render("index");
+		req.logout();
+
+		res.redirect("/");
+	});
 });
 
 module.exports = router;

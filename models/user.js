@@ -10,7 +10,8 @@ const UserSchema = mongoose.Schema({
 			ref: "Token"
 		}
 	],
-	oauthId: { type: String, required: true, unique: true }
+	oauthId: { type: String, required: true, unique: true },
+	profile: { type: Schema.Types.Mixed, default: {} }
 });
 
 UserSchema.plugin(uniqueValidator);
