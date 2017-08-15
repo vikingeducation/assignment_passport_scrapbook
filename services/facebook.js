@@ -18,10 +18,9 @@ module.exports = passport => {
         const facebookId = profile.id;
         const displayName = profile.displayName;
         const images = profile.photos;
-        const email = profile.emails[0].value;
-        User.findOne({ email }).then(user => {
+        User.findOne({ displayName }).then(user => {
           if (!user) {
-            user = new User({ email, facebookId, displayName, images });
+            user = new User({ facebookId, displayName, images });
             user
               .save()
               .then(user => {
@@ -33,7 +32,6 @@ module.exports = passport => {
                 }
               });
           } else {
-            user.displayName = displayName;
             user.facebookId = facebookId;
             user.images = images;
             user

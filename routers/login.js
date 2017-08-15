@@ -8,7 +8,7 @@ router.get("/", loggedOut, (req, res) => {
 
 router.get("/logout", loggedIn, (req, res) => {
   req.logout();
-  res.redirect("login");
+  res.redirect("/login");
 });
 
 module.exports = router;

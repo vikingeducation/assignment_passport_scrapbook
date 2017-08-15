@@ -13,15 +13,13 @@ module.exports = passport => {
       function(token, tokenSecret, profile, done) {
         console.log(profile);
         const twitterId = profile.id;
-        const twitterDisplayName = profile.displayName;
+        const displayName = profile.displayName;
         const twitterImages = profile.photos;
-        const email = profile.emails[0];
-        User.findOne({ email }).then(user => {
+        User.findOne({ displayName }).then(user => {
           if (!user) {
             user = new User({
-              email,
               twitterId,
-              twitterDisplayName,
+              displayName,
               twitterImages
             });
             user
@@ -33,7 +31,6 @@ module.exports = passport => {
                 if (e) throw e;
               });
           } else {
-            user.twitterDisplayName = twitterDisplayName;
             user.twitterId = twitterId;
             user.twitterImages = twitterImages;
             user
