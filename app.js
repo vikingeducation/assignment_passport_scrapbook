@@ -31,10 +31,7 @@ app.use(
   expressSession({
     resave: false,
     saveUninitialized: true,
-    secret: "asdf;werxcklj;jxcvui3qksf;",
-    cookie: {
-      secure: true
-    }
+    secret: "asdf;werxcklj;jxcvui3qksf;"
   })
 );
 
@@ -88,7 +85,7 @@ app.use("/auth", require("./routes/auth")(passport));
 
 app.get("/", ensureAuthenticated, (req, res) => {
   console.log(req.user);
-  res.render("index");
+  res.render("index", {user: req.user});
 });
 
 app.get("/login", (req, res) => {
