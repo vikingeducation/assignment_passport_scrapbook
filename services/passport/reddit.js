@@ -2,7 +2,7 @@
 const passport = require("./index");
 const request = require("request");
 
-var userAccessTokenTumblr;
+var redditComments;
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
@@ -14,7 +14,7 @@ const RedditStrategy = require("passport-reddit").Strategy;
 passport.use(
   new RedditStrategy(
     {
-      clientID: REDDIT_ID,
+      clientID: "M_CjzCy_nwHgAA",
       clientSecret: REDDIT_SECRET,
       callbackURL: "http://localhost:3000/auth/reddit/callback"
     },
@@ -22,8 +22,24 @@ passport.use(
       // User.findOrCreate({ redditId: profile.id }, function(err, user) {
       //   return done(err, user);
       // });
-      console.log("profile = ", profile);
-      done(null);
+      console.log(profile);
+      console.log(profile.comments);
+      let newUrl =
+        "https://www.reddit.com/user/" + profile.name + "/comments.json";
+      console.log(newUrl);
+      let comments = new Promise(function(resolve) {
+        request.get(newUrl, (req, res) => {
+          console.log(JSON.parse(res.body));
+
+          return resolve(JSON.parse(res.body));
+        });
+      }).then(returnedData => {
+        redditComments = returnedData.data.map(i => i.children);
+
+        console.log(redditComments);
+        return done(null, redditComments);
+      });
+      //done(null);
     }
   )
 );
