@@ -10,14 +10,15 @@ module.exports = passport => {
         callbackURL:
           process.env.FACEBOOK_URI ||
           "http://localhost:3000/auth/facebook/callback",
-        profileFields: ["id", "displayName", "photos", "email"]
+        profileFields: ["id", "displayName", "photos", "emails"]
       },
       function(accessToken, refreshToken, profile, done) {
         console.log(profile);
+        console.log(profile.emails);
         const facebookId = profile.id;
         const displayName = profile.displayName;
         const images = profile.photos;
-        const email = profile.email;
+        const email = profile.emails[0].value;
         User.findOne({ email }).then(user => {
           if (!user) {
             user = new User({ email, facebookId, displayName, images });

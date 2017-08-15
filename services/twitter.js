@@ -8,14 +8,14 @@ module.exports = passport => {
         consumerKey: process.env.TWITTER_APP_ID,
         consumerSecret: process.env.TWITTER_APP_SECRET,
         callbackURL: "http://localhost:3000/auth/twitter/callback",
-        profileFields: ["id", "displayName", "photos", "email"]
+        profileFields: ["id", "displayName", "photos", "emails"]
       },
       function(token, tokenSecret, profile, done) {
         console.log(profile);
         const twitterId = profile.id;
         const twitterDisplayName = profile.displayName;
         const twitterImages = profile.photos;
-        const email = profile.email;
+        const email = profile.emails[0];
         User.findOne({ email }).then(user => {
           if (!user) {
             user = new User({
