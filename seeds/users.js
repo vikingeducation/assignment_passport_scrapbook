@@ -22,8 +22,8 @@ const connect = require('../mongo');
 			console.log('Saving user');
 		}
 
-		const users = await Promise.all(promises);
-		console.log(users, 'foo');
+		await Promise.all(promises);
+		//console.log(users, 'foo');
 		mongoose.disconnect();
 	} catch (err) {
 		console.error(err.stack);

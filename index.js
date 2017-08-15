@@ -6,6 +6,7 @@ const Promise = require("bluebird")
  mongoose.Promise = Promise
 
 
+
 // Requiring middleware
 const cookieParser = require('cookie-parser');
 
@@ -14,6 +15,7 @@ const expressSession = require('express-session');
 const flash = require('express-flash');
 const exphbs = require('express-handlebars');
 const index = require('./routes/index');
+const auth = require("./routes/auth");
 
 // Mounting middleware
 app.use(cookieParser());
@@ -37,11 +39,19 @@ app.engine('handlebars', hbs.engine);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'handlebars');
 
+//Bootstrap-social
+// app.use(express.static(__dirname + 'public'))
+
+
+
 // require Passport and the Local Strategy
 const passport = require('passport');
+const authStrategies = require("./auth_strategies")
+passport.use(authStrategies.github)
 
 
-
+passport.serializeUser(authStrategies.serializeUser)
+passport.deserializeUser(authStrategies.deserializeUser)
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -50,6 +60,8 @@ app.use(passport.session());
 
 
 app.use('/', index);
+
+app.use('/auth', auth);
 
 app.use(function(req, res, next) {
 	var err = new Error('Not Found');
