@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
+const mongoConnect = require('./mongo');
 const Promise = require('bluebird');
 mongoose.Promise = Promise;
 
@@ -47,25 +48,16 @@ passport.deserializeUser(authStrategies.deserializeUser);
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', index);
-app.use('/auth', auth);
-
-app.use(function(req, res, next) {
-	var err = new Error('Not Found');
-	err.status = 404;
-	next(err);
-});
+const middleWare = require('./middleware');
+app.use(middleWare.database.persistMongooseConnection);
+app.use('/', middleWare.login.authenticatedOnly, index);
+app.use('/oauth', auth);
 
 // error handler
-app.use(function(err, req, res, next) {
-	// set locals, only providing error in development
-	res.locals.message = err.message;
-	res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(middleWare.error.notFound);
+app.use(middleWare.error.handler);
 
-	// render the error page
-	res.status(err.status || 500);
-	res.render('error');
-});
+app.use(middleWare.database.exit);
 
 app.listen(3000, () => {
 	console.log('Listening...');
