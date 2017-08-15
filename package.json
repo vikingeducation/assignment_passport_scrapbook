@@ -30,6 +30,7 @@
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
     "passport-tumblr": "^0.1.2",
+    "request": "^2.81.0",
     "tumblr": "^0.4.1"
   }
 }
