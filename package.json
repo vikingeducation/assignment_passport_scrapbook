@@ -25,6 +25,7 @@
     "express-handlebars": "^3.0.0",
     "express-method-override-get-post-support": "0.0.7",
     "express-session": "^1.15.5",
+    "github": "^9.2.0",
     "handlebars": "^4.0.10",
     "load-helpers": "^1.0.1",
     "method-override": "^2.3.9",
@@ -34,6 +35,7 @@
     "morgan-toolkit": "^1.0.2",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
-    "passport-github": "^1.1.0"
+    "passport-github": "^1.1.0",
+    "request": "^2.81.0"
   }
 }

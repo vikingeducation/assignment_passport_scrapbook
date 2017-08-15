@@ -21,6 +21,7 @@ const facebookStrategy = new FacebookStrategy(
 
       if (req.user) {
         req.user.facebookId = facebookId;
+        req.user.facebookPhoto = facebookPhoto;
         const user = await req.user.save();
         done(null, user);
       } else {

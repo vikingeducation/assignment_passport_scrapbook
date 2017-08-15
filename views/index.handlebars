@@ -7,7 +7,9 @@
       <li class="list-group-item">Facebook connected!</li>
       {{else}}
       <li class="list-group-item"><a href="{{ facebookPath }}" class="btn btn-primary">Facebook</a></li>
-      {{/if}} {{#if user.githubId}}
+      {{/if}}
+
+      {{#if user.githubId}}
       <li class="list-group-item">GitHub connected!</li>
       {{else}}
       <li class="list-group-item"><a href="{{ githubPath }}" class="btn btn-primary">GitHub</a></li>
@@ -17,21 +19,23 @@
 
 </section>
 
-{{#if facebookPhoto}}
+{{#if user.facebookPhoto}}
 <section class="col-sm-6 col-md-4">
   <div class="panel panel-default">
     <div class="panel-heading">Facebook</div>
     <div class="panel-body">
-      <img src="{{facebookPhoto}}">
+      <img src="{{user.facebookPhoto}}" class="img-thumbnail">
     </div>
   </div>
 </section>
-{{/if}} {{#if githubPhoto}}
+{{/if}}
+
+{{#if user.githubPhoto}}
 <section class="col-sm-6 col-md-4">
   <div class="panel panel-default">
     <div class="panel-heading">Github</div>
     <div class="panel-body">
-      <img src="{{githubPhoto}}">
+      <img src="{{user.githubPhoto}}" class="img-thumbnail">
     </div>
   </div>
 </section>
