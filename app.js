@@ -132,13 +132,30 @@ app.get(
 );
 
 //reddit route
-app.get("/auth/reddit", passport.authenticate("reddit"));
+// app.get("/auth/reddit", passport.authenticate("reddit"));
+// app.get(
+//   "/auth/reddit/callback",
+//   passport.authenticate("reddit", {
+//     successRedirect: "/reddit",
+//     failureRedirect: "/login" //add flash message later
+//   })
+// );
+app.get(
+  "/auth/reddit",
+  passport.authenticate("reddit", {
+    state: "random",
+    duration: "permanent"
+  })
+);
 app.get(
   "/auth/reddit/callback",
+  // Check for origin via state token
+
   passport.authenticate("reddit", {
     successRedirect: "/reddit",
-    failureRedirect: "/login" //add flash message later
+    failureRedirect: "/login"
   })
+  //res.redirect("/reddit");
 );
 app.get("/reddit", (req, res) => {
   return res.render("reddit");
