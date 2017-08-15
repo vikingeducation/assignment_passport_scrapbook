@@ -25,7 +25,7 @@
 		"hbs": "^4.0.1",
 		"mongoose-unique-validator": "^1.0.5",
 		"passport": "^0.4.0",
-		"passport-github": "^1.1.0",
+		"passport-github2": "^0.1.10",
 		"passport-local": "^1.0.0",
 		"passport-reddit": "^0.2.4",
 		"passport-slack": "0.0.7",
