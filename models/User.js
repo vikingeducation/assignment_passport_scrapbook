@@ -9,7 +9,8 @@ const UserSchema = mongoose.Schema({
   githubPhoto: String,
   githubData: [{ type: String }],
   twitterId: { type: String, unique: true },
-  twitterPhoto: String
+  twitterPhoto: String,
+  twitterData: [{ type: String }]
 });
 
 UserSchema.plugin(uniqueValidator);

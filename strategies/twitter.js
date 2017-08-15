@@ -1,6 +1,6 @@
 const TwitterStrategy = require("passport-twitter").Strategy;
 const { User } = require("../models");
-const Twitter = require('twitter');
+const Twitter = require("twitter");
 
 const twitterStrategy = new TwitterStrategy(
   {
@@ -19,10 +19,12 @@ const twitterStrategy = new TwitterStrategy(
         access_token_secret: tokenSecret
       });
 
-      var params = {screen_name: profile.username};
-
-      const tweets = await client.get("statuses/user_timeline", params);
-      console.log(tweets + "????");
+      const params = { screen_name: profile.username };
+      let twitterData = await client.get("statuses/user_timeline", params);
+      twitterData = twitterData.map(tweet => {
+        return tweet.text;
+      });
+      console.log(twitterData);
       const twitterId = profile.id;
       const twitterPhoto = profile.photos[0].value;
       const name = profile.displayName;
@@ -30,15 +32,18 @@ const twitterStrategy = new TwitterStrategy(
       req.session.locals = req.session.locals || {};
       req.session.locals.name = name;
       req.session.locals.twitterPhoto = twitterPhoto;
+      req.session.locals.twitterData = twitterData;
 
       if (req.user) {
         req.user.twitterId = twitterId;
         req.user.twitterPhoto = twitterPhoto;
+        req.user.twitterData = twitterData;
         const user = await req.user.save();
         done(null, user);
       } else {
         let user = await User.findOne({ twitterId });
-        user = user || (await User.create({ twitterId, twitterPhoto, name }));
+        const userOpts = { twitterId, twitterPhoto, twitterData, name };
+        user = user || (await User.create(userOpts));
         done(null, user);
       }
     } catch (error) {

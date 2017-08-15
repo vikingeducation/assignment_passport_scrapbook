@@ -15,8 +15,7 @@
       </li>
       {{else}}
       <li class="list-group-item"><a href="{{ githubPath }}" class="btn btn-primary">GitHub</a></li>
-      {{/if}}
-      {{#if user.twitterId}}
+      {{/if}} {{#if user.twitterId}}
       <li class="list-group-item">Twitter connected!
         <img src="{{user.twitterPhoto}}" class="img-thumbnail">
       </li>
@@ -50,14 +49,14 @@
     </div>
   </div>
 </section>
-{{/if}}
-
-{{#if user.twitterPhoto}}
+{{/if}} {{#if user.twitterData}}
 <section class="col-sm-6 col-md-4">
   <div class="panel panel-default">
     <div class="panel-heading">Twitter</div>
     <div class="panel-body">
-      <img src="{{user.twitterPhoto}}" class="img-thumbnail">
+      {{#each user.twitterData as |data|}}
+      <li>{{data}}</li>
+      {{/each}}
     </div>
   </div>
 </section>
