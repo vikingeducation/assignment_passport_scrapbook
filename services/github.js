@@ -17,12 +17,17 @@ module.exports = passport => {
         const githubId = profile.id;
         const displayName = profile.displayName;
         const githubImages = profile.photos;
+        const githubReposUrl = profile._json.repos_url;
+        const githubUsername = profile.username;
+        console.log(githubReposUrl);
         User.findOne({ displayName }).then(user => {
           if (!user) {
             user = new User({
               githubId,
               displayName,
-              githubImages
+              githubImages,
+              githubReposUrl,
+              githubUsername
             });
             user
               .save()
@@ -35,6 +40,8 @@ module.exports = passport => {
           } else {
             user.githubId = githubId;
             user.githubImages = githubImages;
+            user.githubReposUrl = githubReposUrl;
+            user.githubUsername = githubUsername;
             user
               .save()
               .then(user => {

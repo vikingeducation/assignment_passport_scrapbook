@@ -79,9 +79,16 @@
       <h3>GitHub</h3>
     </div>
     <div class="panel-body">
-      {{#each user.githubImages as |image|}}
-        <img src="{{image.value}}" />
-      {{/each}}
+      <table class="table table-striped">
+        <tbody>
+          {{#each repos as |repo|}}
+          <tr>
+          <td><h5><a href="http://www.github.com/{{../user.username}}/{{repo.name}}">{{repo.name}}</a></h5></td>
+        </tr>
+          {{/each}}
+
+      </tbody>
+      </table>
     </div>
   </div>
   {{/if}}

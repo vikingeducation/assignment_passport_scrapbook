@@ -7,8 +7,10 @@ const UserSchema = new Schema({
   facebookId: String,
   twitterId: String,
   githubId: String,
+  githubReposUrl: String,
   twitterImages: [],
   githubImages: [],
+  githubUsername: String,
   images: []
 });
 
