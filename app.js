@@ -19,12 +19,26 @@ app.use(
   })
 );
 
-//FB Strategy
-
 let handlebars = require("express-handlebars");
 var hbs = handlebars.create({ defaultLayout: "main" });
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
+
+///suggested strat for tumblr
+passport.use(
+  new TumblrStrategy(
+    {
+      consumerKey: TUMBLR_CONSUMER_KEY,
+      consumerSecret: TUMBLR_SECRET_KEY,
+      callbackURL: "http://127.0.0.1:3000/auth/tumblr/callback"
+    },
+    function(token, tokenSecret, profile, done) {
+      User.findOrCreate({ tumblrId: profile.id }, function(err, user) {
+        return done(err, user);
+      });
+    }
+  )
+);
 
 // fb secret id
 if (process.env.NODE_ENV !== "production") {
