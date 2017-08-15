@@ -8,18 +8,18 @@ const facebookStrategy = new FacebookStrategy(
     callbackURL: "http://localhost:3000/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-    const facebookId = profile.id;
-    const displayName = profile.displayName;
-
+    const id = profile.id;
+    const name = profile.displayName;
+    console.log({ id, name, accessToken, refreshToken });
     console.log(profile);
-    User.findOne({ facebookId }, function(err, user) {
+    User.findOne({ facebook: { id } }, function(err, user) {
       if (err) return done(err);
 
       if (!user) {
         // Create a new account if one doesn't exist
-        user = new User({ facebookId, displayName });
+        user = new User({ facebook: { id, name, accessToken, refreshToken } });
         user.save((err, user) => {
-          (err) ? done(err) : done(null, user);
+          err ? done(err) : done(null, user);
         });
       } else {
         // Otherwise, return the extant user.
