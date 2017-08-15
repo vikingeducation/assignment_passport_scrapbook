@@ -4,7 +4,6 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 const exphbs = require("express-handlebars");
 const session = require("express-session");
-const passport = require("passport");
 
 const app = express();
 if (process.env.NODE_ENV !== "production") {
@@ -54,8 +53,7 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
-app.use(passport.initialize());
-app.use(passport.session());
+
 
 // routes
 app.use("/", require("./routes/index"));
