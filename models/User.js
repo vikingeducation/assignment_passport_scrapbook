@@ -2,10 +2,8 @@ const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 
 const UserSchema = mongoose.Schema({
-  facebook: {
-    name: { type: String, required: true },
-    id: { type: String, required: true, unique: true }
-  }
+  name: { type: String, required: true },
+  facebookId: { type: String, required: true, unique: true }
 });
 
 UserSchema.plugin(uniqueValidator);

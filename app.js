@@ -82,7 +82,6 @@ const ensureAuthenticated = (req, res, next) => {
 app.use("/auth", require("./routes/auth")(passport));
 
 app.get("/", ensureAuthenticated, (req, res) => {
-  console.log(req.user);
   res.render("index", { user: req.user });
 });
 

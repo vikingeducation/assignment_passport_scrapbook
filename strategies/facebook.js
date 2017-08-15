@@ -7,7 +7,7 @@ const facebookStrategy = new FacebookStrategy(
     clientSecret: process.env.FACEBOOK_APP_SECRET,
     callbackURL: "http://localhost:3000/auth/facebook/callback",
     passReqToCallback: true,
-    profileFields: ["id", "displayName", "user_photos"]
+    profileFields: ["id", "displayName", "photos"]
   },
   async function(req, accessToken, refreshToken, profile, done) {
     console.log(profile);
