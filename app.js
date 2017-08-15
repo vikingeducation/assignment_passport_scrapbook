@@ -71,6 +71,7 @@ passport.deserializeUser(function(userId, done) {
 });
 
 passport.use("facebook", require("./strategies/facebook"));
+passport.use("github", require("./strategies/github"));
 
 // Authentication Middleware
 const ensureAuthenticated = (req, res, next) => {
@@ -79,15 +80,15 @@ const ensureAuthenticated = (req, res, next) => {
 };
 
 app.use((req, res, next) => {
-  if (req.session.locals) {
-    Object.entries(req.session.locals).forEach(([el, val]) => {
+  if (req.user) {
+    Object.entries(req.user).forEach(([el, val]) => {
       res.locals[el] = val;
     });
   }
 
   res.locals.user = req.user;
   next();
-})
+});
 
 // Routes
 app.use("/auth", require("./routes/auth")(passport));

@@ -12,24 +12,20 @@ const facebookStrategy = new FacebookStrategy(
   async function(req, accessToken, refreshToken, profile, done) {
     try {
       const facebookId = profile.id;
+      const facebookPhoto = profile.photos[0].value;
       const name = profile.displayName;
 
-      // fetch pictures
-
-
-      // create session user
       req.session.locals = req.session.locals || {};
-      req.session.locals.name = name
-      req.session.locals.facebookPhoto = profile.photos[0].value;
+      req.session.locals.name = name;
+      req.session.locals.facebookPhoto = facebookPhoto;
 
-    
       if (req.user) {
         req.user.facebookId = facebookId;
         const user = await req.user.save();
         done(null, user);
       } else {
         let user = await User.findOne({ facebookId });
-        user = user || (await User.create({ facebookId, name }));
+        user = user || (await User.create({ facebookId, facebookPhoto, name }));
         done(null, user);
       }
     } catch (error) {

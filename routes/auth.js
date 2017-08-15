@@ -13,6 +13,17 @@ function authenticate(passport) {
     })
   );
 
+  router.get("/github", passport.authenticate("github"));
+
+  router.get(
+    "/github/callback",
+    passport.authenticate("github", {
+      successRedirect: "/",
+      failureRedirect: "/login",
+      scope: ["user:email"]
+    })
+  );
+
   return router;
 }
 

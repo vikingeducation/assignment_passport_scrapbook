@@ -3,27 +3,36 @@
   <div class="panel panel-default">
     <div class="panel-heading">Passport Status</div>
     <ul class="list-group">
-    	{{#if user.facebook}}
-      	<li class="list-group-item">Facebook connected!</li>
+      {{#if user.facebookId}}
+      <li class="list-group-item">Facebook connected!</li>
       {{else}}
-      	<li class="list-group-item"><a href="{{ facebookPath }}" class="btn btn-primary">Facebook</a></li>
+      <li class="list-group-item"><a href="{{ facebookPath }}" class="btn btn-primary">Facebook</a></li>
+      {{/if}} {{#if user.githubId}}
+      <li class="list-group-item">GitHub connected!</li>
+      {{else}}
+      <li class="list-group-item"><a href="{{ githubPath }}" class="btn btn-primary">GitHub</a></li>
       {{/if}}
-      <li class="list-group-item">Facebook</li>
-      <li class="list-group-item">Facebook</li>
-      <li class="list-group-item">Facebook</li>
-      <li class="list-group-item">Facebook</li>
     </ul>
   </div>
 
 </section>
 
 {{#if facebookPhoto}}
-	<section class="col-sm-6 col-md-4">
-	  <div class="panel panel-default">
-	    <div class="panel-heading">Facebook</div>
-	    <div class="panel-body">
-	      <img src="{{facebookPhoto}}">
-	    </div>
-	  </div>
-	</section>
+<section class="col-sm-6 col-md-4">
+  <div class="panel panel-default">
+    <div class="panel-heading">Facebook</div>
+    <div class="panel-body">
+      <img src="{{facebookPhoto}}">
+    </div>
+  </div>
+</section>
+{{/if}} {{#if githubPhoto}}
+<section class="col-sm-6 col-md-4">
+  <div class="panel panel-default">
+    <div class="panel-heading">Github</div>
+    <div class="panel-body">
+      <img src="{{githubPhoto}}">
+    </div>
+  </div>
+</section>
 {{/if}}
