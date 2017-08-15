@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 
-const {User} = require("./models");
+const { User } = require("./models");
 
 // .env
 if (process.env.NODE_ENV !== "production") {
@@ -72,16 +72,23 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(userId, done) {
   User.findById(userId, (err, user) => {
     done(err, user);
-  })
+  });
 });
 
 passport.use("facebook", require("./strategies/facebook"));
-// Routes
 
+// Authentication Middleware
+const ensureAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) next();
+  else res.redirect("/login");
+};
+
+// Routes
 app.use("/auth", require("./routes/auth")(passport));
 
-app.get("/", (req, res) => {
-  res.send("Hello world! :D");
+app.get("/", ensureAuthenticated, (req, res) => {
+  console.log(req.user);
+  res.render("index");
 });
 
 app.get("/login", (req, res) => {

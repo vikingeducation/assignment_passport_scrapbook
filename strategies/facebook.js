@@ -10,8 +10,6 @@ const facebookStrategy = new FacebookStrategy(
   function(accessToken, refreshToken, profile, done) {
     const id = profile.id;
     const name = profile.displayName;
-    console.log({ id, name, accessToken, refreshToken });
-    console.log(profile);
     User.findOne({ facebook: { id } }, function(err, user) {
       if (err) return done(err);
 
