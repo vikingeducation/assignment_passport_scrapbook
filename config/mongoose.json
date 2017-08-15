@@ -1,0 +1,13 @@
+{
+  "development": {
+    "database": "passport_development",
+    "host": "localhost"
+  },
+  "test": {
+    "database": "passport_test",
+    "host": "localhost"
+  },
+  "production": {
+    "use_env_variable": "MONGO_URL"
+  }
+}
