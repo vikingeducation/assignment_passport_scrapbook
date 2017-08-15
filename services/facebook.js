@@ -1,8 +1,7 @@
 const FacebookStrategy = require("passport-facebook").Strategy;
-const passport = require("passport");
 const { User } = require("../models");
 
-module.exports = req => {
+module.exports = passport => {
   passport.use(
     new FacebookStrategy(
       {
@@ -13,26 +12,39 @@ module.exports = req => {
           "http://localhost:3000/auth/facebook/callback",
         profileFields: ["id", "displayName", "photos", "email"]
       },
-      function(accessToken, refreshToken, profile, done, req) {
+      function(accessToken, refreshToken, profile, done) {
+        console.log(profile);
         const facebookId = profile.id;
         const displayName = profile.displayName;
         const images = profile.photos;
-        const id = req.user.id;
-        User.findOne({ id }).then(user => {
+        const email = profile.email;
+        User.findOne({ email }).then(user => {
           if (!user) {
-            user = new User({ facebookId, displayName, images });
-            user.save().then(user => {
-              done(null, user);
-            });
-          } else if (user && user.twitterId) {
-            user.displayName = displayName;
-            user.facebookId = twitterId;
-            user.images = images;
-            user.save().then(user => {
-              done(null, user);
-            });
+            user = new User({ email, facebookId, displayName, images });
+            user
+              .save()
+              .then(user => {
+                return done(null, user);
+              })
+              .catch(e => {
+                if (e) {
+                  throw e;
+                }
+              });
           } else {
-            done(null, user);
+            user.displayName = displayName;
+            user.facebookId = facebookId;
+            user.images = images;
+            user
+              .save()
+              .then(user => {
+                return done(null, user);
+              })
+              .catch(e => {
+                if (e) {
+                  throw e;
+                }
+              });
           }
         });
       }

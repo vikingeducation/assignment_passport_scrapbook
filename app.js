@@ -46,9 +46,14 @@ app.use((req, res, next) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
+FacebookStrategyInit(passport);
+TwitterStrategyInit(passport);
+
+app.engine("handlebars", hbs.engine);
+app.set("view engine", "handlebars");
+
 app.use((req, res, next) => {
-  FacebookStrategyInit(req);
-  TwitterStrategyInit(req);
+  res.locals.user = req.user || null;
   next();
 });
 
@@ -73,14 +78,6 @@ app.get(
     failureRedirect: "/login"
   })
 );
-
-app.engine("handlebars", hbs.engine);
-app.set("view engine", "handlebars");
-
-app.use((req, res, next) => {
-  res.locals.user = req.user;
-  next();
-});
 
 app.get("/", (req, res) => {
   res.redirect("/login");

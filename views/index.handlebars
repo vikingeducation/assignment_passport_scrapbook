@@ -41,7 +41,6 @@
     </div>
     <div class="panel-body">
       {{#each user.images as |image|}}
-        {{log image}}
         <img src="{{image.value}}" />
       {{/each}}
     </div>
@@ -52,7 +51,9 @@
       <h3>Twitter</h3>
     </div>
     <div class="panel-body">
-
+      {{#each user.twitterImages as |image|}}
+        <img src="{{image.value}}" />
+      {{/each}}
     </div>
   </div>
 </div>

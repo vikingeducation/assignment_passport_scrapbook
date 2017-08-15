@@ -1,40 +1,49 @@
 const TwitterStrategy = require("passport-twitter").Strategy;
-const passport = require("passport");
 const { User } = require("../models");
 
-module.exports = req => {
+module.exports = passport => {
   passport.use(
     new TwitterStrategy(
       {
         consumerKey: process.env.TWITTER_APP_ID,
         consumerSecret: process.env.TWITTER_APP_SECRET,
-        callbackURL: "http://localhost:3000/auth/twitter/callback"
+        callbackURL: "http://localhost:3000/auth/twitter/callback",
+        profileFields: ["id", "displayName", "photos", "email"]
       },
-      function(token, tokenSecret, profile, done, req) {
+      function(token, tokenSecret, profile, done) {
+        console.log(profile);
         const twitterId = profile.id;
         const twitterDisplayName = profile.displayName;
         const twitterImages = profile.photos;
-        let id;
-        if (req.user) {
-          id = req.user.id;
-        } else {
-          id = null;
-        }
-        User.findOne({ id }).then(user => {
+        const email = profile.email;
+        User.findOne({ email }).then(user => {
           if (!user) {
-            user = new User({ twitterId, twitterDisplayName, twitterImages });
-            user.save().then(user => {
-              done(null, user);
+            user = new User({
+              email,
+              twitterId,
+              twitterDisplayName,
+              twitterImages
             });
-          } else if (user && user.facebookId.length) {
+            user
+              .save()
+              .then(user => {
+                return done(null, user);
+              })
+              .catch(e => {
+                if (e) throw e;
+              });
+          } else {
             user.twitterDisplayName = twitterDisplayName;
             user.twitterId = twitterId;
             user.twitterImages = twitterImages;
-            user.save().then(user => {
-              done(null, user);
-            });
-          } else {
-            done(null, user);
+            user
+              .save()
+              .then(user => {
+                return done(null, user);
+              })
+              .catch(e => {
+                if (e) throw e;
+              });
           }
         });
       }
