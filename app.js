@@ -19,10 +19,19 @@ app.use(
   })
 );
 
+//FB Strategy
+
+let handlebars = require("express-handlebars");
+var hbs = handlebars.create({ defaultLayout: "main" });
+app.engine("handlebars", hbs.engine);
+app.set("view engine", "handlebars");
+
 // fb secret id
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
+
+//fb strategy
 let { FB_ID, FB_SECRET } = process.env;
 const FacebookStrategy = require("passport-facebook").Strategy;
 
@@ -53,6 +62,13 @@ passport.use(
       //     done(null, user);
       //   }
       // });
+      /* make the API call */
+      // FB.api("/{user-id}/friends", function(response) {
+      //   if (response && !response.error) {
+      //     /* handle the result */
+      //   }
+      // });
+
       userAccessTokenFacebook = accessToken;
       userFacebook = profile;
       done(null);
@@ -77,20 +93,14 @@ app.get(
 //     failureFlash: true
 //   })
 // );
+
+//
 app.get("/", (req, res) => {
   return res.render("index");
 });
 app.get("/login", (req, res) => {
   return res.render("index");
 });
-// Local Strat for later
-
-//FB Strategy
-
-let handlebars = require("express-handlebars");
-var hbs = handlebars.create({ defaultLayout: "main" });
-app.engine("handlebars", hbs.engine);
-app.set("view engine", "handlebars");
 
 let port = 3000;
 app.listen(port, (res, req) => {
