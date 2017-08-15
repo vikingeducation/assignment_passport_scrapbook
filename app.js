@@ -52,6 +52,8 @@ app.get("/auth/facebook", passport.authenticate("facebook"));
 app.get(
   "/auth/facebook/callback",
   passport.authenticate("facebook", {
+    authType: "rerequest",
+    scope: ["user_friends"],
     successRedirect: "/",
     failureRedirect: "/login"
   })
@@ -59,6 +61,13 @@ app.get(
 
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
+
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  console.log("---------------------");
+  console.log(res.locals.user);
+  next();
+});
 
 app.get("/", (req, res) => {
   res.redirect("/login");
@@ -68,7 +77,7 @@ app.use("/login", loginRouter);
 app.use("/passport", passportRouter);
 
 const port = process.env.PORT || process.argv[2] || 3000;
-const host = "localhost";
+const host = "0.0.0.0";
 let args;
 process.env.NODE_ENV === "production" ? (args = [port]) : (args = [port, host]);
 args.push(() => {

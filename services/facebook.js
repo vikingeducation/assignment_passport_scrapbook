@@ -8,16 +8,18 @@ module.exports = () => {
       {
         clientID: process.env.FACEBOOK_APP_ID,
         clientSecret: process.env.FACEBOOK_APP_SECRET,
-        callbackURL: "http://localhost:3000/auth/facebook/callback"
+        callbackURL:
+          process.env.FACEBOOK_URI ||
+          "http://localhost:3000/auth/facebook/callback",
+        profileFields: ["id", "displayName", "photos", "email"]
       },
       function(accessToken, refreshToken, profile, done) {
         const facebookId = profile.id;
         const displayName = profile.displayName;
-
-        console.log(profile);
+        const images = profile.photos;
         User.findOne({ facebookId }).then(user => {
           if (!user) {
-            user = new User({ facebookId, displayName });
+            user = new User({ facebookId, displayName, images });
             user.save().then(user => {
               done(null, user);
             });
