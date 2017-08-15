@@ -1,6 +1,5 @@
 const FacebookStrategy = require("passport-facebook").Strategy;
 const { User } = require("../models");
-const fetch = require("isomorphic-fetch");
 
 const facebookStrategy = new FacebookStrategy(
   {
@@ -11,16 +10,19 @@ const facebookStrategy = new FacebookStrategy(
     profileFields: ["id", "displayName", "photos"]
   },
   async function(req, accessToken, refreshToken, profile, done) {
-    console.log(profile);
-    const facebookId = profile.id;
-    const name = profile.displayName;
-
-    // fetch pictures
-
-    // create session user
-    req.session.facebook = {};
-
     try {
+      const facebookId = profile.id;
+      const name = profile.displayName;
+
+      // fetch pictures
+
+
+      // create session user
+      req.session.locals = req.session.locals || {};
+      req.session.locals.name = name
+      req.session.locals.facebookPhoto = profile.photos[0].value;
+
+    
       if (req.user) {
         req.user.facebookId = facebookId;
         const user = await req.user.save();

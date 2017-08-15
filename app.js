@@ -78,11 +78,22 @@ const ensureAuthenticated = (req, res, next) => {
   else res.redirect("/login");
 };
 
+app.use((req, res, next) => {
+  if (req.session.locals) {
+    Object.entries(req.session.locals).forEach(([el, val]) => {
+      res.locals[el] = val;
+    });
+  }
+
+  res.locals.user = req.user;
+  next();
+})
+
 // Routes
 app.use("/auth", require("./routes/auth")(passport));
 
 app.get("/", ensureAuthenticated, (req, res) => {
-  res.render("index", { user: req.user });
+  res.render("index");
 });
 
 app.get("/login", (req, res) => {
