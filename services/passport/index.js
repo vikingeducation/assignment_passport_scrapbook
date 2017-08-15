@@ -1,12 +1,13 @@
 let passport = require("passport");
 
-//serializing
-// passport.serializeUser(function(user, done) {
-//   done(null, user);
-// });
-//
-// passport.deserializeUser(function(obj, done) {
-//   done(null, obj);
-// });
+passport.serializeUser(function(user, done) {
+  console.log("serialize");
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  console.log("dedeserialize");
+  done(null, obj);
+});
 
 module.exports = passport;

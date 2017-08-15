@@ -1,4 +1,11 @@
 // fb secret id
+const passport = require("./index");
+const request = require("request");
+
+var userTumblr;
+var tumblrLikes;
+var newLikes;
+var userAccessTokenTumblr;
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
@@ -6,6 +13,7 @@ if (process.env.NODE_ENV !== "production") {
 //fb strategy
 let { FB_ID, FB_SECRET, TUMBLR_ID, TUMBLR_SECRET } = process.env;
 const TumblrStrategy = require("passport-Tumblr").Strategy;
+
 passport.use(
   new TumblrStrategy(
     {
@@ -31,8 +39,9 @@ passport.use(
       }).then(returnedData => {
         newLikes = returnedData.map(i => i.blog_name);
         console.log(newLikes);
-        return done(null);
+        return done(null, newLikes);
       });
     }
   )
 );
+module.exports = { newLikes };

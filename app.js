@@ -4,16 +4,15 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const expressSession = require("express-session");
 const flash = require("express-flash");
-
 //storage
 var userFacebook;
 var userAccessTokenFacebook;
 var userTumblr;
-var tumblrLikes;
+var ourTumblr = require("./services/passport/tumblr");
 var newLikes;
 var userAccessTokenTumblr;
 
-const passport = require("/services/passport");
+const passport = require("./services/passport");
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -32,7 +31,7 @@ let handlebars = require("express-handlebars");
 var hbs = handlebars.create({ defaultLayout: "main" });
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
-
+var ourTumblr = require("./services/passport/tumblr");
 ///suggested strat for tumblr
 
 // fb secret id
@@ -43,37 +42,37 @@ if (process.env.NODE_ENV !== "production") {
 //fb strategy
 let { FB_ID, FB_SECRET, TUMBLR_ID, TUMBLR_SECRET } = process.env;
 const FacebookStrategy = require("passport-facebook").Strategy;
-const TumblrStrategy = require("passport-Tumblr").Strategy;
-passport.use(
-  new TumblrStrategy(
-    {
-      consumerKey: TUMBLR_ID,
-      consumerSecret: TUMBLR_SECRET,
-      callbackURL: "http://localhost:3000/auth/tumblr/callback"
-    },
-    function(token, tokenSecret, profile, done) {
-      userAccessTokenTumblr = TUMBLR_ID;
-      userTumblr = profile;
-      console.log(profile);
-      console.log(userAccessTokenTumblr);
-      let newUrl =
-        "https://api.tumblr.com/v2/blog/" +
-        profile.username +
-        ".tumblr.com/likes?api_key=" +
-        userAccessTokenTumblr;
-
-      tumblrLikes = new Promise(function(resolve) {
-        request.get(newUrl, (req, res) => {
-          return resolve(JSON.parse(res.body).response.liked_posts);
-        });
-      }).then(returnedData => {
-        newLikes = returnedData.map(i => i.blog_name);
-        console.log(newLikes);
-        return done(null);
-      });
-    }
-  )
-);
+// const TumblrStrategy = require("passport-Tumblr").Strategy;
+// passport.use(
+//   new TumblrStrategy(
+//     {
+//       consumerKey: TUMBLR_ID,
+//       consumerSecret: TUMBLR_SECRET,
+//       callbackURL: "http://localhost:3000/auth/tumblr/callback"
+//     },
+//     function(token, tokenSecret, profile, done) {
+//       userAccessTokenTumblr = TUMBLR_ID;
+//       userTumblr = profile;
+//       console.log(profile);
+//       console.log(userAccessTokenTumblr);
+//       let newUrl =
+//         "https://api.tumblr.com/v2/blog/" +
+//         profile.username +
+//         ".tumblr.com/likes?api_key=" +
+//         userAccessTokenTumblr;
+//
+//       tumblrLikes = new Promise(function(resolve) {
+//         request.get(newUrl, (req, res) => {
+//           return resolve(JSON.parse(res.body).response.liked_posts);
+//         });
+//       }).then(returnedData => {
+//         newLikes = returnedData.map(i => i.blog_name);
+//         console.log(newLikes);
+//         return done(null);
+//       });
+//     }
+//   )
+// );
 // passport.serializeUser(function(user, done) {
 //   done(null, user);
 // });
@@ -153,8 +152,10 @@ app.get("/", (req, res) => {
   return res.render("index");
 });
 app.get("/tumblrlikes", (req, res) => {
-  console.log(newLikes);
-  return res.render("tumblrlikes", { newLikes });
+  console.log(req.session.passport.user);
+  let tumblrlikes = req.session.passport.user;
+  //this is calling tumblr likes
+  return res.render("tumblrlikes", { tumblrlikes });
 });
 app.get("/login", (req, res) => {
   return res.render("index");
