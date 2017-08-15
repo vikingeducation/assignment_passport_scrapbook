@@ -7,41 +7,26 @@ const facebookStrategy = new FacebookStrategy(
     clientSecret: process.env.FACEBOOK_APP_SECRET,
     callbackURL: "http://localhost:3000/auth/facebook/callback",
     passReqToCallback: true,
-    profileFields: ['id', 'displayName', 'photos']
+    profileFields: ["id", "displayName", "user_photos"]
   },
-  function(req, accessToken, refreshToken, profile, done) {
+  async function(req, accessToken, refreshToken, profile, done) {
     console.log(profile);
-    const id = profile.id;
-    const name = profile.displayName;
-
-    if (req.user) {
-      req.user.facebook.id = id;
-      req.user.facebook.name = name;
-      req.user.facebook.accessToken = accessToken;
-      req.user.facebook.refreshToken = refreshToken;
-
-      req.user.save((err, user) => {
-        if (err) {
-          done(err);
-        } else {
-          done(null, user);
-        }
-      });
-    } else { 
-        User.findOne({ "facebook.id":id }, function(err, user) {
-        if (err) return done(err);
-
-        if (!user) {
-          // Create a new account if one doesn't exist
-          user = new User({ facebook: { id, name, accessToken, refreshToken } });
-          user.save((err, user) => {
-            err ? done(err) : done(null, user);
-          });
-        } else {
-          // Otherwise, return the extant user.
-          done(null, user);
-        }
-      });
+    const facebook = {
+      id: profile.id,
+      name: profile.displayName
+    };
+    try {
+      if (req.user) {
+        req.user.facebook = facebook;
+        const user = await req.user.save();
+        done(null, user);
+      } else {
+        let user = await User.findOne({ "facebook.id": profile.id });
+        user = user || (await User.create({ facebook }));
+        done(null, user);
+      }
+    } catch (error) {
+      done(error);
     }
   }
 );

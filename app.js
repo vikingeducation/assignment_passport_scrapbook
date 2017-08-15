@@ -67,9 +67,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(userId, done) {
-  User.findById(userId, (err, user) => {
-    done(err, user);
-  });
+  User.findById(userId, (err, user) => done(err, user));
 });
 
 passport.use("facebook", require("./strategies/facebook"));
@@ -85,7 +83,7 @@ app.use("/auth", require("./routes/auth")(passport));
 
 app.get("/", ensureAuthenticated, (req, res) => {
   console.log(req.user);
-  res.render("index", {user: req.user});
+  res.render("index", { user: req.user });
 });
 
 app.get("/login", (req, res) => {
