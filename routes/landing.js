@@ -5,11 +5,11 @@ router.get("/", (req, res) => {
 		return res.redirect("/");
 	}
 
-	const profile = req.user.profile;
+	const user = req.user;
 	console.log(req.user, "????");
 
 	return res.render("landing", {
-		profile
+		user
 	});
 });
 

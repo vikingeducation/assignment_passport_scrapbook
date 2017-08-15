@@ -5,6 +5,13 @@ const bodyParser = require("body-parser");
 const exphbs = require("express-handlebars");
 const session = require("express-session");
 
+const { User } = require("./models");
+const FacebookStrategy = require("passport-facebook");
+
+const passport = require("passport");
+
+const { authTools } = require("./auth");
+
 const app = express();
 if (process.env.NODE_ENV !== "production") {
 	require("dotenv").config();
@@ -54,12 +61,43 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
+//
+app.use(passport.initialize());
+app.use(passport.session());
+
+authTools.utilizePassport(passport, User);
+
+passport.serializeUser(function(user, done) {
+	done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+	User.findById(id, function(err, user) {
+		done(err, user);
+	});
+});
 
 // routes
 app.use("/", require("./routes/index"));
 app.use("/landing", require("./routes/landing"));
-app.use("/logout", require("./routes/logout"));
-app.use("/fb", require("./routes/fb"));
+
+// oauth routes
+app.get(
+	"/auth/facebook",
+	passport.authenticate("facebook", {
+		authType: "rerequest",
+		scope: ["public_profile"]
+	})
+);
+
+app.get(
+	"/auth/facebook/callback",
+	passport.authenticate("facebook", { failureRedirect: "/login" }),
+	function(req, res) {
+		// Successful authentication, redirect home.
+		res.redirect("/landing"); // test
+	}
+);
 
 // listen to server
 app.listen(3000, () => {

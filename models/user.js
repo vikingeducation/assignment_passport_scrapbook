@@ -5,9 +5,10 @@ const Schema = mongoose.Schema;
 
 // email, firstname, lastname, ids for each service
 
+// more id's per service
 const UserSchema = mongoose.Schema({
 	email: { type: String, required: true, unique: true },
-	serviceIds: [{ type: String, required: true, unique: true }]
+	facebookId: { type: String, unique: true }
 });
 
 UserSchema.plugin(uniqueValidator);
