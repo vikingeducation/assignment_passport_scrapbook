@@ -72,6 +72,7 @@ passport.deserializeUser(function(userId, done) {
 
 passport.use("facebook", require("./strategies/facebook"));
 passport.use("github", require("./strategies/github"));
+passport.use("twitter", require("./strategies/twitter"));
 
 // Authentication Middleware
 const ensureAuthenticated = (req, res, next) => {
