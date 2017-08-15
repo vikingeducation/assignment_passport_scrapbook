@@ -8,7 +8,8 @@ const Schema = mongoose.Schema;
 // more id's per service
 const UserSchema = mongoose.Schema({
 	email: { type: String, required: true, unique: true },
-	facebookId: { type: String, unique: true }
+	facebookId: { type: String, unique: true },
+	linkedinId: { type: String, unique: true }
 });
 
 UserSchema.plugin(uniqueValidator);

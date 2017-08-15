@@ -1,4 +1,5 @@
 
 module.exports = {
-  authTools: require("./facebook")
+  facebookTools: require("./facebook"),
+  linkedinTools: require("./linkedin")
 }

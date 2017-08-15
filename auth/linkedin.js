@@ -1,49 +1,47 @@
-const FacebookStrategy = require("passport-facebook");
+const LinkedinStrategy = require("passport-linkedin");
 
 module.exports = {
   utilizePassport: (passport, model) => {
     passport.use(
-      new FacebookStrategy(
+      new LinkedinStrategy(
         {
-          clientID: process.env.FACEBOOK_APP_ID,
-          clientSecret: process.env.FACEBOOK_APP_SECRET,
-          callbackURL: "http://localhost:3000/auth/facebook/callback",
-          profileFields: ["id", "displayName", "picture.type(large)", "email"],
+          consumerKey: process.env.LINKEDIN_APP_ID,
+          consumerSecret: process.env.LINKEDIN_APP_SECRET,
+          callbackURL: "http://localhost:3000/auth/linkedin/callback",
+          profileFields: ['id', 'first-name', 'last-name', 'email-address', 'headline'],
           passReqToCallback: true
         },
         function(req, accessToken, refreshToken, profile, done) {
-
           if (req.user) {
             req.user.save((err, user) => {
               if (err) {
                 done(err);
               } else {
+                req.user.profile = profile;
                 done(null, user);
               }
             });
             return;
           }
 
-          // console.log(profile);
           model.findOne(
             {
-              email: profile._json.email
+              email: profile._json.emailAddress
             },
             function(err, user) {
               if (err) return done(err);
 
               if (!user) {
-                const { email } = profile._json;
+                const { emailAddress } = profile._json;
                 const { id } = profile;
 
                 // Create a new account if one doesn't exist
-                user = new model({ email, facebookId: id });
+                user = new model({ email: emailAddress, linkedinId: id });
                 user.save((err, user) => {
                   if (err) return done(err);
                   done(null, user);
                 });
               } else {
-                console.log("here????");
                 // Otherwise, return the extant user.
                 done(null, user);
               }

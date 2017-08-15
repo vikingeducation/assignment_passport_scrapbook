@@ -1,5 +1,11 @@
 
 {{#if user}}
 	<h2>Your Facebook Email:</h2>
-	<h3>{{user.email}}</h3>
-{{/if}} 
+	<h3>{{profile.email}}</h3>
+	<h3>{{profile.displayName}}</h3>
+	{{#if profile.photos.length}}
+		{{#each profile.photos as |photoUrl|}}
+			<img src="{{photoUrl}}" />
+		{{/each}}
+	{{/if}}
+{{/if}}

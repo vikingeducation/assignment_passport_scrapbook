@@ -10,7 +10,7 @@ const FacebookStrategy = require("passport-facebook");
 
 const passport = require("passport");
 
-const { authTools } = require("./auth");
+const { facebookTools, linkedinTools } = require("./auth");
 
 const app = express();
 if (process.env.NODE_ENV !== "production") {
@@ -65,7 +65,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(passport.initialize());
 app.use(passport.session());
 
-authTools.utilizePassport(passport, User);
+facebookTools.utilizePassport(passport, User);
+linkedinTools.utilizePassport(passport, User);
+
 
 passport.serializeUser(function(user, done) {
 	done(null, user.id);
@@ -81,7 +83,7 @@ passport.deserializeUser(function(id, done) {
 app.use("/", require("./routes/index"));
 app.use("/landing", require("./routes/landing"));
 
-// oauth routes
+// Facebook Routes
 app.get(
 	"/auth/facebook",
 	passport.authenticate("facebook", {
@@ -93,6 +95,24 @@ app.get(
 app.get(
 	"/auth/facebook/callback",
 	passport.authenticate("facebook", { failureRedirect: "/login" }),
+	function(req, res) {
+		// Successful authentication, redirect home.
+		res.redirect("/landing"); // test
+	}
+);
+
+// Linkedin routes
+app.get(
+	"/auth/linkedin",
+	passport.authenticate("linkedin", {
+		authType: "rerequest",
+		scope: ['r_basicprofile', 'r_emailaddress'] 
+	})
+);
+
+app.get(
+	"/auth/linkedin/callback",
+	passport.authenticate("linkedin", { failureRedirect: "/login" }),
 	function(req, res) {
 		// Successful authentication, redirect home.
 		res.redirect("/landing"); // test
