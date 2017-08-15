@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const mongoose = require("mongoose");
+const Promise = require("bluebird")
+ mongoose.Promise = Promise
+
 
 // Requiring middleware
 const cookieParser = require('cookie-parser');
@@ -35,8 +39,15 @@ app.set('view engine', 'handlebars');
 
 // require Passport and the Local Strategy
 const passport = require('passport');
+
+
+
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+
+
 
 app.use('/', index);
 

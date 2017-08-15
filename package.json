@@ -19,6 +19,7 @@
 	"homepage": "https://github.com/drewdiddy611/assignment_passport_scrapbook#readme",
 	"dependencies": {
 		"bcrypt": "^1.0.2",
+		"bluebird": "^3.5.0",
 		"body-parser": "^1.17.2",
 		"cookie-parser": "^1.4.3",
 		"express": "^4.15.4",
