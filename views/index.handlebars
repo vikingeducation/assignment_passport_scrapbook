@@ -3,9 +3,9 @@
   <div class="panel panel-default">
     <div class="panel-heading">Passport Status</div>
     <ul class="list-group">
-      {{#if user.facebookId}}
+      {{#if user.facebook.id}}
       <li class="list-group-item">Facebook connected!
-        <img src="{{user.facebookPhoto}}" class="img-thumbnail">
+        <img src="{{user.facebook.photo}}" class="img-thumbnail">
       </li>
       {{else}}
       <li class="list-group-item"><a href="{{ facebookPath }}" class="btn btn-primary">Facebook</a></li>
@@ -27,12 +27,12 @@
 
 </section>
 
-{{#if user.facebookData}}
+{{#if user.facebook.data}}
 <section class="col-sm-6 col-md-4">
   <div class="panel panel-default">
     <div class="panel-heading">Facebook</div>
     <div class="panel-body">
-      {{#each user.facebookData as |data|}}
+      {{#each user.facebook.data as |data|}}
       <img src="{{data}}" class="img-thumbnail"> {{/each}}
     </div>
   </div>
