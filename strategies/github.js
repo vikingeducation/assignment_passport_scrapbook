@@ -17,7 +17,7 @@ const githubStrategy = new GithubStrategy(
       github.authenticate({ type: "oauth", token: accessToken });
       const githubOpts = {
         username: profile.username,
-        per_page: 5,
+        per_page: 10,
         sort: "updated"
       };
       let githubData = await github.repos.getForUser(githubOpts);

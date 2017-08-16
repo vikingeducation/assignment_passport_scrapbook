@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const h = require("../helpers");
 
 function authenticate(passport) {
   router.get("/facebook", passport.authenticate("facebook"));
@@ -8,7 +9,7 @@ function authenticate(passport) {
     "/facebook/callback",
     passport.authenticate("facebook", {
       successRedirect: "/",
-      failureRedirect: "/login",
+      failureRedirect: h.loginPath(),
       scope: ["user_photos"]
     })
   );
@@ -19,7 +20,7 @@ function authenticate(passport) {
     "/github/callback",
     passport.authenticate("github", {
       successRedirect: "/",
-      failureRedirect: "/login",
+      failureRedirect: h.loginPath(),
       scope: ["user:email"]
     })
   );
@@ -30,7 +31,7 @@ function authenticate(passport) {
     "/twitter/callback",
     passport.authenticate("twitter", {
       successRedirect: "/",
-      failureRedirect: "/login"
+      failureRedirect: h.loginPath()
     })
   );
 

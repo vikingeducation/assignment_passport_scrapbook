@@ -5,6 +5,7 @@ const UserSchema = mongoose.Schema({
   name: { type: String },
   facebookId: { type: String, unique: true },
   facebookPhoto: String,
+  facebookData: [{ type: String }],
   githubId: { type: String, unique: true },
   githubPhoto: String,
   githubData: [{ type: String }],

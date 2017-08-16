@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-
+const h = require("./helpers");
 const { User } = require("./models");
 
 // .env
@@ -77,7 +77,7 @@ passport.use("twitter", require("./strategies/twitter"));
 // Authentication Middleware
 const ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) next();
-  else res.redirect("/login");
+  else res.redirect(h.loginPath());
 };
 
 app.use((req, res, next) => {
@@ -94,6 +94,12 @@ app.get("/", ensureAuthenticated, (req, res) => {
 
 app.get("/login", (req, res) => {
   res.render("auth/login");
+});
+app.get("/logout", (req, res) => {
+  req.session.destroy(err => {
+    if (err) console.error(err);
+    res.redirect(h.loginPath());
+  });
 });
 
 // Set up port/host

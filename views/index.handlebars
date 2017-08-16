@@ -27,12 +27,13 @@
 
 </section>
 
-{{#if user.facebookPhoto}}
+{{#if user.facebookData}}
 <section class="col-sm-6 col-md-4">
   <div class="panel panel-default">
     <div class="panel-heading">Facebook</div>
     <div class="panel-body">
-      <img src="{{user.facebookPhoto}}" class="img-thumbnail">
+      {{#each user.facebookData as |data|}}
+      <img src="{{data}}" class="img-thumbnail"> {{/each}}
     </div>
   </div>
 </section>
