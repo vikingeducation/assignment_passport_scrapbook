@@ -1,0 +1,124 @@
+<div class="container">
+  <div class="row">
+
+    <div class="col-xs-9 col-xs-offset-1 panel panel-primary">
+      <div class="panel-heading">
+        <h3>Passport Status</h3>
+      </div>
+      <div class="panel-body">
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              {{#if user.facebookId}}
+                <td style="background:lightgreen;">
+                  <h4>Facebook</h4></td>
+              {{else}}
+                <td>
+                  <h4>Facebook</h4></td>
+                <td>
+                  <form action="/auth/facebook" method="get"><button class="btn btn-success">Connect</button></form>
+                </td>
+              {{/if}}
+            </tr>
+            <tr>
+              {{#if user.twitterId}}
+                <td style="background:lightgreen;">
+                  <h4>Twitter</h4></td>
+              {{else}}
+                <td>
+                  <h4>Twitter</h4></td>
+                <td>
+                  <form action="/auth/twitter" method="get"><button class="btn btn-success">Connect</button></form>
+                </td>
+              {{/if}}
+            </tr>
+            <tr>
+              {{#if user.githubId}}
+                <td style="background:lightgreen;">
+                  <h4>GitHub</h4></td>
+              {{else}}
+                <td>
+                  <h4>GitHub</h4></td>
+                <td>
+                  <form action="/auth/github" method="get"><button class="btn btn-success">Connect</button></form>
+                </td>
+              {{/if}}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {{#if user.facebookId}}
+      <div class="col-xs-4 col-xs-offset-1 panel panel-primary">
+        <div class="panel-heading">
+          <h3>Facebook</h3>
+        </div>
+        <div class="panel-body">
+          {{#each user.images as |image|}}
+            <img src="{{image.value}}" />
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
+
+    {{#if user.twitterId}}
+      <div class="col-xs-4 col-xs-offset-1 panel panel-primary">
+        <div class="panel-heading">
+          <h3>Twitter</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <thead>
+              <th>Field</th>
+              <th>Value</th>
+            </thead>
+            <tbody>
+          {{#each user.twitterImages as |image|}}
+            <tr>
+              <td>Image: </td>
+              <td><img src="{{image.value}}" /></td>
+            </tr>
+          {{/each}}
+          <tr>
+            <td>Location: </td>
+            <td>{{user.twitterLocation}}</td>
+          </tr>
+          <tr>
+            <td>Friends: </td>
+            <td>{{user.twitterFriendsCount}}</td>
+          </tr>
+          <tr>
+            <td>Statuses: </td>
+            <td>{{user.twitterStatusesCount}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+        </div>
+      </div>
+    {{/if}}
+
+    {{#if user.githubId}}
+      <div class="col-xs-4 col-xs-offset-1 panel panel-primary">
+        <div class="panel-heading">
+          <h3>GitHub</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <tbody>
+              {{#each repos as |repo|}}
+                <tr>
+                  <td>
+                    <h5><a href="http://www.github.com/{{../user.githubUsername}}/{{repo.name}}">{{repo.name}}</a></h5></td>
+                </tr>
+              {{/each}}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    {{/if}}
+  </div>
+</div>
