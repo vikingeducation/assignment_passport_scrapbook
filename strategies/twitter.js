@@ -29,11 +29,6 @@ const twitterStrategy = new TwitterStrategy(
       const twitterPhoto = profile.photos[0].value;
       const name = profile.displayName;
 
-      req.session.locals = req.session.locals || {};
-      req.session.locals.name = name;
-      req.session.locals.twitterPhoto = twitterPhoto;
-      req.session.locals.twitterData = twitterData;
-
       if (req.user) {
         req.user.twitterId = twitterId;
         req.user.twitterPhoto = twitterPhoto;

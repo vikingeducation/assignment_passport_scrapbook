@@ -26,11 +26,6 @@ const githubStrategy = new GithubStrategy(
       const githubPhoto = profile.photos[0].value;
       const name = profile.name || profile.displayName;
 
-      req.session.locals = req.session.locals || {};
-      req.session.locals.name = name;
-      req.session.locals.githubPhoto = githubPhoto;
-      req.session.locals.githubData = githubData;
-
       if (req.user) {
         req.user.githubId = githubId;
         req.user.githubPhoto = githubPhoto;

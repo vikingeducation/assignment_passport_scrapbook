@@ -15,10 +15,6 @@ const facebookStrategy = new FacebookStrategy(
       const facebookPhoto = profile.photos[0].value;
       const name = profile.displayName;
 
-      req.session.locals = req.session.locals || {};
-      req.session.locals.name = name;
-      req.session.locals.facebookPhoto = facebookPhoto;
-
       if (req.user) {
         req.user.facebookId = facebookId;
         req.user.facebookPhoto = facebookPhoto;
