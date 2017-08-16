@@ -10,34 +10,20 @@ module.exports = passport => {
         callbackURL:
           process.env.GITHUB_URI ||
           "http://localhost:3000/auth/github/callback",
-        profileFields: ["id", "displayName", "photos", "emails"]
+        profileFields: ["id", "displayName", "photos", "emails"],
+        passReqToCallback: true
       },
-      function(token, tokenSecret, profile, cb) {
+      function(req, token, tokenSecret, profile, cb) {
         console.log(profile);
         const githubId = profile.id;
         const displayName = profile.displayName;
         const githubImages = profile.photos;
         const githubReposUrl = profile._json.repos_url;
         const githubUsername = profile.username;
-        console.log(githubReposUrl);
-        User.findOne({ displayName }).then(user => {
-          if (!user) {
-            user = new User({
-              githubId,
-              displayName,
-              githubImages,
-              githubReposUrl,
-              githubUsername
-            });
-            user
-              .save()
-              .then(user => {
-                return cb(null, user);
-              })
-              .catch(e => {
-                if (e) throw e;
-              });
-          } else {
+        let _id;
+        if (req.user) {
+          _id = req.user._id;
+          User.findOne({ _id }).then(user => {
             user.githubId = githubId;
             user.githubImages = githubImages;
             user.githubReposUrl = githubReposUrl;
@@ -50,8 +36,41 @@ module.exports = passport => {
               .catch(e => {
                 if (e) throw e;
               });
-          }
-        });
+          });
+        } else {
+          User.findOne({ githubId }).then(user => {
+            if (!user) {
+              user = new User({
+                githubId,
+                displayName,
+                githubImages,
+                githubReposUrl,
+                githubUsername
+              });
+              user
+                .save()
+                .then(user => {
+                  return cb(null, user);
+                })
+                .catch(e => {
+                  if (e) throw e;
+                });
+            } else {
+              user.githubId = githubId;
+              user.githubImages = githubImages;
+              user.githubReposUrl = githubReposUrl;
+              user.githubUsername = githubUsername;
+              user
+                .save()
+                .then(user => {
+                  return cb(null, user);
+                })
+                .catch(e => {
+                  if (e) throw e;
+                });
+            }
+          });
+        }
       }
     )
   );

@@ -65,7 +65,7 @@ app.get(
   "/auth/facebook/callback",
   passport.authenticate("facebook", {
     authType: "reauthenticate",
-    scope: "email",
+    scope: ["email", "user_friends"],
     successRedirect: "/",
     failureRedirect: "/login"
   })
@@ -94,6 +94,11 @@ app.get(
 );
 
 app.get("/", (req, res) => {
+  res.redirect("/login");
+});
+
+app.get("/force", (req, res) => {
+  req.logout();
   res.redirect("/login");
 });
 

@@ -10,28 +10,18 @@ module.exports = passport => {
         callbackURL:
           process.env.FACEBOOK_URI ||
           "http://localhost:3000/auth/facebook/callback",
-        profileFields: ["id", "displayName", "photos", "emails"]
+        profileFields: ["id", "displayName", "photos", "emails"],
+        passReqToCallback: true
       },
-      function(accessToken, refreshToken, profile, done) {
+      function(req, accessToken, refreshToken, profile, done) {
         console.log(profile);
-        console.log(profile.emails);
         const facebookId = profile.id;
         const displayName = profile.displayName;
         const images = profile.photos;
-        User.findOne({ displayName }).then(user => {
-          if (!user) {
-            user = new User({ facebookId, displayName, images });
-            user
-              .save()
-              .then(user => {
-                return done(null, user);
-              })
-              .catch(e => {
-                if (e) {
-                  throw e;
-                }
-              });
-          } else {
+        let _id;
+        if (req.user) {
+          _id = req.user._id;
+          User.findOne({ _id: _id }).then(user => {
             user.facebookId = facebookId;
             user.images = images;
             user
@@ -44,8 +34,37 @@ module.exports = passport => {
                   throw e;
                 }
               });
-          }
-        });
+          });
+        } else {
+          User.findOne({ facebookId }).then(user => {
+            if (!user) {
+              user = new User({ facebookId, displayName, images });
+              user
+                .save()
+                .then(user => {
+                  return done(null, user);
+                })
+                .catch(e => {
+                  if (e) {
+                    throw e;
+                  }
+                });
+            } else {
+              user.facebookId = facebookId;
+              user.images = images;
+              user
+                .save()
+                .then(user => {
+                  return done(null, user);
+                })
+                .catch(e => {
+                  if (e) {
+                    throw e;
+                  }
+                });
+            }
+          });
+        }
       }
     )
   );

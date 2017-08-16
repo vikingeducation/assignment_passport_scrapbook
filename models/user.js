@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  email: String,
   displayName: String,
   facebookId: String,
   twitterId: String,
@@ -11,6 +10,10 @@ const UserSchema = new Schema({
   twitterImages: [],
   githubImages: [],
   githubUsername: String,
+  twitterLocation: String,
+  twitterDescription: String,
+  twitterFriendsCount: String,
+  twitterStatusesCount: String,
   images: []
 });
 
