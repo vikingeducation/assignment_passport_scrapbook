@@ -1,0 +1,54 @@
+THis is a webpage
+<h3>Login Plix Plox</h3>
+<a href="/auth/facebook">
+  <span class="btn btn-primary">
+    Login with Facebook
+  </span>
+</a>
+<a href="/auth/tumblr">
+  <span class="btn btn-primary">
+    Login with Tumblr
+  </span>
+</a>
+<a href="/auth/reddit">
+  <span class="btn btn-primary">
+    Login with Reddit
+  </span>
+</a>
+<hr>
+
+<!-- use panels for each section later  -->
+
+<!-- reddit -->
+<h3>Reddit</h3>
+{{#if redditUser}}
+  Reddit Page
+  <h3>Your comments</h3>
+  {{#each redditUser as |user|}}
+    <h5>You said:</h5>  {{ user.body }}
+    <h5>To :</h5> {{ user.link_title }}
+  {{/each}}
+{{/if}}
+<hr>
+<!-- tumblr -->
+<h3>Tumblr</h3>
+{{#if tumblrUser}}
+  {{#each tumblrUser as |like|}}
+  <p> I totes like {{like}}'s blog'</p>
+  {{/each}}
+{{/if}}
+<!-- fb -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ... -->
