@@ -1,0 +1,49 @@
+
+<div class="panel panel-default">
+
+  <div class="panel-heading">
+    <h3 class="panel-title">Passport Status</h3>
+  </div>
+  {{user}}
+  <div class="panel-body">
+  <ul class="list-group">
+    <li class="list-group-item">
+    {{#if user.github}}
+       <p> Logged in with Github</p>
+      {{else}}
+   <a href="/oauth/github">Github</a>
+    {{/if}}
+    </li>
+    <li class="list-group-item">
+    {{user.reddit}}
+    {{#if user.reddit}}
+       <p> Logged in with Reddit</p>
+      {{else}}
+   <a href="/oauth/reddit">Reddit</a>
+    {{/if}}
+    </li>
+    <li class="list-group-item">
+    {{#if user.stack}}
+       <p> Logged in with Stack</p>
+      {{else}}
+   <a href="/oauth/stack">Stack</a>
+    {{/if}}
+    </li>
+    <li class="list-group-item">
+    {{#if user.slack}}
+       <p> Logged in with Slack</p>
+      {{else}}
+   <a href="/oauth/slack">Slack</a>
+    {{/if}}
+    </li>
+    <li class="list-group-item">
+    {{#if user.spotify}}
+       <p> Logged in with Spotify</p>
+      {{else}}
+   <a href="/oauth/spotify">Spotify</a>
+    {{/if}}
+    </li>
+  </ul>
+
+  </div>
+</div>
