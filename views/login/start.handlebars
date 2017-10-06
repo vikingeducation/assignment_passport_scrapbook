@@ -1,0 +1,21 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3" style="text-align:center; margin-top:5em;">
+      <h4>Log In/Sign Up</h4>
+      <form action="/login" method="post" class="form-group-control">
+        <label class="form-control">Username:
+      <input type="text" name="username" style="width:65%;">
+      </label>
+      <br>
+      <label class="form-control">Password:
+        <input type="password" name="password" style="width:65%;">
+      </label>
+      <br>
+      {{#if error}}
+      <p class="text-danger">Incorrect Password</p>
+      {{/if}}
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+    </div>
+  </div>
+</div>
