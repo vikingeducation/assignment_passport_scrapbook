@@ -9,7 +9,7 @@
             </tr>
           </thead>
           <tbody>
-            {{#if user.facebookId}}
+            {{#if user.facebook.id}}
               <tr class="success">
                 <td colspan="2">Facebook</td>
               </tr>
@@ -19,7 +19,7 @@
               <td align="right"><a href="/auth/facebook"><button class="btn btn-success">Connect</button></a></td>
               </tr>
               {{/if}}
-              {{#if user.twitterId}}
+              {{#if user.twitter.id}}
               <tr class="success">
                 <td colspan="2">Twitter</td>
               </tr>
@@ -29,7 +29,7 @@
               <td align="right"><a href="/auth/twitter"><button class="btn btn-success">Connect</button></a></td>
             </tr>
             {{/if}}
-            {{#if user.spotifyId}}
+            {{#if user.spotify.id}}
             <tr class="success">
               <td colspan="2">Spotify</td>
             </tr>
@@ -39,7 +39,7 @@
               <td align="right"><a href="/auth/spotify"><button class="btn btn-success">Connect</button></a></td>
             </tr>
             {{/if}}
-            {{#if user.githubId}}
+            {{#if user.github.id}}
             <tr class="success">
               <td colspan="2">GitHub</td>
             </tr>
@@ -49,7 +49,7 @@
               <td align="right"><a href="/auth/github"><button class="btn btn-success">Connect</button></a></td>
             </tr>
             {{/if}}
-            {{#if user.twitchId}}
+            {{#if user.twitch.id}}
             <tr class="success">
               <td colspan="2">Twitch</td>
             </tr>

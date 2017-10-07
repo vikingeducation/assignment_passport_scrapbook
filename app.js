@@ -99,7 +99,11 @@ passport.use(
     function(req, accessToken, refreshToken, profile, done) {
       const facebookId = profile.id;
       if (req.user) {
-        req.user.facebookId = facebookId;
+        req.user.facebook = {
+          id: profile.id,
+          token: accessToken,
+          name: profile.displayName
+        };
         req.user.save((err, user) => {
           if (err) {
             done(err);
@@ -161,7 +165,12 @@ passport.use(
     function(req, token, tokenSecret, profile, cb) {
       const twitterId = profile.id;
       if (req.user) {
-        req.user.twitterId = twitterId;
+        req.user.twitter = {
+          id: profile.id,
+          token: token,
+          displayName: profile.displayName,
+          username: profile.username
+        };
         req.user.save((err, user) => {
           if (err) {
             cb(err);
@@ -224,7 +233,11 @@ passport.use(
     function(req, accessToken, refreshToken, profile, cb) {
       const spotifyId = profile.id;
       if (req.user) {
-        req.user.spotifyId = spotifyId;
+        req.user.spotify = {
+          id: profile.id,
+          token: accessToken,
+          username: profile.username
+        };
         req.user.save((err, user) => {
           if (err) {
             cb(err);
@@ -290,7 +303,11 @@ passport.use(
     function(req, accessToken, refreshToken, profile, cb) {
       const githubId = profile.id;
       if (req.user) {
-        req.user.githubId = githubId;
+        req.user.github = {
+          id: profile.id,
+          token: accessToken,
+          username: profile.username
+        };
         req.user.save((err, user) => {
           if (err) {
             cb(err);
@@ -356,9 +373,12 @@ passport.use(
     },
     function(req, accessToken, refreshToken, profile, cb) {
       const twitchId = profile.id;
-      console.log("$$$$$$$", twitchId);
       if (req.user) {
-        req.user.twitchId = twitchId;
+        req.user.twitch = {
+          id: profile.id,
+          token: accessToken,
+          username: profile.username
+        };
         req.user.save((err, user) => {
           if (err) {
             cb(err);
