@@ -169,7 +169,9 @@ passport.use(
           id: profile.id,
           token: token,
           displayName: profile.displayName,
-          username: profile.username
+          username: profile.username,
+          photos: profile.photos,
+          profileImage: profile._json.profile_image_url
         };
         req.user.save((err, user) => {
           if (err) {
@@ -236,7 +238,8 @@ passport.use(
         req.user.spotify = {
           id: profile.id,
           token: accessToken,
-          username: profile.username
+          username: profile.username,
+          profileUrl: profile.profileUrl
         };
         req.user.save((err, user) => {
           if (err) {
@@ -306,7 +309,9 @@ passport.use(
         req.user.github = {
           id: profile.id,
           token: accessToken,
-          username: profile.username
+          username: profile.username,
+          avatar: profile._json.avatar_url,
+          publicRepos: profile._json.public_repos
         };
         req.user.save((err, user) => {
           if (err) {
@@ -377,7 +382,8 @@ passport.use(
         req.user.twitch = {
           id: profile.id,
           token: accessToken,
-          username: profile.username
+          username: profile.username,
+          email: profile.email
         };
         req.user.save((err, user) => {
           if (err) {

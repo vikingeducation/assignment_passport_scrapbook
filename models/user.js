@@ -8,29 +8,34 @@ const UserSchema = mongoose.Schema({
   facebook: {
     id: { type: String, unique: true },
     token: { type: String, unique: true },
-    name: { type: String, unique: true },
-    username: { type: String, unique: true }
+    name: { type: String, unique: true }
   },
   twitter: {
     id: { type: String, unique: true },
     token: { type: String, unique: true },
     displayName: { type: String, unique: true },
-    username: { type: String, unique: true }
+    username: { type: String, unique: true },
+    photos: [{ value: { type: String } }],
+    profileImage: { type: String }
   },
   spotify: {
     id: { type: String, unique: true },
     token: { type: String, unique: true },
-    username: { type: String, unique: true }
+    username: { type: String, unique: true },
+    profileUrl: { type: String }
   },
   github: {
     id: { type: String, unique: true },
     token: { type: String, unique: true },
-    username: { type: String, unique: true }
+    username: { type: String, unique: true },
+    avatar: { type: String },
+    publicRepos: { type: Number }
   },
   twitch: {
     id: { type: String, unique: true },
     token: { type: String, unique: true },
-    username: { type: String, unique: true }
+    username: { type: String, unique: true },
+    email: { type: String }
   }
 });
 

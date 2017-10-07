@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-12">
-      <div class="col-sm-4 col-sm-offset-1">
+      <div class="col-sm-4">
         <table class="table table-bordered">
           <thead>
             <tr class="active">
@@ -62,6 +62,116 @@
           </tbody>
         </table>
       </div>
+      {{#if user.facebook}}
+      <div class="col-sm-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="active">
+              <th colspan="2">Facebook</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr class="success">
+                <td>Name:</td>
+                <td>{{user.facebook.name}}</td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+      {{/if}}
+      {{#if user.twitter}}
+      <div class="col-sm-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="active">
+              <th colspan="2">Twitter</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="success">
+              <td colspan="2"><img src="{{user.twitter.profileImage}}" style="height: 5em; width: 5em;"></td>
+            </tr>
+              <tr class="success">
+                <td>Display Name:</td>
+                <td>{{user.twitter.displayName}}</td>
+              </tr>
+              <tr class="success">
+                <td>Username:</td>
+                <td>{{user.twitter.username}}</td>
+              </tr>
+              {{#each user.twitter.photos as |photo|}}
+              <tr class="success">
+                <td colspan="2"><img src="{{photo.value}}" style="height: 5em; width:5em;"></td>
+              </tr>
+              {{/each}}
+          </tbody>
+        </table>
+      </div>
+      {{/if}}
+      {{#if user.spotify}}
+      <div class="col-sm-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="active">
+              <th colspan="2">Spotify</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr class="success">
+                <td>Username:</td>
+                <td>{{user.spotify.username}}</td>
+              </tr>
+              <tr class="success">
+                <td>Profile Link:</td>
+                <td><a href="{{user.spotify.profileUrl}}">{{user.spotify.profileUrl}}</a></td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+      {{/if}}
+      {{#if user.github}}
+      <div class="col-sm-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="active">
+              <th colspan="2">GitHub</th>
+            </tr>
+          </thead>
+          <tbody>
+            <td colspan="2"><img src="{{user.github.avatar}}" style="height: 5em; width: 5em;"></td>
+              <tr class="success">
+                <td>Username:</td>
+                <td>{{user.github.username}}</td>
+              </tr>
+              <tr class="success">
+                <td>Public Repos:</td>
+                <td>{{user.github.publicRepos}}</td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+      {{/if}}
+      {{#if user.twitch}}
+      <div class="col-sm-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="active">
+              <th colspan="2">Twitch</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr class="success">
+                <td>Username:</td>
+                <td>{{user.twitch.username}}</td>
+              </tr>
+              <tr class="success">
+                <td>Email:</td>
+                <td>{{user.twitch.email}}</td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+      {{/if}}
     </div>
   </div>
 </div>
