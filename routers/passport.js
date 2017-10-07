@@ -14,7 +14,9 @@ const {
 
 module.exports = app => {
   router.get("/", (req, res) => {
-    res.render("passport/start");
+    User.findById(req.user._id).then(user => {
+      res.render("passport/start", { user });
+    });
   });
   return router;
 };

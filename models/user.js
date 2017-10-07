@@ -4,7 +4,13 @@ var Schema = mongoose.Schema;
 
 const UserSchema = mongoose.Schema({
   username: { type: String, required: true, unique: true },
-  passwordHash: { type: String, required: true }
+  passwordHash: { type: String, required: true },
+  displayName: { type: String },
+  facebookId: { type: String, unique: true },
+  twitterId: { type: String, unique: true },
+  spotifyId: { type: String, unique: true },
+  githubId: { type: String, unique: true },
+  twitchId: { type: String, unique: true }
 });
 
 UserSchema.methods.validatePassword = function(password) {

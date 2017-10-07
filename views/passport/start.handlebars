@@ -1,1 +1,67 @@
-<p>test</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="col-sm-4 col-sm-offset-1">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="active">
+              <th colspan="2">Passport Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#if user.facebookId}}
+              <tr class="success">
+                <td colspan="2">Facebook</td>
+              </tr>
+              {{else}}
+              <tr>
+              <td>Facebook</td>
+              <td align="right"><a href="/auth/facebook"><button class="btn btn-success">Connect</button></a></td>
+              </tr>
+              {{/if}}
+              {{#if user.twitterId}}
+              <tr class="success">
+                <td colspan="2">Twitter</td>
+              </tr>
+              {{else}}
+            <tr>
+              <td>Twitter</td>
+              <td align="right"><a href="/auth/twitter"><button class="btn btn-success">Connect</button></a></td>
+            </tr>
+            {{/if}}
+            {{#if user.spotifyId}}
+            <tr class="success">
+              <td colspan="2">Spotify</td>
+            </tr>
+            {{else}}
+            <tr>
+              <td>Spotify</td>
+              <td align="right"><a href="/auth/spotify"><button class="btn btn-success">Connect</button></a></td>
+            </tr>
+            {{/if}}
+            {{#if user.githubId}}
+            <tr class="success">
+              <td colspan="2">GitHub</td>
+            </tr>
+            {{else}}
+            <tr>
+              <td>GitHub</td>
+              <td align="right"><a href="/auth/github"><button class="btn btn-success">Connect</button></a></td>
+            </tr>
+            {{/if}}
+            {{#if user.twitchId}}
+            <tr class="success">
+              <td colspan="2">Twitch</td>
+            </tr>
+            {{else}}
+            <tr>
+              <td>Twitch</td>
+              <td align="right"><a href="/auth/twitch"><button class="btn btn-success">Connect</button></a></td>
+            </tr>
+            {{/if}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
