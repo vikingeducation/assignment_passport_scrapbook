@@ -91,18 +91,22 @@ const FACEBOOK_APP_SECRET = process.env.FB_APP_SECRET;
 passport.use(
   new FacebookStrategy(
     {
-      clientID: FACEBOOK_APP_ID || "hi",
-      clientSecret: FACEBOOK_APP_SECRET || "no",
+      clientID: FACEBOOK_APP_ID,
+      clientSecret: FACEBOOK_APP_SECRET,
       callbackURL: "http://localhost:4000/auth/facebook/callback",
-      passReqToCallback: true
+      passReqToCallback: true,
+      profileFields: ["id", "displayName", "name", "gender", "photos"]
     },
     function(req, accessToken, refreshToken, profile, done) {
       const facebookId = profile.id;
+      console.log(profile._json.picture.data);
       if (req.user) {
         req.user.facebook = {
           id: profile.id,
           token: accessToken,
-          name: profile.displayName
+          name: profile._json.name,
+          gender: profile._json.gender,
+          photos: profile.photos[0].value
         };
         req.user.save((err, user) => {
           if (err) {
@@ -213,6 +217,7 @@ app.get(
   passport.authenticate("twitter", { failureRedirect: "/" }),
   function(req, res) {
     // Successful authentication, redirect home.
+    console.log(req.user);
     res.redirect("/passport");
   }
 );

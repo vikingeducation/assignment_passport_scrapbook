@@ -8,7 +8,9 @@ const UserSchema = mongoose.Schema({
   facebook: {
     id: { type: String, unique: true },
     token: { type: String, unique: true },
-    name: { type: String, unique: true }
+    name: { type: String, unique: true },
+    gender: { type: String },
+    photos: { type: String }
   },
   twitter: {
     id: { type: String, unique: true },
