@@ -51,9 +51,13 @@ app.use(methodOverride(getPostSupport.callback, getPostSupport.options));
 
 // Connect to Mongoose
 const mongoose = require("mongoose");
-app.use((req, res, next) => {
-  if (mongoose.connection.readyState) next();
-  else require("./mongo")().then(() => next());
+app.use(async (req, res, next) => {
+  try {
+    if (!mongoose.connection.readyState) await require("./mongo")();
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
 // Authentication Middleware
@@ -100,6 +104,12 @@ app.get("/logout", (req, res) => {
     if (err) console.error(err);
     res.redirect(h.loginPath());
   });
+});
+
+// Error Handler
+app.use((err, req, res, next) => {
+  console.error("Error: ", err.message);
+  res.status(500).render("error", { error: err.message });
 });
 
 // Set up port/host
