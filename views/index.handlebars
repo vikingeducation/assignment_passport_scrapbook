@@ -3,25 +3,24 @@
   <div class="panel panel-default">
     <div class="panel-heading">Passport Status</div>
     <ul class="list-group">
-      {{#if user.facebook.id}}
-      <li class="list-group-item">Facebook connected!
-        <img src="{{user.facebook.photo}}" class="img-thumbnail">
+      <li class="list-group-item">
+        {{#if user.facebook.id}} Facebook connected!
+        <img src="{{user.facebook.photo}}" class="img-thumbnail"> {{else}}
+        <a href="{{ facebookPath }}" class="btn btn-primary">Facebook</a>
+        {{/if}}
       </li>
-      {{else}}
-      <li class="list-group-item"><a href="{{ facebookPath }}" class="btn btn-primary">Facebook</a></li>
-      {{/if}} {{#if user.githubId}}
-      <li class="list-group-item">GitHub connected!
-        <img src="{{user.githubPhoto}}" class="img-thumbnail">
+      <li class="list-group-item">
+        {{#if user.github.id}} GitHub connected!
+        <img src="{{user.github.photo}}" class="img-thumbnail"> {{else}}
+        <a href="{{ githubPath }}" class="btn btn-primary">GitHub</a>
+        {{/if}}
       </li>
-      {{else}}
-      <li class="list-group-item"><a href="{{ githubPath }}" class="btn btn-primary">GitHub</a></li>
-      {{/if}} {{#if user.twitterId}}
-      <li class="list-group-item">Twitter connected!
-        <img src="{{user.twitterPhoto}}" class="img-thumbnail">
+      <li class="list-group-item">
+        {{#if user.twitter.id}} Twitter connected!
+        <img src="{{user.twitter.photo}}" class="img-thumbnail"> {{else}}
+        <a href="{{ twitterPath }}" class="btn btn-primary">Twitter</a>
+        {{/if}}
       </li>
-      {{else}}
-      <li class="list-group-item"><a href="{{ twitterPath }}" class="btn btn-primary">Twitter</a></li>
-      {{/if}}
     </ul>
   </div>
 
@@ -37,25 +36,25 @@
     </div>
   </div>
 </section>
-{{/if}} {{#if user.githubData}}
+{{/if}} {{#if user.github.data}}
 <section class="col-sm-6 col-md-4">
   <div class="panel panel-default">
     <div class="panel-heading">Github</div>
     <div class="panel-body">
       <ul>
-        {{#each user.githubData as |data|}}
+        {{#each user.github.data as |data|}}
         <li>{{data}}</li>
         {{/each}}
       </ul>
     </div>
   </div>
 </section>
-{{/if}} {{#if user.twitterData}}
+{{/if}} {{#if user.twitter.data}}
 <section class="col-sm-6 col-md-4">
   <div class="panel panel-default">
     <div class="panel-heading">Twitter</div>
     <div class="panel-body">
-      {{#each user.twitterData as |data|}}
+      {{#each user.twitter.data as |data|}}
       <li>{{data}}</li>
       {{/each}}
     </div>

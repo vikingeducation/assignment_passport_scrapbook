@@ -1,22 +1,23 @@
 const mongoose = require("mongoose");
-const uniqueValidator = require("mongoose-unique-validator");
 
 const UserSchema = mongoose.Schema({
   name: { type: String },
   facebook: {
-    id: { type: String, unique: true },
+    id: { type: String },
     photo: String,
     data: [{ type: String }]
   },
-  githubId: { type: String, unique: true },
-  githubPhoto: String,
-  githubData: [{ type: String }],
-  twitterId: { type: String, unique: true },
-  twitterPhoto: String,
-  twitterData: [{ type: String }]
+  github: {
+    id: { type: String },
+    photo: String,
+    data: [{ type: String }]
+  },
+  twitter: {
+    id: { type: String },
+    photo: String,
+    data: [{ type: String }]
+  }
 });
-
-UserSchema.plugin(uniqueValidator);
 
 const User = mongoose.model("User", UserSchema);
 

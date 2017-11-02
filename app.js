@@ -1,7 +1,5 @@
 const express = require("express");
 const app = express();
-const h = require("./helpers");
-const { User } = require("./models");
 
 // .env
 if (process.env.NODE_ENV !== "production") {
@@ -49,7 +47,7 @@ const methodOverride = require("method-override");
 const getPostSupport = require("express-method-override-get-post-support");
 app.use(methodOverride(getPostSupport.callback, getPostSupport.options));
 
-// Connect to Mongoose
+// Connect to the Database
 const mongoose = require("mongoose");
 app.use(async (req, res, next) => {
   try {
@@ -61,66 +59,22 @@ app.use(async (req, res, next) => {
 });
 
 // Authentication Middleware
-const passport = require("passport");
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.serializeUser(function(user, done) {
-  done(null, user._id);
-});
-
-passport.deserializeUser(function(userId, done) {
-  User.findById(userId, (err, user) => done(err, user));
-});
-
-passport.use("facebook", require("./strategies/facebook"));
-passport.use("github", require("./strategies/github"));
-passport.use("twitter", require("./strategies/twitter"));
-
-// Authentication Middleware
-const ensureAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) next();
-  else res.redirect(h.loginPath());
-};
-
-app.use((req, res, next) => {
-  res.locals.user = req.user;
-  next();
-});
+require("./passport")(app);
 
 // Routes
-app.use("/auth", require("./routes/auth")(passport));
-
-app.get("/", ensureAuthenticated, (req, res) => {
-  res.render("index");
-});
-
-app.get("/login", (req, res) => {
-  res.render("auth/login");
-});
-app.get("/logout", (req, res) => {
-  req.session.destroy(err => {
-    if (err) console.error(err);
-    res.redirect(h.loginPath());
-  });
-});
+app.use("/", require("./routes"));
 
 // Error Handler
 app.use((err, req, res, next) => {
-  console.error("Error: ", err.message);
-  res.status(500).render("error", { error: err.message });
+  console.error("Error: ", err);
+  res.status(500).render("error");
 });
 
 // Set up port/host
 const port = process.env.PORT || process.argv[2] || 3000;
 const host = "localhost";
-let args = process.env.NODE_ENV === "production" ? [port] : [port, host];
+const hi = () => console.log(`Listening: http://${host}:${port}`);
+let args = process.env.NODE_ENV === "production" ? [port] : [port, host, hi];
 
-// helpful log when the server starts
-args.push(() => {
-  console.log(`Listening: http://${host}:${port}`);
-});
-
-// Use apply to pass the args to listen
-app.listen.apply(app, args);
+// Fire it up!
+app.listen(...args);
