@@ -7,15 +7,6 @@ var User = mongoose.model("User");
 
 const passport = require("passport");
 
-// home page
-router.get("/", (req, res) => {
-	if (req.user) {
-		res.render("home", { user: req.user });
-	} else {
-		res.redirect("/login");
-	}
-});
-
 // login view
 router.get("/login", (req, res) => {
 	res.render("login");
@@ -55,7 +46,7 @@ router.post("/register", (req, res, next) => {
 	});
 });
 
-app.post("/profile", (req, res) => {
+router.post("/profile", (req, res) => {
 	const { password, username } = req.body;
 	const user = req.user;
 	console.log(user);

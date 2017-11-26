@@ -1,3 +1,4 @@
+require("dotenv").config();
 const app = require("express")();
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
@@ -84,6 +85,9 @@ app.set("view engine", "handlebars");
 // routes
 var loginRouter = require("./routers/login");
 app.use("/", loginRouter);
+
+var authRouter = require("./routers/auth");
+app.use("/", authRouter);
 
 // Start our app
 app.listen(3000, () => console.log("listening"));
