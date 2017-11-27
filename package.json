@@ -28,6 +28,7 @@
     "express-handlebars": "^3.0.0",
     "express-method-override-get-post-support": "^1.0.0",
     "express-session": "^1.15.6",
+    "fb": "^2.0.0",
     "method-override": "^2.3.10",
     "mongoose": "^4.13.5",
     "mongoose-unique-validator": "^1.0.6",
@@ -35,6 +36,7 @@
     "morgan-toolkit": "^1.0.2",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4"
   }
 }

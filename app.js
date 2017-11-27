@@ -89,5 +89,13 @@ app.use("/", loginRouter);
 var authRouter = require("./routers/auth");
 app.use("/", authRouter);
 
+// facebook strategy
+var FacebookStrategy = require("./strategies/facebook");
+passport.use(FacebookStrategy);
+
+// twitter strategy
+var TwitterStrategy = require("./strategies/twitter");
+passport.use(TwitterStrategy);
+
 // Start our app
 app.listen(3000, () => console.log("listening"));

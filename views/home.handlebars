@@ -30,7 +30,7 @@
       </div>
       <div class="card-body">
         <ul class="list-group list-group-flush">
-            {{#if photos}}
+            {{#if user.photos}}
               <li class="list-group-item bg-success text-white">
                 Facebook
               </li>
@@ -70,6 +70,21 @@
 </div>
 <br>
 <br>
+
+<div class="row">
+
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-header">
+        Facebook stuff
+      </div>
+      <div class="card-body">
+        <img src="{{user.photos}}" alt="">
+      </div>
+    </div>
+  </div>
+
+</div>
 
 
 
