@@ -97,5 +97,9 @@ passport.use(FacebookStrategy);
 var TwitterStrategy = require("./strategies/twitter");
 passport.use(TwitterStrategy);
 
+// github strategy
+var GithubStrategy = require("./strategies/github");
+passport.use(GithubStrategy);
+
 // Start our app
 app.listen(3000, () => console.log("listening"));

@@ -1,4 +1,6 @@
 const Twitter = require("twitter");
+const Github = require("github");
+const github = new Github({ Promise: require("bluebird") });
 
 const api = {};
 
@@ -17,6 +19,19 @@ api.getSomeTweets = async req => {
 
 	return favTweets.map(el => ({ name: el.user.screen_name, text: el.text }));
 	// console.log("favTweets", JSON.stringify(favTweets, 0, 2));
+};
+
+// github stuff
+api.getRepos = async req => {
+	await github.authenticate({ type: "oauth", token: req.user.githubToken });
+	var userrepos = await github.repos.getForUser({
+		username: req.user.githubUsername,
+		sort: "created",
+		per_page: 6
+	});
+	console.log("userrepos", JSON.stringify(userrepos, 0, 2));
+
+	return userrepos.data.map(el => el.name);
 };
 
 module.exports = api;

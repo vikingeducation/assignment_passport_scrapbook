@@ -10,7 +10,10 @@ const UserSchema = mongoose.Schema({
 	photos: { type: String },
 	twitterId: String,
 	twitterToken: String,
-	twitterTokenSecret: String
+	twitterTokenSecret: String,
+	githubID: String,
+	githubToken: String,
+	githubUsername: String
 });
 
 UserSchema.plugin(uniqueValidator);

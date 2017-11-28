@@ -13,7 +13,10 @@ router.get("/", async (req, res) => {
 		if (req.user.twitterId) {
 			var tweets = await api.getSomeTweets(req);
 		}
-		res.render("home", { user: req.user, tweets: tweets });
+		if (req.user.githubUsername) {
+			var repos = await api.getRepos(req);
+		}
+		res.render("home", { user: req.user, tweets: tweets, repos: repos });
 	} else {
 		res.redirect("/login");
 	}
@@ -40,22 +43,14 @@ router.get(
 	})
 );
 
-// router.get("/auth/facebook/callback", (req, res, next) => {
-// 	passport.authenticate(
-// 		"facebook",
-// 		{
-// 			successRedirect: "/",
-// 			failureRedirect: "/login"
-// 		},
-// 		(err, user, info) => {
-// 			if (err) {
-// 				console.error(err);
-// 				res.redirect("/login");
-// 			} else {
-// 				next();
-// 			}
-// 		}
-// 	)(req, res, next);
-// });
+router.get("/auth/github", passport.authenticate("github"));
+
+router.get(
+	"/auth/github/callback",
+	passport.authenticate("github", {
+		successRedirect: "/",
+		failureRedirect: "/login"
+	})
+);
 
 module.exports = router;
