@@ -84,6 +84,21 @@
     </div>
   </div>
 
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-header">
+        Twitter Tweets
+      </div>
+      <div class="card-body">
+        {{#each tweets as |tweet|}}
+          <h6>{{tweet.name}}</h6>
+          <p>{{tweet.text}}</p>
+          <hr>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
 </div>
 
 

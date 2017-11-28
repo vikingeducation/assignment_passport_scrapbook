@@ -5,10 +5,15 @@ const passport = require("passport");
 
 const FB = require("fb");
 
+const api = require("./../services/api");
+
 // home page
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
 	if (req.user) {
-		res.render("home", { user: req.user });
+		if (req.user.twitterId) {
+			var tweets = await api.getSomeTweets(req);
+		}
+		res.render("home", { user: req.user, tweets: tweets });
 	} else {
 		res.redirect("/login");
 	}

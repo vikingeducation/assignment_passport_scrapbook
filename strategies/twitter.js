@@ -12,7 +12,7 @@ module.exports = new TwitterStrategy(
 		passReqToCallback: true
 	},
 	function(req, token, tokenSecret, profile, done) {
-		console.log("profile", JSON.stringify(profile, 0, 2));
+		// console.log("profile", JSON.stringify(profile, 0, 2));
 		const twitterId = profile.id;
 		if (req.user) {
 			req.user.twitterId = twitterId;
@@ -28,7 +28,7 @@ module.exports = new TwitterStrategy(
 		} else {
 			User.findOne({ twitterId }, function(err, user) {
 				if (err) {
-					console.log("here one", err);
+					console.log(err);
 					return done(err);
 				}
 				console.log("H", user);
