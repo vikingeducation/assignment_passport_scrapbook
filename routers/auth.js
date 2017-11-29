@@ -16,6 +16,9 @@ router.get("/", async (req, res) => {
 		if (req.user.githubUsername) {
 			var repos = await api.getRepos(req);
 		}
+		if (req.user.facebookId) {
+			var photos = await api.getFbPhotos(req);
+		}
 		res.render("home", { user: req.user, tweets: tweets, repos: repos });
 	} else {
 		res.redirect("/login");

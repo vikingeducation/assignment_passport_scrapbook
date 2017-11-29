@@ -1,6 +1,7 @@
 const Twitter = require("twitter");
 const Github = require("github");
 const github = new Github({ Promise: require("bluebird") });
+const FB = require("fb");
 
 const api = {};
 
@@ -29,9 +30,20 @@ api.getRepos = async req => {
 		sort: "created",
 		per_page: 6
 	});
-	console.log("userrepos", JSON.stringify(userrepos, 0, 2));
+	// console.log("userrepos", JSON.stringify(userrepos, 0, 2));
 
 	return userrepos.data.map(el => el.name);
+};
+
+// Facebook Stuff
+api.getFbPhotos = async req => {
+	// const options = FB.options({ accessToken: req.user.facebookToken });
+	// var fb = new FB.Facebook(options);
+	var photos = await FB.api("me/photos", {
+		fields: "picture",
+		access_token: req.user.facebookToken
+	});
+	console.log("photos", JSON.stringify(photos, 0, 2));
 };
 
 module.exports = api;
