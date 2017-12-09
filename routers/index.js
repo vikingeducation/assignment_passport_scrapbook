@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const GoogleService = require('../services/google_service');
+const { loggedInOnly, loggedOutOnly} = require('../services/session');
 
-router.get('/', (req, res) => {
+router.get('/', loggedInOnly, (req, res) => {
   const apiData = {};
   GoogleService.getCalendarEvents(res.locals.currentUser)
     .then(events => {
@@ -12,7 +13,7 @@ router.get('/', (req, res) => {
     .catch(e => res.status(500).send(e.stack));
 });
 
-router.get('/login', (req, res) => {
+router.get('/login', loggedOutOnly, (req, res) => {
   res.render('login');
 });
 

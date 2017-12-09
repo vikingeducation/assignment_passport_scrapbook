@@ -72,9 +72,8 @@ require('./lib/passport_strategies');
 
 
 // Session Services
-const { setCurrentUser, redirectNotLoggedIn } = require('./services/session');
+const { setCurrentUser } = require('./services/session');
 app.use(setCurrentUser);
-app.use(redirectNotLoggedIn);
 
 
 // Routes
