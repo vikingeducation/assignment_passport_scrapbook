@@ -1,9 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const GoogleService = require('../services/google_service');
 
 router.get('/', (req, res) => {
-  let user = "Aaron";
-  res.render('home', { user });
+  const apiData = {};
+  GoogleService.getCalendarEvents(res.locals.currentUser)
+    .then(events => {
+      apiData.calendarEvents = events;
+      res.render('home', { apiData });
+    })
+    .catch(e => res.status(500).send(e.stack));
 });
 
 router.get('/login', (req, res) => {

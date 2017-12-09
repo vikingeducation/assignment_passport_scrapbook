@@ -1,1 +1,20 @@
-<h1>Hello, {{currentUser.googleDisplayName}}!</h1>
+<h3 class="text-center">Welcome, {{displayName currentUser}}!</h3>
+{{> partials/_passport_status}}
+
+{{#if (any apiData.calendarEvents)}}
+  <div class="col-sm-8" id="main-content">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading"><i class="fa fa-google" aria-hidden="true"></i> Google Calendar</div>
+        <div class="panel-body">
+          {{#each apiData.calendarEvents as |event|}}
+            <div>
+              <p>{{displayDate event.start.dateTime}} - {{event.summary}} at {{event.location}}</p>
+            </div>
+            {{#unless @last}}<hr>{{/unless}}
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+{{/if}}

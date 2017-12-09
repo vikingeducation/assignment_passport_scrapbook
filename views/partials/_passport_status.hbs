@@ -1,0 +1,60 @@
+<div class="col-sm-4" id="passport-status-list">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Passport Status</h3>
+      </div>
+      <ul class="list-group">
+        {{#if currentUser.googleId}}
+          <li class="list-group-item list-group-item-success">
+            Google
+          </li>
+        {{else}}
+          <li class="list-group-item">
+            Google <span class="pull-right"><a href="#" class="btn btn-xs btn-success">Connect</a></span>
+          </li>
+        {{/if}}
+
+        {{#if currentUser.githubId}}
+          <li class="list-group-item list-group-item-success">
+            Github
+          </li>
+        {{else}}
+          <li class="list-group-item">
+            Github <span class="pull-right"><a href="#" class="btn btn-xs btn-success">Connect</a></span>
+          </li>
+        {{/if}}
+
+        {{#if currentUser.linkedinId}}
+          <li class="list-group-item list-group-item-success">
+            LinkedIn
+          </li>
+        {{else}}
+          <li class="list-group-item">
+            LinkedIn <span class="pull-right"><a href="#" class="btn btn-xs btn-success">Connect</a></span>
+          </li>
+        {{/if}}
+
+        {{#if currentUser.instagramId}}
+          <li class="list-group-item list-group-item-success">
+            Instagram
+          </li>
+        {{else}}
+          <li class="list-group-item">
+            Instagram <span class="pull-right"><a href="#" class="btn btn-xs btn-success">Connect</a></span>
+          </li>
+        {{/if}}
+
+        {{#if currentUser.twitterId}}
+          <li class="list-group-item list-group-item-success">
+            Twitter
+          </li>
+        {{else}}
+          <li class="list-group-item">
+            Twitter <span class="pull-right"><a href="#" class="btn btn-xs btn-success">Connect</a></span>
+          </li>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+</div>

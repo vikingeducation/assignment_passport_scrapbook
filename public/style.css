@@ -3,80 +3,10 @@
 }
 
 #login-buttons {
-  text-align: center;
+  width: 250px;
   margin-top: 30px;
 }
 
-/* Social Buttons Style */
-.btn-si {
-  background-position: 1em;
-  background-repeat: no-repeat;
-  background-size: 2em;
-  border-radius: 0.5em;
-  border: none;
-  color: white;
-  cursor: pointer;
-  font-size: 1em;
-  height: 4em;
-  line-height: 1em;
-  padding: 0 2em 0 4em;
-  text-decoration: none;
-  transition: all 0.5s;
+.panel-heading .fa {
+  margin-right: 20px;
 }
-
-.btn-google {
-  background-color: #dd4b39;
-  background-image: url("http://vagnersantana.com/social-signin-btns/img/google.svg"); }
-  .btn-google:hover {
-    background-color: #e47365; }
-  .btn-google:active {
-    background-color: #c23321; }
-
-.btn-github {
-  background-color: #2a2a2a;
-  background-image: url("http://vagnersantana.com/social-signin-btns/img/github.svg"); }
-  .btn-github:hover {
-    background-color: #444444; }
-  .btn-github:active {
-    background-color: #101010; }
-
-.btn-instagram {
-  background-color: #906248;
-  background-image: url("http://vagnersantana.com/social-signin-btns/img/instagram.svg"); }
-  .btn-instagram:hover {
-    background-color: #ae7a5d; }
-  .btn-instagram:active {
-    background-color: #6e4b37; }
-
-.btn-linkedin {
-  background-color: #0b5ea3;
-  background-image: url("http://vagnersantana.com/social-signin-btns/img/linkedin.svg"); }
-  .btn-linkedin:hover {
-    background-color: #0e7ad3; }
-  .btn-linkedin:active {
-    background-color: #084273; }
-
-.btn-slack {
-  background-color: #48dab7;
-  background-position: left;
-  background-size: inherit;
-  background-image: url("images/slack.svg"); }
-  .btn-slack:hover {
-    background-color: #70E7C9; }
-  .btn-slack:active {
-    background-color: #26CBA2; }
-
-.btn-si-a {
-  display: block;
-  width: 220px;
-  margin: 0 auto 20px auto;
-  padding: 15px 15px 15px 55px !important;
-  font-family: arial; }
-
-a.btn-si:hover, a.btn-si:focus, a.btn-si:active { color: #fff !important; text-decoration: none !important; }
-
-span.button-text {
-  position: relative;
-  top: 6px;
-}
-

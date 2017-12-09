@@ -1,12 +1,31 @@
 const mongoose = require("mongoose");
-const uniqueValidator = require("mongoose-unique-validator");
 
 const UserSchema = mongoose.Schema({
-  googleDisplayName: { type: String, required: true },
-  googleId: { type: String, require: true, unique: true }
-});
+  googleDisplayName: { type: String },
+  googleId: { type: String },
+  googleAccessToken: { type: String },
+  googleRefreshToken: { type: String },
 
-UserSchema.plugin(uniqueValidator);
+  githubDisplayName: { type: String },
+  githubId: { type: String },
+  githubAccessToken: { type: String },
+  githubRefreshToken: { type: String },
+
+  linkedinDisplayName: { type: String },
+  linkedinId: { type: String },
+  linkedinAccessToken: { type: String },
+  linkedinRefreshToken: { type: String },
+
+  instagramDisplayName: { type: String },
+  instagramId: { type: String },
+  instagramAccessToken: { type: String },
+  instagramRefreshToken: { type: String },
+
+  twitterDisplayName: { type: String },
+  twitterId: { type: String },
+  twitterAccessToken: { type: String },
+  twitterTokenSecret: { type: String }
+});
 
 const User = mongoose.model("User", UserSchema);
 

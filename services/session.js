@@ -10,8 +10,8 @@ const setCurrentUser = (req, res, next) => {
 const redirectNotLoggedIn = (req, res, next) => {
   if (!req.user && req.url !== '/login' && !req.url.startsWith('/auth')) {
     res.redirect("/login");
-  } else if (req.user && (req.url === '/login' || req.url.startsWith('/auth'))) {
-    res.redirect("/home");
+  } else if (req.user && (req.url == '/login' || req.url.startsWith('/auth'))) {
+    res.redirect('/');
   } else {
     next();
   }
