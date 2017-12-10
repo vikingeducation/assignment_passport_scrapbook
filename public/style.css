@@ -1,0 +1,55 @@
+.navbar-header {
+  width: 100%;
+}
+
+#login-buttons {
+  width: 250px;
+  margin-top: 30px;
+}
+
+a.btn.btn-block.btn-social {
+  margin-bottom: 15px;
+}
+
+.panel-heading .fa {
+  margin-right: 20px;
+  font-size: 1.7em;
+}
+
+span.center-panel-text {
+  position: relative;
+  top: -2px;
+}
+
+.panel-heading#google {
+  color: #fff !important;
+  background: #c23321;
+}
+
+.panel-heading#github {
+  color: #fff !important;
+  background: #2b2b2b;
+}
+
+.panel-heading#linkedin {
+  color: #fff !important;
+  background: #005983;
+}
+
+.panel-heading#instagram {
+  color: #fff !important;
+  background: #305777;
+}
+
+.panel-heading#twitter {
+  color: #fff !important;
+  background: #2795e9;
+}
+
+.panel-body dt {
+  width: 90px !important;
+}
+
+.panel-body dd {
+  margin-left: 110px !important;
+}

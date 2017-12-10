@@ -1,0 +1,60 @@
+<div class="col-sm-4" id="passport-status-list">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Passport Status</h3>
+      </div>
+      <ul class="list-group">
+        {{#if currentUser.googleId}}
+          <li class="list-group-item list-group-item-success">
+            Google <span class="pull-right"><i class="fa fa-check" aria-hidden="true"></i></span>
+          </li>
+        {{else}}
+          <li class="list-group-item">
+            Google <span class="pull-right"><a href="/auth/google" class="btn btn-xs btn-success">Connect</a></span>
+          </li>
+        {{/if}}
+
+        {{#if currentUser.githubId}}
+          <li class="list-group-item list-group-item-success">
+            Github <span class="pull-right"><i class="fa fa-check" aria-hidden="true"></i></span>
+          </li>
+        {{else}}
+          <li class="list-group-item">
+            Github <span class="pull-right"><a href="/auth/github" class="btn btn-xs btn-success">Connect</a></span>
+          </li>
+        {{/if}}
+
+        {{#if currentUser.linkedinId}}
+          <li class="list-group-item list-group-item-success">
+            LinkedIn <span class="pull-right"><i class="fa fa-check" aria-hidden="true"></i></span>
+          </li>
+        {{else}}
+          <li class="list-group-item">
+            LinkedIn <span class="pull-right"><a href="/auth/linkedin" class="btn btn-xs btn-success">Connect</a></span>
+          </li>
+        {{/if}}
+
+        {{#if currentUser.instagramId}}
+          <li class="list-group-item list-group-item-success">
+            Instagram <span class="pull-right"><i class="fa fa-check" aria-hidden="true"></i></span>
+          </li>
+        {{else}}
+          <li class="list-group-item">
+            Instagram <span class="pull-right"><a href="/auth/instagram" class="btn btn-xs btn-success">Connect</a></span>
+          </li>
+        {{/if}}
+
+        {{#if currentUser.twitterId}}
+          <li class="list-group-item list-group-item-success">
+            Twitter <span class="pull-right"><i class="fa fa-check" aria-hidden="true"></i></span>
+          </li>
+        {{else}}
+          <li class="list-group-item">
+            Twitter <span class="pull-right"><a href="/auth/twitter" class="btn btn-xs btn-success">Connect</a></span>
+          </li>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+</div>
