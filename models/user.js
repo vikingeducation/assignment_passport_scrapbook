@@ -10,6 +10,7 @@ const UserSchema = mongoose.Schema({
   githubId: { type: String },
   githubAccessToken: { type: String },
   githubRefreshToken: { type: String },
+  githubUsername: { type: String },
 
   linkedinDisplayName: { type: String },
   linkedinId: { type: String },

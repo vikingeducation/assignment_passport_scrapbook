@@ -1,11 +1,12 @@
 <h3 class="text-center">Welcome, {{displayName currentUser}}!</h3>
+<hr>
 {{> partials/_passport_status}}
 
-{{#if (any apiData.calendarEvents)}}
-  <div class="col-sm-8" id="main-content">
+<div class="col-sm-8" id="main-content">
+  {{#if (any apiData.calendarEvents)}}
     <div class="col-sm-12">
       <div class="panel panel-default">
-        <div class="panel-heading"><i class="fa fa-google" aria-hidden="true"></i> Google Calendar</div>
+        <div class="panel-heading" id="google"><i class="fa fa-google" aria-hidden="true"></i> <span class="center-panel-text">Google Calendar</span></div>
         <div class="panel-body">
           {{#each apiData.calendarEvents as |event|}}
             <div>
@@ -16,5 +17,45 @@
         </div>
       </div>
     </div>
-  </div>
-{{/if}}
+  {{/if}}
+
+  {{#if (any apiData.githubRepos.data)}}
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading" id="github"><i class="fa fa-github" aria-hidden="true"></i> <span class="center-panel-text">Github Repos</span></div>
+        <div class="panel-body">
+          {{#each apiData.githubRepos.data as |repo|}}
+            <div>
+              <p>{{repo.name}} <a href="{{repo.html_url}}"><small>view</small></a></p>
+            </div>
+            {{#unless @last}}<hr>{{/unless}}
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  {{/if}}
+
+  {{#if apiData.linkedinProfile}}
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading" id="linkedin"><i class="fa fa-linkedin" aria-hidden="true"></i> <span class="center-panel-text">LinkedIn Profile</span></div>
+        <div class="panel-body">
+          <img src="{{apiData.linkedinProfile.pictureUrl}}">
+          <div class="dl dl-horizontal">
+            <dt>Email:</dt>
+            <dd>{{apiData.linkedinProfile.emailAddress}}</dd>
+
+            <dt>Position:</dt>
+            <dd>{{apiData.linkedinProfile.headline}}</dd>
+
+            <dt>Location:</dt>
+            <dd>{{apiData.linkedinProfile.location.name}}</dd>
+
+            <dt>Profile Link:</dt>
+            <dd><a href="{{apiData.linkedinProfile.publicProfileUrl}}">{{apiData.linkedinProfile.publicProfileUrl}}</a></dd>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/if}}
+</div>
