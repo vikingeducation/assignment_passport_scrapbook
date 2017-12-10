@@ -58,4 +58,34 @@
       </div>
     </div>
   {{/if}}
+
+  {{#if (any apiData.instagramFeed.data)}}
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading" id="instagram"><i class="fa fa-instagram" aria-hidden="true"></i> <span class="center-panel-text">Instagram Feed</span></div>
+        <div class="panel-body">
+          {{#each apiData.instagramFeed.data as |post|}}
+            <a class="group" rel="group1" href="{{post.images.standard_resolution.url}}"><img src="{{post.images.thumbnail.url}}"></a>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  {{/if}}
+
+  {{#if (any apiData.tweets)}}
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading" id="twitter"><i class="fa fa-twitter" aria-hidden="true"></i> <span class="center-panel-text">Twitter Feed</span></div>
+        <div class="panel-body">
+          {{#each apiData.tweets as |tweet|}}
+            <div>
+              <p>{{tweet.text}}</p>
+              <p><img src="{{tweet.user.profile_image_url}}"><b> {{tweet.user.name}}</b></p>
+            </div>
+            {{#unless @last}}<hr>{{/unless}}
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  {{/if}}
 </div>
