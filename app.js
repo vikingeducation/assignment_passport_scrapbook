@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
-const User = require('./models/user');
+const passport = require("passport");
+app.use(passport.initialize());
+// app.use(passport.session());
+const User = require("./models/user");
 
 // ----------------------------------------
 // App Variables
@@ -34,9 +37,22 @@ app.use(
   })
 );
 
+// ----------------------------------------
+// Mongoose
+// ----------------------------------------
+
+// app.use((req, res, next) => {
+//   res.locals.session = req.session;
+//   next();
+// });
+
+const mongoose = require("mongoose");
 app.use((req, res, next) => {
-  res.locals.session = req.session;
-  next();
+  if (mongoose.connection.readyState) {
+    next();
+  } else {
+    require("./mongo")().then(() => next());
+  }
 });
 
 // ----------------------------------------
@@ -84,9 +100,9 @@ app.use(morganToolkit());
 // ----------------------------------------
 // Routes
 // ----------------------------------------
-const index = require('./routers/index');
+const index = require("./routers/index");
 
-app.use('/', index);
+app.use("/", index);
 
 // ----------------------------------------
 // Template Engine
@@ -138,7 +154,6 @@ app.use((err, req, res, next) => {
 // Facebook Authentication
 // ----------------------------------------
 const FacebookStrategy = require("passport-facebook").Strategy;
-const passport = require("passport");
 
 passport.use(
   new FacebookStrategy(
@@ -150,12 +165,13 @@ passport.use(
     function(accessToken, refreshToken, profile, done) {
       const facebookId = profile.id;
       const displayName = profile.displayName;
-
       console.log(profile);
       User.findOne({ facebookId }, function(err, user) {
+        console.log("inside find query");
         if (err) return done(err);
 
         if (!user) {
+          console.log("!user");
           // Create a new account if one doesn't exist
           user = new User({ facebookId, displayName });
           user.save((err, user) => {
@@ -164,12 +180,23 @@ passport.use(
           });
         } else {
           // Otherwise, return the extant user.
+          console.log("else");
           done(null, user);
         }
       });
     }
   )
 );
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
 
 app.get("/auth/facebook", passport.authenticate("facebook"));
 
