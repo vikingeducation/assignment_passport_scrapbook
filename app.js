@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const User = require('./models/user');
 
 // ----------------------------------------
 // App Variables
@@ -144,7 +145,7 @@ passport.use(
     {
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
-      callbackURL: "http://localhost:4000/auth/facebook/callback"
+      callbackURL: "http://localhost:3000/auth/facebook/callback"
     },
     function(accessToken, refreshToken, profile, done) {
       const facebookId = profile.id;
