@@ -160,7 +160,19 @@ passport.use(
     {
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
-      callbackURL: "http://localhost:3000/auth/facebook/callback"
+      callbackURL: "http://localhost:3000/auth/facebook/callback",
+      profileFields: [
+        "id",
+        "displayName",
+        "email",
+        "birthday",
+        "friends",
+        "first_name",
+        "last_name",
+        "middle_name",
+        "gender",
+        "link"
+      ]
     },
     function(accessToken, refreshToken, profile, done) {
       const facebookId = profile.id;
@@ -198,7 +210,14 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-app.get("/auth/facebook", passport.authenticate("facebook"));
+//app.get("/auth/facebook", passport.authenticate("facebook"));
+app.get(
+  "/auth/facebook",
+  passport.authenticate("facebook", {
+    authType: "rerequest",
+    scope: ["user_friends", "email", "public_profile"]
+  })
+);
 
 app.get(
   "/auth/facebook/callback",
