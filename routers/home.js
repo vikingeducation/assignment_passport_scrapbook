@@ -12,8 +12,12 @@ const passport = require('passport');
 
 // 1
 router.get('/', (req, res) => {
+
   if (req.user) {
-    res.render('home', { user: req.user });
+    res.render('home', {
+      user: req.user,
+      picture: req.user.photoURL
+    });
   } else {
     res.redirect('/login');
   }

@@ -129,19 +129,23 @@ passport.use(
     {
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
-      callbackURL: 'http://localhost:3000/auth/facebook/callback'
+      callbackURL: 'http://localhost:3000/auth/facebook/callback',
+      profileFields: ['id', 'displayName', 'name', 'gender', 'photos']
     },
     function(accessToken, refreshToken, profile, done) {
       const facebookId = profile.id;
       const displayName = profile.displayName;
 
       console.log(profile);
+
+      const photoURL = profile.photos[0].value
+      
       User.findOne({ facebookId }, function(err, user) {
         if (err) return done(err);
 
         if (!user) {
           // Create a new account if one doesn't exist
-          user = new User({ facebookId, displayName });
+          user = new User({ facebookId, displayName, photoURL });
           user.save((err, user) => {
             if (err) return done(err);
             done(null, user);
