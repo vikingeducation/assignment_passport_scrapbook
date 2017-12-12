@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
 const router = express.Router();
-const { User } = require('../models');
-const mongoose = require('mongoose');
+const { User } = require("../models");
+const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 
 router.get("/", (req, res) => {
@@ -10,14 +10,14 @@ router.get("/", (req, res) => {
   res.render("welcome/home");
 });
 
-router.post("/", async (req, res)=>{
-  try{
-    let newUser = await new User({
+router.post("/", async (req, res) => {
+  try {
+    let newUser = new User({
       email: req.body.email,
-      pawwsord: req.body.password
+      password: req.body.password
     });
-  }catch(e){
-  }
+    newUser.save();
+  } catch (e) {}
 });
 
 module.exports = router;
