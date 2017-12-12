@@ -80,14 +80,14 @@ const morganToolkit = require('morgan-toolkit')(morgan, {
 
 app.use(morganToolkit());
 
-// require Passport and the Local Strategy
+// ----------------------------------------
+// Local Passport
+// ----------------------------------------
 const passport = require('passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ----------------------------------------
-// Routes
-// ----------------------------------------
+
 // 1
 const User = require('./models/User');
 const mongoose = require('mongoose');
@@ -98,9 +98,8 @@ const LocalStrategy = require('passport-local').Strategy;
 
 // 3
 passport.use(
-  new LocalStrategy(function(username, password, done) {
-    User.findOne({ username }, function(err, user) {
-      console.log(user);
+  new LocalStrategy(function(email, password, done) {
+    User.findOne({ email }, function(err, user) {
       if (err) return done(err);
       if (!user || !user.validPassword(password)) {
         return done(null, false, { message: 'Invalid username/password' });
@@ -121,7 +120,9 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-// facebook
+// ----------------------------------------
+// Facebook Passport
+// ----------------------------------------
 const FacebookStrategy = require('passport-facebook').Strategy;
 
 passport.use(
@@ -130,26 +131,34 @@ passport.use(
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
       callbackURL: 'http://localhost:3000/auth/facebook/callback',
-      profileFields: ['id', 'displayName', 'name', 'gender', 'photos']
+      profileFields: ['id', 'displayName', 'photos', 'emails']
     },
+
     function(accessToken, refreshToken, profile, done) {
+
+      console.log("\x1b[34m", profile)
+
       const facebookId = profile.id;
       const displayName = profile.displayName;
 
       const photoURL = profile.photos[0].value;
+      const email = profile.emails[0].value
 
-      User.findOne({ facebookId }, function(err, user) {
+      User.findOne({ email }, function(err, user) {
         if (err) return done(err);
 
         if (!user) {
           // Create a new account if one doesn't exist
-          user = new User({ facebookId, displayName, photoURL });
+          user = new User({ email, facebookId, displayName, photoURL });
           user.save((err, user) => {
             if (err) return done(err);
             done(null, user);
           });
         } else {
           // Otherwise, return the extant user.
+          user.facebookId = facebookId;
+          user.photoURL = photoURL
+          user.save();
           done(null, user);
         }
       });
@@ -157,7 +166,7 @@ passport.use(
   )
 );
 
-app.get('/auth/facebook', passport.authenticate('facebook'));
+app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'publish_actions', 'user_photos'] }));
 
 app.get(
   '/auth/facebook/callback',
@@ -187,9 +196,18 @@ passport.use(
         const displayName = profile.displayName;
         const summary = profile._json.summary;
 
-        let user = await User.findOne({ linkedinId });
+        const email = profile.emails[0].value
+
+        let user = await User.findOne({ email }, (err, obj) => {
+          if(obj){
+            obj.linkedinId = linkedinId;
+            obj.summary = summary;
+            obj.save();
+          }
+        });
+
         if (!user) {
-          user = new User({ linkedinId, displayName, summary });
+          user = new User({ email, linkedinId, displayName, summary });
           await user.save();
         }
         done(null, user);
@@ -210,14 +228,12 @@ app.get(
   })
 );
 
-//Home router
+// ----------------------------------------
+// Redirect to Routers
+// ----------------------------------------
 const home = require('./routers/home');
 app.use('/', home);
 
-app.get('/logout', function(req, res) {
-  req.logout();
-  res.redirect('/');
-});
 
 // ----------------------------------------
 // Template Engine
