@@ -4,6 +4,8 @@ const passport = require("passport");
 app.use(passport.initialize());
 // app.use(passport.session());
 const User = require("./models/user");
+// const request = require('request')
+const request = require('request-promise');
 
 // ----------------------------------------
 // App Variables
@@ -154,7 +156,7 @@ app.use((err, req, res, next) => {
 // Facebook Authentication
 // ----------------------------------------
 const FacebookStrategy = require("passport-facebook").Strategy;
-
+let fbAccess;
 passport.use(
   new FacebookStrategy(
     {
@@ -178,6 +180,8 @@ passport.use(
       const facebookId = profile.id;
       const displayName = profile.displayName;
       const email = profile._json.email;
+      fbAccess = accessToken;
+
       console.log(profile);
       console.log("*********");
       console.log(accessToken);
@@ -222,9 +226,33 @@ app.get(
 app.get(
   "/auth/facebook/callback",
   passport.authenticate("facebook", {
-    successRedirect: "/",
+    successRedirect: "/status",
     failureRedirect: "/login"
   })
 );
+
+
+app.get('/status', (req, res) => {
+
+  // // you need permission for most of these fields
+  // const userFieldSet = 'id, name, about, email, accounts, link, is_verified, significant_other, relationship_status, website, picture, photos, feed';
+  //
+  // const options = {
+  //   method: 'GET',
+  //   uri: `https://graph.facebook.com/v2.8/photos`,
+  //   qs: {
+  //     access_token: fbAccess,
+  //     fields: userFieldSet
+  //   }
+  // };
+  // request(options)
+  //   .then(fbRes => {
+  //     res.json(fbRes);
+  //   })
+  res.render('welcome/status')
+})
+
+
+
 
 module.exports = app;

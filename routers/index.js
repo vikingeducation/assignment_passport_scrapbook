@@ -10,14 +10,14 @@ router.get("/", (req, res) => {
   res.render("welcome/home");
 });
 
-router.post("/", async (req, res) => {
-  try {
-    let newUser = new User({
-      email: req.body.email,
-      password: req.body.password
-    });
-    newUser.save();
-  } catch (e) {}
-});
+// router.post("/", async (req, res) => {
+//   try {
+//     let newUser = new User({
+//       email: req.body.email,
+//       password: req.body.password
+//     });
+//     newUser.save();
+//   } catch (e) {}
+// });
 
 module.exports = router;
