@@ -47,25 +47,12 @@ app.use((req, res, next) => {
   }
 });
 
-app.use(async (req, res, next) => {
-  console.log(typeof req.path);
+app.use((req, res, next) => {
   req.session.passport = req.session.passport || {};
-  const userId = req.session.passport.user || "";
-  try {
-    const user = await User.find({ _id: userId });
-    user = user[0];
-    console.log(!user && req.path === "/login");
-    if (!user && req.path != "/login") {
-      res.redirect("/login");
-    } else {
-      next();
-    }
-  } catch (e) {
-    if (req.path != "/login") {
-      res.redirect("/login");
-    } else {
-      next();
-    }
+  if (req.session.passport.user || req.path === "/login") {
+    next();
+  } else {
+    res.redirect("/login");
   }
 });
 app.use("/", index);
