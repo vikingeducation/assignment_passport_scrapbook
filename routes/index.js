@@ -2,12 +2,15 @@ var express = require("express");
 var router = express.Router();
 const passport = require("passport");
 const FacebookStrategy = require("passport-facebook").Strategy;
+const facebook = require('../facebook_credentials.json');
+const models = require('../models/');
+const User = models.User;
 
 passport.use(
   new FacebookStrategy(
     {
-      clientID: process.env.FACEBOOK_APP_ID,
-      clientSecret: process.env.FACEBOOK_APP_SECRET,
+      clientID: facebook.appId,
+      clientSecret: facebook.appSecret,
       callbackURL: "http://localhost:3000/auth/facebook/callback"
     },
     function(accessToken, refreshToken, profile, done) {
@@ -34,9 +37,19 @@ passport.use(
   )
 );
 
-app.get("/auth/facebook", passport.authenticate("facebook"));
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
 
-app.get(
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+router.get("/auth/facebook", passport.authenticate("facebook"));
+
+router.get(
   "/auth/facebook/callback",
   passport.authenticate("facebook", {
     successRedirect: "/",
