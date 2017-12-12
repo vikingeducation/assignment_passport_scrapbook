@@ -44,8 +44,10 @@ router.post(
 
 // 4
 router.post('/register', (req, res, next) => {
-  const { username, password } = req.body;
-  const user = new User({ username, password });
+  const { email, password } = req.body;
+
+  const user = new User({ email, password });
+
   user.save((err, user) => {
     req.login(user, function(err) {
       if (err) {
@@ -54,6 +56,12 @@ router.post('/register', (req, res, next) => {
       return res.redirect('/');
     });
   });
+});
+
+// 5
+router.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/');
 });
 
 module.exports = router;
