@@ -65,16 +65,6 @@ app.use((req, res, next) => {
   } else {
     res.redirect("/login");
   }
-  // console.log(req.session.passport, req.path);
-  // if (
-  //   req.session.passport.user ||
-  //   req.path === "/login" ||
-  //   req.path === "/auth/facebook"
-  // ) {
-  //   next();
-  // } else {
-  //   res.redirect("/login");
-  // }
 });
 app.use("/", index);
 app.use("/users", users);
