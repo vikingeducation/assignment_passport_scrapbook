@@ -14,10 +14,10 @@ const passport = require('passport');
 router.get('/', (req, res) => {
   if (req.user) {
     res.render('home', {
-      displayName: req.displayName
       user: req.user,
       picture: req.user.photoURL,
-      summary: req.user.summary
+      summary: req.user.summary,
+      followers: req.user.followers
     });
   } else {
     res.redirect('/login');
@@ -44,11 +44,19 @@ router.post(
 );
 
 // 4
+
 router.post('/register', (req, res, next) => {
   const { email, password } = req.body;
 
+  if (req.session.passport.user) {
+    User.find({ _id: req.session.passport.user }, (err, objArr) => {
+      objArr[0].email = email;
+      objArr[0].password = password;
+      objArr[0].save();
+      res.redirect('/');
+    });
+  }
   const user = new User({ email, password });
-
   user.save((err, user) => {
     req.login(user, function(err) {
       if (err) {

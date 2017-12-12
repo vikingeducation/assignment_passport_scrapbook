@@ -87,7 +87,6 @@ const passport = require('passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 // 1
 const User = require('./models/User');
 const mongoose = require('mongoose');
@@ -102,7 +101,7 @@ passport.use(
     User.findOne({ email }, function(err, user) {
       if (err) return done(err);
       if (!user || !user.validPassword(password)) {
-        return done(null, false, { message: 'Invalid username/password' });
+        return done(null, false, { message: 'Invalid email/password' });
       }
       return done(null, user);
     });
@@ -135,14 +134,13 @@ passport.use(
     },
 
     function(accessToken, refreshToken, profile, done) {
-
-      console.log("\x1b[34m", profile)
+      console.log('\x1b[34m', profile);
 
       const facebookId = profile.id;
       const displayName = profile.displayName;
 
       const photoURL = profile.photos[0].value;
-      const email = profile.emails[0].value
+      const email = profile.emails[0].value;
 
       User.findOne({ email }, function(err, user) {
         if (err) return done(err);
@@ -157,7 +155,7 @@ passport.use(
         } else {
           // Otherwise, return the extant user.
           user.facebookId = facebookId;
-          user.photoURL = photoURL
+          user.photoURL = photoURL;
           user.save();
           done(null, user);
         }
@@ -166,7 +164,12 @@ passport.use(
   )
 );
 
-app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'publish_actions', 'user_photos'] }));
+app.get(
+  '/auth/facebook',
+  passport.authenticate('facebook', {
+    scope: ['email', 'publish_actions', 'user_photos']
+  })
+);
 
 app.get(
   '/auth/facebook/callback',
@@ -196,10 +199,10 @@ passport.use(
         const displayName = profile.displayName;
         const summary = profile._json.summary;
 
-        const email = profile.emails[0].value
+        const email = profile.emails[0].value;
 
         let user = await User.findOne({ email }, (err, obj) => {
-          if(obj){
+          if (obj) {
             obj.linkedinId = linkedinId;
             obj.summary = summary;
             obj.save();
@@ -229,11 +232,51 @@ app.get(
 );
 
 // ----------------------------------------
+// Twitter Strategy
+// ----------------------------------------
+
+var TwitterStrategy = require('passport-twitter').Strategy;
+
+passport.use(
+  new TwitterStrategy(
+    {
+      consumerKey: process.env.TWITTER_CONSUMER_KEY,
+      consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+      callbackURL: 'http://localhost:3000/auth/twitter/callback'
+    },
+    async function(accessToken, refreshToken, profile, done) {
+      try {
+        console.log(profile);
+        const twitterId = profile.id;
+        const displayName = profile.displayName;
+        const followers = profile._json.followers_count;
+
+        let user = new User({ twitterId, followers, displayName });
+        await user.save();
+
+        done(null, user);
+      } catch (err) {
+        return done(err);
+      }
+    }
+  )
+);
+
+app.get('/auth/twitter', passport.authenticate('twitter'));
+
+app.get(
+  '/auth/twitter/callback',
+  passport.authenticate('twitter', {
+    successRedirect: '/register',
+    failureRedirect: '/login'
+  })
+);
+
+// ----------------------------------------
 // Redirect to Routers
 // ----------------------------------------
 const home = require('./routers/home');
 app.use('/', home);
-
 
 // ----------------------------------------
 // Template Engine
