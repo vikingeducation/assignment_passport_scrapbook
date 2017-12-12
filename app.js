@@ -138,8 +138,8 @@ passport.use(
 
       console.log(profile);
 
-      const photoURL = profile.photos[0].value
-      
+      const photoURL = profile.photos[0].value;
+
       User.findOne({ facebookId }, function(err, user) {
         if (err) return done(err);
 
@@ -164,6 +164,50 @@ app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get(
   '/auth/facebook/callback',
   passport.authenticate('facebook', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+  })
+);
+
+// ----------------------------------------
+// Linkedin Strategy
+// ----------------------------------------
+var LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
+
+passport.use(
+  new LinkedInStrategy(
+    {
+      clientID: process.env.LINKEDIN_KEY,
+      clientSecret: process.env.LINKEDIN_SECRET,
+      callbackURL: 'http://localhost:3000/auth/linkedin/callback',
+      scope: ['r_emailaddress', 'r_basicprofile'],
+      state: true
+    },
+    function(accessToken, refreshToken, profile, done) {
+      // asynchronous verification, for effect...
+      process.nextTick(function() {
+        console.log('THIS IS THE LINKEDIN ACCESSTOKEN', accessToken);
+        // To keep the example simple, the user's LinkedIn profile is returned to
+        // represent the logged-in user. In a typical application, you would want
+        // to associate the LinkedIn account with a user record in your database,
+        // and return that user instead.
+        return done(null, profile);
+      });
+    }
+  )
+);
+
+app.get('/auth/linkedin', passport.authenticate('linkedin'), function(
+  req,
+  res
+) {
+  // The request will be redirected to LinkedIn for authentication, so this
+  // function will not be called.
+});
+
+app.get(
+  '/auth/linkedin/callback',
+  passport.authenticate('linkedin', {
     successRedirect: '/',
     failureRedirect: '/login'
   })
