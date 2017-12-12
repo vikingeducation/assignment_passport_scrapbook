@@ -14,6 +14,7 @@ const passport = require('passport');
 router.get('/', (req, res) => {
   if (req.user) {
     res.render('home', {
+      displayName: req.displayName
       user: req.user,
       picture: req.user.photoURL,
       summary: req.user.summary
