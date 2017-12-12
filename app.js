@@ -136,8 +136,6 @@ passport.use(
       const facebookId = profile.id;
       const displayName = profile.displayName;
 
-      console.log(profile);
-
       const photoURL = profile.photos[0].value;
 
       User.findOne({ facebookId }, function(err, user) {
@@ -183,27 +181,26 @@ passport.use(
       scope: ['r_emailaddress', 'r_basicprofile'],
       state: true
     },
-    function(accessToken, refreshToken, profile, done) {
-      // asynchronous verification, for effect...
-      process.nextTick(function() {
-        console.log('THIS IS THE LINKEDIN ACCESSTOKEN', accessToken);
-        // To keep the example simple, the user's LinkedIn profile is returned to
-        // represent the logged-in user. In a typical application, you would want
-        // to associate the LinkedIn account with a user record in your database,
-        // and return that user instead.
-        return done(null, profile);
-      });
+    async function(accessToken, refreshToken, profile, done) {
+      try {
+        const linkedinId = profile.id;
+        const displayName = profile.displayName;
+        const summary = profile._json.summary;
+
+        let user = await User.findOne({ linkedinId });
+        if (!user) {
+          user = new User({ linkedinId, displayName, summary });
+          await user.save();
+        }
+        done(null, user);
+      } catch (err) {
+        return done(err);
+      }
     }
   )
 );
 
-app.get('/auth/linkedin', passport.authenticate('linkedin'), function(
-  req,
-  res
-) {
-  // The request will be redirected to LinkedIn for authentication, so this
-  // function will not be called.
-});
+app.get('/auth/linkedin', passport.authenticate('linkedin'));
 
 app.get(
   '/auth/linkedin/callback',
@@ -216,6 +213,11 @@ app.get(
 //Home router
 const home = require('./routers/home');
 app.use('/', home);
+
+app.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/');
+});
 
 // ----------------------------------------
 // Template Engine

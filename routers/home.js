@@ -12,11 +12,11 @@ const passport = require('passport');
 
 // 1
 router.get('/', (req, res) => {
-
   if (req.user) {
     res.render('home', {
       user: req.user,
-      picture: req.user.photoURL
+      picture: req.user.photoURL,
+      summary: req.user.summary
     });
   } else {
     res.redirect('/login');
@@ -54,12 +54,6 @@ router.post('/register', (req, res, next) => {
       return res.redirect('/');
     });
   });
-});
-
-// 5
-router.get('/logout', function(req, res) {
-  req.logout();
-  res.redirect('/');
 });
 
 module.exports = router;
