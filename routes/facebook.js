@@ -6,8 +6,6 @@ const facebook = require("../facebook_credentials.json");
 const models = require("../models/");
 const User = models.User;
 
-console.log("we're here!");
-
 passport.use(
   new FacebookStrategy(
     {

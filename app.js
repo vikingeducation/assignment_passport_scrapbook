@@ -11,6 +11,7 @@ const User = models.User;
 var index = require("./routes/index");
 var users = require("./routes/users");
 const facebook = require("./routes/facebook.js");
+const login = require("./routes/login");
 
 var app = express();
 
@@ -48,16 +49,37 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-  req.session.passport = req.session.passport || {};
-  if (req.session.passport.user || req.path === "/login") {
+  console.log(req.session.passport, req.path);
+  next();
+});
+
+app.use((req, res, next) => {
+  if (req.session.passport) {
+    if (req.session.passport.user) {
+      next();
+    } else {
+      console.log("this should never go");
+    }
+  } else if (req.path === "/login" || /^auth/.test(req.path.substring(1))) {
     next();
   } else {
     res.redirect("/login");
   }
+  // console.log(req.session.passport, req.path);
+  // if (
+  //   req.session.passport.user ||
+  //   req.path === "/login" ||
+  //   req.path === "/auth/facebook"
+  // ) {
+  //   next();
+  // } else {
+  //   res.redirect("/login");
+  // }
 });
 app.use("/", index);
 app.use("/users", users);
 app.use("/auth/facebook", facebook);
+app.use("/login", login);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
