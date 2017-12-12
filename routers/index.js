@@ -4,9 +4,7 @@ const router = express.Router();
 
 router.get("/", (req, res) => {
   req.flash("Hi!");
-  res.render("welcome/index");
+  res.render("welcome/home");
 });
-
-
 
 module.exports = router;
