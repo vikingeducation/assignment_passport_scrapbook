@@ -180,7 +180,7 @@ passport.use(
       const email = profile._json.email;
       console.log(profile);
       console.log("*********");
-      console.log(email);
+      console.log(accessToken);
       User.findOne({ email }, function(err, user) {
         if (err) return done(err);
 
