@@ -1,0 +1,48 @@
+"8130c3e3ac005404366e18740a51b91fc2025c03"
+[cl-struct-undo-tree [nil ([nil ([nil ([nil ([nil ([nil ([nil ([nil ([nil ([nil ([nil ([nil (#4=[nil nil ((#("var Schea = mongoose.Schema;
+" 0 3 (fontified t face font-lock-keyword-face) 3 4 (fontified t) 4 9 (fontified t face font-lock-variable-name-face) 9 28 (fontified t) 28 29 (fontified t)) . 39) (undo-tree-id27 . -8) (undo-tree-id28 . -8) (undo-tree-id29 . 21) (undo-tree-id30 . -8) (undo-tree-id31 . -8) (undo-tree-id32 . -29) (undo-tree-id33 . -29) (undo-tree-id34 . -29) (undo-tree-id35 . -29) (undo-tree-id36 . -29) (undo-tree-id37 . -8) 47) nil (23087 64888 49033 138000) 0 nil]) ((#("m" 0 1 (fontified t face font-lock-variable-name-face)) . 47) (t 23087 64777 165559 337000)) nil (23087 64888 49038 617000) 0 nil]) ((1 . 39)) nil (23087 64777 131649 354000) 0 nil]) ((#("const mongoose = require(\"mongoose\");
+" 0 5 (fontified t face font-lock-keyword-face) 5 6 (fontified t) 6 14 (fontified t face font-lock-variable-name-face) 14 24 (fontified t) 24 25 (fontified t face (rainbow-delimiters-depth-1-face)) 25 35 (fontified t face font-lock-string-face) 35 36 (fontified t face (rainbow-delimiters-depth-1-face)) 36 37 (fontified t) 37 38 (fontified t)) . 31) (undo-tree-id0 . 38)) nil (23087 64777 131659 524000) 0 nil]) ((#("var mongoose = require(\"mongoose\");
+" 0 3 (fontified t face font-lock-keyword-face) 3 4 (fontified t) 4 12 (fontified t face font-lock-variable-name-face) 12 22 (fontified t) 22 23 (fontified t face (rainbow-delimiters-depth-1-face)) 23 33 (fontified t face font-lock-string-face) 33 34 (fontified t face (rainbow-delimiters-depth-1-face)) 34 36 (fontified t)) . 1)) nil (23087 64777 131661 739000) 0 nil]) ((#("
+" 0 1 (fontified t)) . 67) (undo-tree-id1 . -1) (undo-tree-id2 . -1) (undo-tree-id3 . 1)) nil (23087 64777 131665 999000) 0 nil]) ((#("var User = mongoose.model(\"User\", UserSchema);
+" 0 3 (fontified t face font-lock-keyword-face) 3 4 (fontified t) 4 8 (fontified t face font-lock-variable-name-face) 8 25 (fontified t) 25 26 (fontified t face (rainbow-delimiters-depth-1-face)) 26 32 (fontified t face font-lock-string-face) 32 44 (fontified t) 44 45 (fontified t face (rainbow-delimiters-depth-1-face)) 45 46 (fontified t) 46 47 (fontified t)) . 67) (undo-tree-id4 . -46) (undo-tree-id5 . 47)) nil (23087 64777 131669 287000) 0 nil]) ((#("const bcrypt = require(\"bcrypt\");
+const uniqueValidator = require(\"mongoose-unique-validator\");
+
+var UserSchema = new Schema(
+  {
+    fname: String,
+    lname: String,
+    username: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    email: String,
+    passwordHash: { 
+      type: String, 
+      required: true 
+    },
+    secrets: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: \"Secret\"
+      }
+    ]
+  },
+  {
+    timestamps: true
+  }
+);
+
+UserSchema.plugin(uniqueValidator);
+
+UserSchema.virtual(\"password\").set(function(value) {
+  this.passwordHash = bcrypt.hashSync(value, 8); // the 8 here is the \"cost factor\"
+});
+
+UserSchema.methods.validatePassword = function(password) {
+  return bcrypt.compareSync(password, this.passwordHash);
+};
+
+" 0 5 (fontified t face font-lock-keyword-face) 5 6 (fontified t) 6 12 (fontified t face font-lock-variable-name-face) 12 22 (fontified t) 22 23 (fontified t face (rainbow-delimiters-depth-1-face)) 23 31 (fontified t face font-lock-string-face) 31 32 (fontified t face (rainbow-delimiters-depth-1-face)) 32 34 (fontified t) 34 39 (fontified t face font-lock-keyword-face) 39 40 (fontified t) 40 55 (fontified t face font-lock-variable-name-face) 55 65 (fontified t) 65 66 (fontified t face (rainbow-delimiters-depth-1-face)) 66 93 (fontified t face font-lock-string-face) 93 94 (fontified t face (rainbow-delimiters-depth-1-face)) 94 97 (fontified t) 97 100 (fontified t face font-lock-keyword-face) 100 101 (fontified t) 101 111 (fontified t face font-lock-variable-name-face) 111 114 (fontified t) 114 117 (fontified t face font-lock-keyword-face) 117 118 (fontified t) 118 124 (fontified t face font-lock-type-face) 124 125 (fontified t face (rainbow-delimiters-depth-1-face)) 125 128 (fontified t) 128 129 (fontified t face (rainbow-delimiters-depth-2-face)) 129 182 (fontified t) 182 183 (fontified t face (rainbow-delimiters-depth-3-face)) 183 220 (fontified t) 220 224 (fontified t face font-lock-constant-face) 224 240 (fontified t) 240 244 (fontified t face font-lock-constant-face) 244 249 (fontified t) 249 250 (fontified t face (rainbow-delimiters-depth-3-face)) 250 289 (fontified t) 289 290 (fontified t face (rainbow-delimiters-depth-3-face)) 290 329 (fontified t) 329 333 (fontified t face font-lock-constant-face) 333 339 (fontified t) 339 340 (fontified t face (rainbow-delimiters-depth-3-face)) 340 355 (fontified t) 355 356 (fontified t face (rainbow-delimiters-depth-3-face)) 356 363 (fontified t) 363 364 (fontified t face (rainbow-delimiters-depth-4-face)) 364 415 (fontified t) 415 423 (fontified t face font-lock-string-face) 423 430 (fontified t) 430 431 (fontified t face (rainbow-delimiters-depth-4-face)) 431 434 (fontified t) 434 436 (fontified t) 436 437 (fontified t face (rainbow-delimiters-depth-3-face)) 437 438 (fontified t) 438 440 (fontified t) 440 441 (fontified t face (rainbow-delimiters-depth-2-face)) 441 445 (fontified t) 445 446 (fontified t face (rainbow-delimiters-depth-2-face)) 446 463 (fontified t) 463 467 (fontified t face font-lock-constant-face) 467 470 (fontified t) 470 471 (fontified t face (rainbow-delimiters-depth-2-face)) 471 472 (fontified t) 472 473 (fontified t face (rainbow-delimiters-depth-1-face)) 473 493 (fontified t) 493 494 (fontified t face (rainbow-delimiters-depth-1-face)) 494 509 (fontified t) 509 510 (fontified t face (rainbow-delimiters-depth-1-face)) 510 531 (fontified t) 531 532 (fontified t face (rainbow-delimiters-depth-1-face)) 532 542 (fontified t face font-lock-string-face) 542 543 (fontified t face (rainbow-delimiters-depth-1-face)) 543 547 (fontified t) 547 548 (fontified t face (rainbow-delimiters-depth-1-face)) 548 556 (fontified t face font-lock-keyword-face) 556 557 (fontified t face (rainbow-delimiters-depth-2-face)) 557 562 (fontified t face font-lock-variable-name-face) 562 563 (fontified t face (rainbow-delimiters-depth-2-face)) 563 564 (fontified t) 564 565 (fontified t js--pstate (#1=(nil 1 function 615 t 718) (nil . #2=(-2305843009213693952 toplevel nil nil nil))) face (rainbow-delimiters-depth-2-face)) 565 568 (fontified t) 568 572 (fontified t face font-lock-constant-face) 572 603 (fontified t) 603 604 (fontified t face (rainbow-delimiters-depth-3-face)) 604 612 (fontified t) 612 613 (fontified t face (rainbow-delimiters-depth-3-face)) 613 615 (fontified t) 615 618 (fontified t face font-lock-comment-delimiter-face) 618 650 (fontified t face font-lock-comment-face) 650 651 (fontified t js--pend #1# face (rainbow-delimiters-depth-2-face)) 651 652 (fontified t face (rainbow-delimiters-depth-1-face)) 652 693 (fontified t) 693 701 (fontified t face font-lock-keyword-face) 701 702 (fontified t face (rainbow-delimiters-depth-1-face)) 702 710 (fontified t face font-lock-variable-name-face) 710 711 (fontified t face (rainbow-delimiters-depth-1-face)) 711 712 (fontified t) 712 713 (fontified t js--pstate (#3=(nil 0 function 722 ("UserSchema" "methods" "validatePassword") 840) ((#1#) . #2#)) face (rainbow-delimiters-depth-1-face)) 713 716 (fontified t) 716 722 (fontified t face font-lock-keyword-face) 722 741 (fontified t) 741 742 (fontified t face (rainbow-delimiters-depth-2-face)) 742 752 (fontified t) 752 756 (fontified t face font-lock-constant-face) 756 769 (fontified t) 769 770 (fontified t face (rainbow-delimiters-depth-2-face)) 770 772 (fontified t) 772 773 (fontified t face (rainbow-delimiters-depth-1-face) js--pend #3#) 773 776 (fontified t)) . 67) (undo-tree-id6 . -775) (undo-tree-id7 . -775) (undo-tree-id8 . -775) (undo-tree-id9 . -566) (undo-tree-id10 . -566) (undo-tree-id11 . -654) (undo-tree-id12 . -654) (undo-tree-id13 . -655) (undo-tree-id14 . -655) (undo-tree-id15 . -714) (undo-tree-id16 . -714) (undo-tree-id17 . -772) (undo-tree-id18 . -772) (undo-tree-id19 . -775) (undo-tree-id20 . -775) (undo-tree-id21 . -776) (undo-tree-id22 . -776)) nil (23087 64777 131682 445000) 0 nil]) ((#("
+" 0 1 (fontified t)) . 1230) (undo-tree-id23 . 1)) nil (23087 64777 131684 868000) 0 nil]) ((#("module.exports = User;
+" 0 22 (fontified t) 22 23 (fontified t)) . 1230) (undo-tree-id24 . -21) (undo-tree-id25 . 1) (undo-tree-id26 . -21) 1251) nil (23087 64777 131687 711000) 0 nil]) ((891 . 1252)) nil (23087 64777 131688 653000) 0 nil]) ((890 . 891) (889 . 890) (t 23087 64158 927003 707000) 888) nil (23087 64777 131689 930000) 0 nil]) nil nil (23087 64777 131690 617000) 0 nil] #4# 1400 12 nil]
