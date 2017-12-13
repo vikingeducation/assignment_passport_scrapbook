@@ -288,13 +288,23 @@ passport.use(
     async function(accessToken, refreshToken, profile, done) {
       try {
         console.log(profile);
-        // const twitterId = profile.id;
-        // const displayName = profile.displayName;
-        // const followers = profile._json.followers_count;
-        //
-        // let user = new User({ twitterId, followers, displayName });
-        // await user.save();
+        const googleId = profile.id;
+        const displayName = profile.displayName;
+        const email = profile.emails[0].value;
+        const googlePhotoUrl = profile.photos[0].value;
 
+        let user = await User.findOne({ email }, (err, obj) => {
+          if (obj) {
+            obj.googleId = googleId;
+            obj.googlePhotoUrl = googlePhotoUrl;
+            obj.save();
+          }
+        });
+
+        if (!user) {
+          user = new User({ email, displayName, googlePhotoUrl });
+          await user.save();
+        }
         done(null, user);
       } catch (err) {
         return done(err);
@@ -303,12 +313,17 @@ passport.use(
   )
 );
 
-app.get('/auth/google', passport.authenticate('google'));
+app.get(
+  '/auth/google',
+  passport.authenticate('google', {
+    scope: ['email']
+  })
+);
 
 app.get(
   '/auth/google/callback',
-  passport.authenticate('twitter', {
-    successRedirect: '/register',
+  passport.authenticate('google', {
+    successRedirect: '/',
     failureRedirect: '/login'
   })
 );

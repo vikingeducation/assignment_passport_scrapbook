@@ -11,7 +11,9 @@ const UserSchema = mongoose.Schema({
   linkedinId: { type: String, required: false },
   summary: { type: String, required: false },
   twitterId: { type: String, required: false },
-  followers: { type: String, required: false }
+  followers: { type: String, required: false },
+  googleId: { type: String, required: false },
+  googlePhotoUrl: { type: String, required: false }
 });
 
 UserSchema.plugin(uniqueValidator);

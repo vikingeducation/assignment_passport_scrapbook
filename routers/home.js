@@ -17,7 +17,8 @@ router.get('/', (req, res) => {
       user: req.user,
       picture: req.user.photoURL,
       summary: req.user.summary,
-      followers: req.user.followers
+      followers: req.user.followers,
+      googlePhotoUrl: req.user.googlePhotoUrl
     });
   } else {
     res.redirect('/login');
