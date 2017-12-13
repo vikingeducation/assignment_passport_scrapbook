@@ -4,10 +4,31 @@ const bodyParser = require("body-parser");
 const expressSession = require("express-session");
 const flash = require("express-flash");
 
+// environment variables
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
+// User and Mongoose code
+const mongoose = require("mongoose");
+var models = require("./models");
+var User = mongoose.model("User");
+const cleanDb = require("./seeds/clean")
+
+// Connect to our mongo server
+app.use((req, res, next) => {
+	if (mongoose.connection.readyState) {
+		next();
+	} else {
+		require("./mongo")().then(() => {
+			// cleanDb().then(() => {
+			next()
+			// });
+		});
+	}
+});
+
+// cookie and parser
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(flash());
@@ -19,19 +40,13 @@ app.use(
   })
 );
 
+
 // require Passport and the Local Strategy
 const passport = require("passport");
 app.use(passport.initialize());
 app.use(passport.session());
 
-// User and Mongoose code
-
-const User = require("./models/User");
-const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/passport-scrapbook");
-
 // Local Strategy Set Up
-
 const LocalStrategy = require("passport-local").Strategy;
 
 passport.use(
@@ -56,127 +71,54 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-// facebook
-const FacebookStrategy = require("passport-facebook").Strategy;
-const FACEBOOK_APP_ID = process.env.FB_APP_ID;
-const FACEBOOK_APP_SECRET = process.env.FB_APP_SECRET;
 
-passport.use(
-  new FacebookStrategy(
-    {
-      clientID: FACEBOOK_APP_ID || "hi",
-      clientSecret: FACEBOOK_APP_SECRET || "no",
-      callbackURL: "http://localhost:4000/auth/facebook/callback",
-      passReqToCallback: true
-    },
-    function(req, accessToken, refreshToken, profile, done) {
-      const facebookId = profile.id;
-      if (req.user) {
-        req.user.facebookId = facebookId;
-        req.user.save((err, user) => {
-          if (err) {
-            done(err);
-          } else {
-            done(null, user);
-          }
-        });
-      } else {
-        User.findOne({ facebookId }, function(err, user) {
-          if (err) {
-            console.log(err);
-            return done(err);
-          }
-          console.log("H", user);
-          if (!user) {
-            user = new User({ facebookId, username: profile.displayName });
-            console.log(user);
-            user.save((err, user) => {
-              if (err) {
-                console.log(err);
-              }
-              done(null, user);
-            });
-          } else {
-            done(null, user);
-          }
-        });
-      }
-    }
-  )
+// Method Override
+const methodOverride = require("method-override");
+const getPostSupport = require("express-method-override-get-post-support");
+app.use(
+	methodOverride(
+		getPostSupport.callback,
+		getPostSupport.options // { methods: ['POST', 'GET'] }
+	)
 );
 
-app.get("/auth/facebook", passport.authenticate("facebook"));
+// Logging
+var morgan = require("morgan");
+var morganToolkit = require("morgan-toolkit")(morgan);
+app.use(morganToolkit());
 
-app.get(
-  "/auth/facebook/callback",
-  passport.authenticate("facebook", {
-    successRedirect: "/",
-    failureRedirect: "/login"
-  })
-);
+/// ----------------------------------------
+// Template Engine
+// ----------------------------------------
+var expressHandlebars = require('express-handlebars');
 
-app.set("view engine", "hbs");
-
-app.post("/profile", (req, res) => {
-  const { password, username } = req.body;
-  const user = req.user;
-  console.log(user);
-  if (password) user.password = password;
-  if (username) user.username = username;
-  user.save((err, user) => {
-    if (err) {
-      console.log(err);
-      req.flash("warning", "fail");
-      res.redirect("back");
-    } else {
-      req.flash("warning", "success");
-      res.redirect("back");
-    }
-  });
+var hbs = expressHandlebars.create({
+  partialsDir: 'views/',
+  defaultLayout: 'application'
 });
 
-app.get("/", (req, res) => {
-  if (req.user) {
-    res.render("home", { user: req.user });
-  } else {
-    res.redirect("/login");
-  }
-});
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
 
-app.get("/login", (req, res) => {
-  res.render("login");
-});
 
-app.get("/register", (req, res) => {
-  res.render("register");
-});
+// routes
+var loginRouter = require("./routers/login");
+app.use("/", loginRouter);
 
-app.get("/logout", function(req, res) {
-  req.logout();
-  res.redirect("/");
-});
+var authRouter = require("./routers/auth");
+app.use("/", authRouter);
 
-app.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-    failureFlash: true
-  })
-);
+// facebook strategy
+var FacebookStrategy = require("./services//strategies/facebook");
+passport.use(FacebookStrategy);
 
-app.post("/register", (req, res, next) => {
-  const { username, password } = req.body;
-  const user = new User({ username, password });
-  user.save((err, user) => {
-    req.login(user, function(err) {
-      if (err) {
-        return next(err);
-      }
-      return res.redirect("/");
-    });
-  });
-});
+// // twitter strategy
+// var TwitterStrategy = require("./strategies/twitter");
+// passport.use(TwitterStrategy);
+
+// // github strategy
+// var GithubStrategy = require("./strategies/github");
+// passport.use(GithubStrategy);
 
 let port = 4000;
 app.listen(port, (res, req) => {
