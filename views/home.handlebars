@@ -1,5 +1,4 @@
-<h1 style="color:blue">Welcome, {{user.username}}</h1>
-<hr>
+
 <div class="row">
 
   <div class="col-sm-6">
@@ -38,30 +37,77 @@
               <a href="/auth/facebook" class="btn btn-success btn-sm float-right">Connect</a>
             </li>
           {{/if}}
+
+          {{#if tweets.length}}
+            <li class="list-group-item bg-success text-white">
+              Twitter
+            </li>
+          {{else}}
+            <li class="list-group-item">
+              Twitter
+              <a href="/auth/twitter" class="btn btn-success btn-sm float-right">Connect</a>
+            </li>
+          {{/if}}
+
+          {{#if repos.length}}
+              <li class="list-group-item bg-success text-white">
+                Github
+              </li>
+            {{else}}
+            <li class="list-group-item">
+              Github
+              <a href="/auth/github" class="btn btn-success btn-sm float-right">Connect</a>
+            </li>
+            {{/if}}
         </ul>
       </div>
     </div>
   </div>
 
 </div>
+
 <br>
-<br>
+<hr>
 
 <div class="row">
 
   <div class="col-sm-6">
     <div class="card">
       <div class="card-header">
-        Facebook stuff
+        Facebook
       </div>
       <div class="card-body">
         <img src="{{user.photos}}" alt="">
       </div>
     </div>
+    <br>
+    <div class="card">
+      <div class="card-header">
+        Github Repos
+      </div>
+      <div class="card-body">
+        <ul>
+          {{#each repos as |repo|}}
+          <li>{{repo}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-header">
+        Twitter Tweets
+      </div>
+      <div class="card-body">
+        {{#each tweets as |tweet|}}
+          <h6>{{tweet.name}}</h6>
+          <p>{{tweet.text}}</p>
+          <hr>
+        {{/each}}
+      </div>
+    </div>
   </div>
 </div>
 
-
-<!--
-{{user}}
--->

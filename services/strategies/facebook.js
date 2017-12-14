@@ -13,7 +13,6 @@ module.exports = new FacebookStrategy(
 		passReqToCallback: true
 	},
 	function(req, accessToken, refreshToken, profile, done) {
-		console.log("profile", JSON.stringify(profile, 0, 2));
 		const facebookId = profile.id;
 		if (req.user) {
 			req.user.facebookId = facebookId;
@@ -30,7 +29,7 @@ module.exports = new FacebookStrategy(
 		} else {
 			User.findOne({ facebookId }, function(err, user) {
 				if (err) {
-					console.log("Error:", err);
+					console.log(err);
 					return done(err);
 				}
 				if (!user) {

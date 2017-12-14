@@ -109,16 +109,16 @@ var authRouter = require("./routers/auth");
 app.use("/", authRouter);
 
 // facebook strategy
-var FacebookStrategy = require("./services//strategies/facebook");
+var FacebookStrategy = require("./services/strategies/facebook");
 passport.use(FacebookStrategy);
 
-// // twitter strategy
-// var TwitterStrategy = require("./strategies/twitter");
-// passport.use(TwitterStrategy);
+// twitter strategy
+var TwitterStrategy = require("./services/strategies/twitter");
+passport.use(TwitterStrategy);
 
-// // github strategy
-// var GithubStrategy = require("./strategies/github");
-// passport.use(GithubStrategy);
+// github strategy
+var GithubStrategy = require("./services/strategies/github");
+passport.use(GithubStrategy);
 
 let port = 4000;
 app.listen(port, (res, req) => {

@@ -7,7 +7,13 @@ const UserSchema = mongoose.Schema({
   passwordHash: { type: String },
   facebookId: { type: String, unique: true },
   facebookToken: { type: String, unique: true },
-  photos: { type: String }
+  photos: { type: String },
+  twitterId: String,
+  twitterToken: String,
+  twitterTokenSecret: String,
+  githubID: String,
+  githubToken: String,
+  githubUsername: String
 });
 
 UserSchema.plugin(uniqueValidator);
