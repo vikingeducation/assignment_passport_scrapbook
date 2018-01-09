@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(flash());
 app.use(
   expressSession({
@@ -18,8 +18,6 @@ app.use(
     resave: false
   })
 );
-
-// Method Override Here?
 
 const morgan = require('morgan');
 app.use(morgan('tiny'));
@@ -37,19 +35,23 @@ app.use((req, res, next) => {
 });
 
 const expressHandlebars = require('express-handlebars');
-// const helpers = require('./helpers').registered;
 
 const hbs = expressHandlebars.create({
   partialsDir: 'views/',
   defaultLayout: 'application'
-  // helpers: helpers
 });
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
 const passport = require('passport');
-// Require strategies
+const {
+  facebookStrategy,
+  twitterStrategy,
+  githubStrategy,
+  spotifyStrategy
+} = require('./services/strategies');
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -63,7 +65,32 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-// Routes Here
+passport.use(facebookStrategy);
+passport.use(twitterStrategy);
+passport.use(githubStrategy);
+passport.use(spotifyStrategy);
+
+const authRoutes = require('./controllers/auth');
+const { getAllData } = require('./services/api');
+const accounts = ['facebook', 'twitter', 'github', 'spotify'];
+
+app.use('/auth', authRoutes);
+app.get('/', (req, res) => {
+  if (req.user) {
+    const connectedAccounts = accounts.filter(n =>
+      Object.keys(req.user._doc).includes(n)
+    );
+    getAllData(req.user).then(data => {
+      res.render('home', {
+        user: req.user,
+        data,
+        connections: connectedAccounts.length
+      });
+    });
+  } else {
+    res.redirect('/auth/login');
+  }
+});
 
 const port = process.env.PORT || process.argv[2] || 4000;
 const host = 'localhost';

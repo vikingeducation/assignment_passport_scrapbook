@@ -1,0 +1,105 @@
+<div class="row">
+  <div class="col-sm-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Passport Status  <span class="badge">{{connections}}/4</span></h3>
+      </div>
+
+      <ul class="list-group">
+        {{#if user.facebook.id}}
+        <li class="list-group-item list-group-item-success">Facebook</li>
+        {{else }}
+        <li class="list-group-item">Facebook <a href="/auth/facebook" class="btn btn-success btn-sm pull-right">Connect</a></li>
+        {{/if}}
+        {{#if user.twitter.id}}
+        <li class="list-group-item list-group-item-success">Twitter</li>
+        {{else }}
+        <li class="list-group-item">Twitter <a href="/auth/twitter" class="btn btn-success btn-sm pull-right">Connect</a></li>
+        {{/if}}
+        {{#if user.github.id}}
+        <li class="list-group-item list-group-item-success">GitHub</li>
+        {{else }}
+        <li class="list-group-item">GitHub <a href="/auth/github" class="btn btn-success btn-sm pull-right">Connect</a></li>
+        {{/if}}
+        {{#if user.spotify.id}}
+        <li class="list-group-item list-group-item-success">Spotify</li>
+        {{else }}
+        <li class="list-group-item">Spotify <a href="/auth/spotify" class="btn btn-success btn-sm pull-right">Connect</a></li>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+
+  {{#if data.facebook.data.length}}
+  <div class="col-sm-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Facebook Likes</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+          {{#each data.facebook.data as |like|}}
+          <li>{{like.name}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+  </div>
+  {{/if}}
+</div>
+<div class="row">
+
+  {{#if data.twitter.length}}
+  <div class="col-sm-6">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Recent Tweets</h3>
+      </div>
+      <ul class="list-group">
+        {{#each data.twitter as |tweet|}}
+        <li class="list-group-item">
+          <p><strong>{{tweet.user.screen_name}}</strong></p>
+          <p>{{tweet.text}}</p>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+  {{/if}}
+
+  {{#if data.github.length}}
+  <div class="col-sm-6">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">GitHub Repos</h3>
+      </div>
+      <ul class="list-group">
+        {{#each data.github as |repo|}}
+        <li class="list-group-item">
+          <p><strong>{{repo.name}}</strong></p>
+          <p>Created: {{repo.created_at}}</p>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+  {{/if}}
+
+  {{#if data.spotify.items.length}}
+  <div class="col-sm-6">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Spotify Playlists</h3>
+      </div>
+      <ul class="list-group">
+        {{#each data.spotify.items as |playlist|}}
+        <li class="list-group-item">
+          <p>{{playlist.name}}</p>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+  {{/if}}
+
+</div>
