@@ -62,7 +62,7 @@
           </tbody>
         </table>
       </div>
-      {{#if user.facebook}}
+      {{#if user.facebook.name}}
       <div class="col-sm-4">
         <table class="table table-bordered">
           <thead>
@@ -87,7 +87,7 @@
         </table>
       </div>
       {{/if}}
-      {{#if user.twitter}}
+      {{#if user.twitter.displayName}}
       <div class="col-sm-4">
         <table class="table table-bordered">
           <thead>
@@ -116,7 +116,7 @@
         </table>
       </div>
       {{/if}}
-      {{#if user.spotify}}
+      {{#if user.spotify.username}}
       <div class="col-sm-4">
         <table class="table table-bordered">
           <thead>
@@ -137,7 +137,7 @@
         </table>
       </div>
       {{/if}}
-      {{#if user.github}}
+      {{#if user.github.username}}
       <div class="col-sm-4">
         <table class="table table-bordered">
           <thead>
@@ -159,7 +159,7 @@
         </table>
       </div>
       {{/if}}
-      {{#if user.twitch}}
+      {{#if user.twitch.username}}
       <div class="col-sm-4">
         <table class="table table-bordered">
           <thead>

@@ -6,37 +6,37 @@ const UserSchema = mongoose.Schema({
   username: { type: String, required: true, unique: true },
   passwordHash: { type: String, required: true },
   facebook: {
-    id: { type: String, unique: true },
-    token: { type: String, unique: true },
-    name: { type: String, unique: true },
+    id: { type: String },
+    token: { type: String },
+    name: { type: String },
     gender: { type: String },
     photos: { type: String }
   },
   twitter: {
-    id: { type: String, unique: true },
-    token: { type: String, unique: true },
-    displayName: { type: String, unique: true },
-    username: { type: String, unique: true },
+    id: { type: String },
+    token: { type: String },
+    displayName: { type: String },
+    username: { type: String },
     photos: [{ value: { type: String } }],
     profileImage: { type: String }
   },
   spotify: {
-    id: { type: String, unique: true },
-    token: { type: String, unique: true },
-    username: { type: String, unique: true },
+    id: { type: String },
+    token: { type: String },
+    username: { type: String },
     profileUrl: { type: String }
   },
   github: {
-    id: { type: String, unique: true },
-    token: { type: String, unique: true },
-    username: { type: String, unique: true },
+    id: { type: String },
+    token: { type: String },
+    username: { type: String },
     avatar: { type: String },
     publicRepos: { type: Number }
   },
   twitch: {
-    id: { type: String, unique: true },
-    token: { type: String, unique: true },
-    username: { type: String, unique: true },
+    id: { type: String },
+    token: { type: String },
+    username: { type: String },
     email: { type: String }
   }
 });

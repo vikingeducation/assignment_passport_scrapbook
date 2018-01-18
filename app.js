@@ -19,7 +19,13 @@ var cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
 var expressSession = require("express-session");
-app.use(expressSession({ secret: process.env.SECRET }));
+app.use(
+  expressSession({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true
+  })
+);
 
 // require Passport and the Local Strategy
 const passport = require("passport");
