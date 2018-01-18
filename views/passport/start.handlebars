@@ -1,0 +1,185 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="col-sm-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="active">
+              <th colspan="2">Passport Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#if user.facebook.id}}
+              <tr class="success">
+                <td colspan="2">Facebook</td>
+              </tr>
+              {{else}}
+              <tr>
+              <td>Facebook</td>
+              <td align="right"><a href="/auth/facebook"><button class="btn btn-success">Connect</button></a></td>
+              </tr>
+              {{/if}}
+              {{#if user.twitter.id}}
+              <tr class="success">
+                <td colspan="2">Twitter</td>
+              </tr>
+              {{else}}
+            <tr>
+              <td>Twitter</td>
+              <td align="right"><a href="/auth/twitter"><button class="btn btn-success">Connect</button></a></td>
+            </tr>
+            {{/if}}
+            {{#if user.spotify.id}}
+            <tr class="success">
+              <td colspan="2">Spotify</td>
+            </tr>
+            {{else}}
+            <tr>
+              <td>Spotify</td>
+              <td align="right"><a href="/auth/spotify"><button class="btn btn-success">Connect</button></a></td>
+            </tr>
+            {{/if}}
+            {{#if user.github.id}}
+            <tr class="success">
+              <td colspan="2">GitHub</td>
+            </tr>
+            {{else}}
+            <tr>
+              <td>GitHub</td>
+              <td align="right"><a href="/auth/github"><button class="btn btn-success">Connect</button></a></td>
+            </tr>
+            {{/if}}
+            {{#if user.twitch.id}}
+            <tr class="success">
+              <td colspan="2">Twitch</td>
+            </tr>
+            {{else}}
+            <tr>
+              <td>Twitch</td>
+              <td align="right"><a href="/auth/twitch"><button class="btn btn-success">Connect</button></a></td>
+            </tr>
+            {{/if}}
+          </tbody>
+        </table>
+      </div>
+      {{#if user.facebook.name}}
+      <div class="col-sm-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="active">
+              <th colspan="2">Facebook</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr class="success">
+                <td>Name:</td>
+                <td>{{user.facebook.name}}</td>
+              </tr>
+              <tr class="success">
+                <td>Gender:</td>
+                <td>{{user.facebook.gender}}</td>
+              </tr>
+              <tr class="success">
+                <td colspan="2"><img src="{{user.facebook.photos}}" style="height: 5em; width: 5em;"></td>
+              </tr>
+
+          </tbody>
+        </table>
+      </div>
+      {{/if}}
+      {{#if user.twitter.displayName}}
+      <div class="col-sm-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="active">
+              <th colspan="2">Twitter</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="success">
+              <td colspan="2"><img src="{{user.twitter.profileImage}}" style="height: 5em; width: 5em;"></td>
+            </tr>
+              <tr class="success">
+                <td>Display Name:</td>
+                <td>{{user.twitter.displayName}}</td>
+              </tr>
+              <tr class="success">
+                <td>Username:</td>
+                <td>{{user.twitter.username}}</td>
+              </tr>
+              {{#each user.twitter.photos as |photo|}}
+              <tr class="success">
+                <td colspan="2"><img src="{{photo.value}}" style="height: 5em; width:5em;"></td>
+              </tr>
+              {{/each}}
+          </tbody>
+        </table>
+      </div>
+      {{/if}}
+      {{#if user.spotify.username}}
+      <div class="col-sm-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="active">
+              <th colspan="2">Spotify</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr class="success">
+                <td>Username:</td>
+                <td>{{user.spotify.username}}</td>
+              </tr>
+              <tr class="success">
+                <td>Profile Link:</td>
+                <td><a href="{{user.spotify.profileUrl}}">{{user.spotify.profileUrl}}</a></td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+      {{/if}}
+      {{#if user.github.username}}
+      <div class="col-sm-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="active">
+              <th colspan="2">GitHub</th>
+            </tr>
+          </thead>
+          <tbody>
+            <td colspan="2"><img src="{{user.github.avatar}}" style="height: 5em; width: 5em;"></td>
+              <tr class="success">
+                <td>Username:</td>
+                <td>{{user.github.username}}</td>
+              </tr>
+              <tr class="success">
+                <td>Public Repos:</td>
+                <td>{{user.github.publicRepos}}</td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+      {{/if}}
+      {{#if user.twitch.username}}
+      <div class="col-sm-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="active">
+              <th colspan="2">Twitch</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr class="success">
+                <td>Username:</td>
+                <td>{{user.twitch.username}}</td>
+              </tr>
+              <tr class="success">
+                <td>Email:</td>
+                <td>{{user.twitch.email}}</td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+      {{/if}}
+    </div>
+  </div>
+</div>
